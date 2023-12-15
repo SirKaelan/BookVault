@@ -1,10 +1,61 @@
 import React from "react";
 import "./App.css";
 
-import { Button } from "@mui/material";
+import { AppBar, Toolbar, Typography, Stack, Button } from "@mui/material";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  Link,
+  Outlet,
+  RouterProvider,
+} from "react-router-dom";
+import { Home, Placeholder } from "pages";
 
 function App() {
-  return <Button variant="contained">Hi</Button>;
+  // Keeping for reference for now
+  // const DemoButton = styled(Button)(() => ({
+  //   backgroundColor: deepOrange[800],
+  //   textTransform: "none",
+  //   fontSize: "1rem",
+  //   borderRadius: "8px",
+  //   "&:hover": { background: deepOrange[600] },
+  // }));
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<Root />}>
+        <Route index element={<Home />}></Route>
+        <Route path="/placeholder" element={<Placeholder />}></Route>
+      </Route>
+    )
+  );
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;
+
+const Root = (): JSX.Element => {
+  return (
+    <>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+            Book Vault
+          </Typography>
+          <Stack direction="row" spacing={2}>
+            <Button color="inherit">
+              <Link to="/">Home</Link>
+            </Button>
+            <Button color="inherit">
+              <Link to="placeholder">Placeholder</Link>
+            </Button>
+          </Stack>
+        </Toolbar>
+      </AppBar>
+      {/* TODO: Add a container element here from materialui */}
+      <Outlet />
+    </>
+  );
+};
