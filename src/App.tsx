@@ -10,7 +10,7 @@ import {
   Outlet,
   RouterProvider,
 } from "react-router-dom";
-import { Home, Placeholder } from "pages";
+import { Home, Placeholder, Search } from "pages";
 
 function App() {
   // Keeping for reference for now
@@ -26,6 +26,7 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<Root />}>
         <Route index element={<Home />}></Route>
+        <Route path="/search" element={<Search />}></Route>
         <Route path="/placeholder" element={<Placeholder />}></Route>
       </Route>
     )
@@ -47,6 +48,9 @@ const Root = (): JSX.Element => {
           <Stack direction="row" spacing={2}>
             <Button color="inherit">
               <Link to="/">Home</Link>
+            </Button>
+            <Button color="inherit">
+              <Link to="search">Search</Link>
             </Button>
             <Button color="inherit">
               <Link to="placeholder">Placeholder</Link>
