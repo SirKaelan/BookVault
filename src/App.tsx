@@ -1,7 +1,14 @@
 import React from "react";
 import "./App.css";
 
-import { AppBar, Toolbar, Typography, Stack, Button } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Stack,
+  Button,
+  Container,
+} from "@mui/material";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -59,7 +66,9 @@ const Root = (): JSX.Element => {
         </Toolbar>
       </AppBar>
       {/* TODO: Add a container element here from materialui */}
-      <Outlet />
+      <Container sx={{ height: "100vh" }}>
+        <Outlet />
+      </Container>
     </>
   );
 };
