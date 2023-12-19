@@ -1,15 +1,7 @@
 import React from "react";
 
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, TextField } from "@mui/material";
+import { BookCard } from "components";
 import { booksData } from "mockBooksData";
 import { useBookState } from "contexts/books";
 
@@ -37,27 +29,7 @@ export const Search = (): JSX.Element => {
         }}
       >
         {booksData.map((book) => (
-          <Card key={book.id} sx={{ width: 245, boxShadow: 6, mb: 4 }}>
-            <CardMedia
-              sx={{ height: 300 }}
-              component="img"
-              image={book.cover}
-              title={`"${book.title}" cover`}
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {book.title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {book.author}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small" variant="contained">
-                Add
-              </Button>
-            </CardActions>
-          </Card>
+          <BookCard key={book.id} bookData={book} />
         ))}
       </Box>
     </>
