@@ -18,6 +18,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { Home, Placeholder, Search } from "pages";
+import { BookProvider } from "contexts/books";
 
 function App() {
   // Keeping for reference for now
@@ -39,7 +40,11 @@ function App() {
     )
   );
 
-  return <RouterProvider router={router} />;
+  return (
+    <BookProvider>
+      <RouterProvider router={router} />
+    </BookProvider>
+  );
 }
 
 export default App;
@@ -65,7 +70,6 @@ const Root = (): JSX.Element => {
           </Stack>
         </Toolbar>
       </AppBar>
-      {/* TODO: Add a container element here from materialui */}
       <Container sx={{ height: "100vh" }}>
         <Outlet />
       </Container>

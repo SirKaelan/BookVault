@@ -10,16 +10,19 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-
-type Book = {
-  cover: string;
-  synopsis: string;
-  genres: string[];
-  title: string;
-  author: string;
-};
+import { booksData } from "mockBooksData";
+import { useBookState } from "contexts/books";
 
 export const Search = (): JSX.Element => {
+  const BookState = useBookState();
+
+  // Still don't know a better way of
+  // feeding external data to the state
+  React.useEffect(() => {
+    // This solutions is flawed right now anyways
+    BookState.overrideBooks(booksData);
+  }, []);
+
   return (
     <>
       <Box sx={{ my: 4, px: 4 }}>
@@ -34,7 +37,7 @@ export const Search = (): JSX.Element => {
         }}
       >
         {booksData.map((book) => (
-          <Card sx={{ width: 245, boxShadow: 6, mb: 4 }}>
+          <Card key={book.id} sx={{ width: 245, boxShadow: 6, mb: 4 }}>
             <CardMedia
               sx={{ height: 300 }}
               component="img"
@@ -60,114 +63,3 @@ export const Search = (): JSX.Element => {
     </>
   );
 };
-
-const booksData: Book[] = [
-  {
-    cover:
-      "https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/91XfWTLEoXL._AC_UF1000,1000_QL80_.jpg",
-    synopsis:
-      "Guile is the Prism, the most powerful man in the world. He is high priest and emperor, a man whose power, wit, and charm are all that preserves a tenuous peace. Yet Prisms never last, and Guile knows exactly how long he has left to live.",
-    genres: ["fantasy", "fiction", "epic fantasy", "high fantasy", "magic"],
-    title: "The Black Prism",
-    author: "Brent Weeks",
-  },
-  {
-    cover:
-      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1599911216l/49021976.jpg",
-    synopsis:
-      "After forming a coalition of human resistance against the enemy invasion, Dalinar Kholin and his Knights Radiant have spent a year fighting a protracted, brutal war. Neither side has gained an advantage, and the threat of a betrayal by Dalinar's crafty ally Taravangian looms over every strategic move.",
-    genres: ["fantasy", "fiction", "epic fantasy", "high fantasy"],
-    title: "Rhythm of War",
-    author: "Brandon Sanderson",
-  },
-  {
-    cover:
-      "https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/91XfWTLEoXL._AC_UF1000,1000_QL80_.jpg",
-    synopsis:
-      "Guile is the Prism, the most powerful man in the world. He is high priest and emperor, a man whose power, wit, and charm are all that preserves a tenuous peace. Yet Prisms never last, and Guile knows exactly how long he has left to live.",
-    genres: ["fantasy", "fiction", "epic fantasy", "high fantasy", "magic"],
-    title: "The Black Prism",
-    author: "Brent Weeks",
-  },
-  {
-    cover:
-      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1599911216l/49021976.jpg",
-    synopsis:
-      "After forming a coalition of human resistance against the enemy invasion, Dalinar Kholin and his Knights Radiant have spent a year fighting a protracted, brutal war. Neither side has gained an advantage, and the threat of a betrayal by Dalinar's crafty ally Taravangian looms over every strategic move.",
-    genres: ["fantasy", "fiction", "epic fantasy", "high fantasy"],
-    title: "Rhythm of War",
-    author: "Brandon Sanderson",
-  },
-  {
-    cover:
-      "https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/91XfWTLEoXL._AC_UF1000,1000_QL80_.jpg",
-    synopsis:
-      "Guile is the Prism, the most powerful man in the world. He is high priest and emperor, a man whose power, wit, and charm are all that preserves a tenuous peace. Yet Prisms never last, and Guile knows exactly how long he has left to live.",
-    genres: ["fantasy", "fiction", "epic fantasy", "high fantasy", "magic"],
-    title: "The Black Prism",
-    author: "Brent Weeks",
-  },
-  {
-    cover:
-      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1599911216l/49021976.jpg",
-    synopsis:
-      "After forming a coalition of human resistance against the enemy invasion, Dalinar Kholin and his Knights Radiant have spent a year fighting a protracted, brutal war. Neither side has gained an advantage, and the threat of a betrayal by Dalinar's crafty ally Taravangian looms over every strategic move.",
-    genres: ["fantasy", "fiction", "epic fantasy", "high fantasy"],
-    title: "Rhythm of War",
-    author: "Brandon Sanderson",
-  },
-  {
-    cover:
-      "https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/91XfWTLEoXL._AC_UF1000,1000_QL80_.jpg",
-    synopsis:
-      "Guile is the Prism, the most powerful man in the world. He is high priest and emperor, a man whose power, wit, and charm are all that preserves a tenuous peace. Yet Prisms never last, and Guile knows exactly how long he has left to live.",
-    genres: ["fantasy", "fiction", "epic fantasy", "high fantasy", "magic"],
-    title: "The Black Prism",
-    author: "Brent Weeks",
-  },
-  {
-    cover:
-      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1599911216l/49021976.jpg",
-    synopsis:
-      "After forming a coalition of human resistance against the enemy invasion, Dalinar Kholin and his Knights Radiant have spent a year fighting a protracted, brutal war. Neither side has gained an advantage, and the threat of a betrayal by Dalinar's crafty ally Taravangian looms over every strategic move.",
-    genres: ["fantasy", "fiction", "epic fantasy", "high fantasy"],
-    title: "Rhythm of War",
-    author: "Brandon Sanderson",
-  },
-  {
-    cover:
-      "https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/91XfWTLEoXL._AC_UF1000,1000_QL80_.jpg",
-    synopsis:
-      "Guile is the Prism, the most powerful man in the world. He is high priest and emperor, a man whose power, wit, and charm are all that preserves a tenuous peace. Yet Prisms never last, and Guile knows exactly how long he has left to live.",
-    genres: ["fantasy", "fiction", "epic fantasy", "high fantasy", "magic"],
-    title: "The Black Prism",
-    author: "Brent Weeks",
-  },
-  {
-    cover:
-      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1599911216l/49021976.jpg",
-    synopsis:
-      "After forming a coalition of human resistance against the enemy invasion, Dalinar Kholin and his Knights Radiant have spent a year fighting a protracted, brutal war. Neither side has gained an advantage, and the threat of a betrayal by Dalinar's crafty ally Taravangian looms over every strategic move.",
-    genres: ["fantasy", "fiction", "epic fantasy", "high fantasy"],
-    title: "Rhythm of War",
-    author: "Brandon Sanderson",
-  },
-  {
-    cover:
-      "https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/91XfWTLEoXL._AC_UF1000,1000_QL80_.jpg",
-    synopsis:
-      "Guile is the Prism, the most powerful man in the world. He is high priest and emperor, a man whose power, wit, and charm are all that preserves a tenuous peace. Yet Prisms never last, and Guile knows exactly how long he has left to live.",
-    genres: ["fantasy", "fiction", "epic fantasy", "high fantasy", "magic"],
-    title: "The Black Prism",
-    author: "Brent Weeks",
-  },
-  {
-    cover:
-      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1599911216l/49021976.jpg",
-    synopsis:
-      "After forming a coalition of human resistance against the enemy invasion, Dalinar Kholin and his Knights Radiant have spent a year fighting a protracted, brutal war. Neither side has gained an advantage, and the threat of a betrayal by Dalinar's crafty ally Taravangian looms over every strategic move.",
-    genres: ["fantasy", "fiction", "epic fantasy", "high fantasy"],
-    title: "Rhythm of War",
-    author: "Brandon Sanderson",
-  },
-];
