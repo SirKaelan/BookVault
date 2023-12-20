@@ -70,7 +70,7 @@ const Root = (): JSX.Element => {
           </Stack>
         </Toolbar>
       </AppBar>
-      <Container sx={{ height: "100vh" }}>
+      <Container sx={{ height: "100%", py: 4 }}>
         <Outlet />
       </Container>
     </>
