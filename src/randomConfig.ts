@@ -1,0 +1,2 @@
+// I have no idea where this is supposed to go or what structure it's supposed to have, but here it is until i figure it out
+export const PAGE_CHUNK_SIZE = 4;

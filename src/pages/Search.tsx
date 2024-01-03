@@ -1,48 +1,26 @@
 import React from "react";
 
+import { PAGE_CHUNK_SIZE } from "randomConfig";
 import { Box, Pagination, PaginationItem, TextField } from "@mui/material";
 import { BookCard } from "components";
 import { booksData } from "mockBooksData";
 import { Book, useBookState } from "contexts/books";
 import { useLocation, Link } from "react-router-dom";
-
-// Util
-const createArrayChunks = <T,>(array: T[], chunkSize: number): T[][] => {
-  const result: T[][] = [];
-  for (let i = 0; i < array.length; i += chunkSize) {
-    result.push(array.slice(i, i + chunkSize));
-  }
-  return result;
-};
-
-const labelChunks = (dataChunks: Book[][]) => {
-  const result: { page: number; data: Book[] }[] = [];
-  dataChunks.forEach((chunk, i) => {
-    result.push({ page: i + 1, data: chunk });
-  });
-  return result;
-};
+import { createArrayChunks, useGetPageNumber } from "utils";
 
 export const Search = (): JSX.Element => {
   const BookState = useBookState();
-
-  const PAGE_CHUNK_SIZE = 3;
-
+  const currentPage = useGetPageNumber("page", useLocation);
   const dataChunks: Book[][] = createArrayChunks<Book>(
     BookState.books,
     PAGE_CHUNK_SIZE
   );
-  const pagesData = labelChunks(dataChunks);
-
-  const location = useLocation();
-  const query = new URLSearchParams(location.search);
-  const currentPage = parseInt(query.get("page") || "1", 10);
 
   const renderedBooks = () => {
-    return pagesData
-      .filter((x) => x.page === currentPage)
+    return dataChunks
+      .filter((_, i) => i + 1 === currentPage)
       .at(0)
-      ?.data.map((book) => <BookCard key={book.id} bookData={book} />);
+      ?.map((book) => <BookCard key={book.id} bookData={book} />);
   };
 
   // Still don't know a better way of
@@ -75,7 +53,7 @@ export const Search = (): JSX.Element => {
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Pagination
           page={currentPage} // Still don't know if this prop is useful
-          count={pagesData.length}
+          count={dataChunks.length}
           shape="rounded"
           variant="outlined"
           color="primary"
