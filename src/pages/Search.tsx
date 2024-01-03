@@ -5,16 +5,11 @@ import { Box, Pagination, PaginationItem } from "@mui/material";
 import { BookCard, SearchBar } from "components";
 import { Book, useBookState } from "contexts/books";
 import { useLocation, Link } from "react-router-dom";
-import { createArrayChunks, useGetPageNumber } from "utils";
-import { useFetchBooks } from "services";
-import { BOOK_FETCHING_URL } from "randomConfig"; // For later use
+import { createArrayChunks, useGetQueryValue } from "utils";
 
 export const Search = (): JSX.Element => {
-  // Somehow this hook needs to not call at every re-render
-  const { booksData, isLoading, error, fetchBooks } =
-    useFetchBooks<Book[]>(BOOK_FETCHING_URL);
   const BookState = useBookState();
-  const currentPage = useGetPageNumber("page", useLocation);
+  const currentPage = useGetQueryValue("page", useLocation);
   const dataChunks: Book[][] = createArrayChunks<Book>(
     BookState.books,
     PAGE_CHUNK_SIZE
@@ -26,13 +21,6 @@ export const Search = (): JSX.Element => {
       .at(0)
       ?.map((book) => <BookCard key={book.id} bookData={book} />);
   };
-
-  // Still don't know a better way of
-  // feeding external data to the state
-  React.useEffect(() => {
-    // This solutions is flawed right now anyways
-    BookState.overrideBooks(booksData);
-  }, []);
 
   return (
     <>

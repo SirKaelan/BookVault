@@ -17,8 +17,10 @@ import {
   Outlet,
   RouterProvider,
 } from "react-router-dom";
-import { Home, Placeholder, Search } from "pages";
-import { BookProvider } from "contexts/books";
+import { Home, Placeholder, Search, ProductDetails } from "pages";
+import { Book, BookProvider, useBookState } from "contexts/books";
+import { BOOK_FETCHING_URL } from "randomConfig"; // For later use
+import { useFetchBooks } from "services";
 
 function App() {
   // Keeping for reference for now
@@ -36,6 +38,7 @@ function App() {
         <Route index element={<Home />}></Route>
         <Route path="/search" element={<Search />}></Route>
         <Route path="/placeholder" element={<Placeholder />}></Route>
+        <Route path="/book" element={<ProductDetails />}></Route>
       </Route>
     )
   );
@@ -50,6 +53,18 @@ function App() {
 export default App;
 
 const Root = (): JSX.Element => {
+  const BookState = useBookState();
+  // Somehow this hook needs to not call at every re-render
+  const { booksData, isLoading, error, fetchBooks } =
+    useFetchBooks<Book[]>(BOOK_FETCHING_URL);
+
+  // Still don't know a better way of
+  // feeding external data to the state
+  React.useEffect(() => {
+    // This solutions is flawed right now anyways
+    BookState.overrideBooks(booksData);
+  }, []);
+
   return (
     <>
       <AppBar position="static">

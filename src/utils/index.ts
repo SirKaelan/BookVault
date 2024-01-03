@@ -1,2 +1,2 @@
 export { createArrayChunks } from "./generalUtils";
-export { useGetPageNumber } from "./specificUtils";
+export { useGetQueryValue } from "./specificUtils";

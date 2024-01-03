@@ -9,14 +9,32 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
+import { DivClickEvent } from "types/eventTypes";
+import { useNavigate } from "react-router-dom";
 
 type BookCardProps = {
   bookData: Book;
 };
 
 export const BookCard = ({ bookData }: BookCardProps): JSX.Element => {
+  const navigate = useNavigate();
+
+  const handleCardClick = (e: DivClickEvent) => {
+    navigate({ pathname: "/book", search: `?id=${bookData.id.toString()}` });
+  };
+
   return (
-    <Card sx={{ width: 245, boxShadow: 6, mb: 4 }}>
+    <Card
+      sx={{
+        width: 245,
+        boxShadow: 6,
+        mb: 4,
+        cursor: "pointer",
+        transition: "transform 0.1s ease-in-out",
+        "&:hover": { transform: "translateY(-0.5rem)" },
+      }}
+      onClick={handleCardClick}
+    >
       <CardMedia
         sx={{ height: 300 }}
         component="img"

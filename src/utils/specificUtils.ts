@@ -3,7 +3,7 @@
 import { Location } from "react-router-dom";
 
 // Not sure if hooks should be here or not
-export const useGetPageNumber = (
+export const useGetQueryValue = (
   queryKey: string,
   useLocation: () => Location
 ): number => {
