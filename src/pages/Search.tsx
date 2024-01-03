@@ -1,8 +1,8 @@
 import React from "react";
 
 import { PAGE_CHUNK_SIZE } from "randomConfig";
-import { Box, Pagination, PaginationItem, TextField } from "@mui/material";
-import { BookCard } from "components";
+import { Box, Pagination, PaginationItem } from "@mui/material";
+import { BookCard, SearchBar } from "components";
 import { Book, useBookState } from "contexts/books";
 import { useLocation, Link } from "react-router-dom";
 import { createArrayChunks, useGetPageNumber } from "utils";
@@ -20,7 +20,7 @@ export const Search = (): JSX.Element => {
     PAGE_CHUNK_SIZE
   );
 
-  const renderedBooks = () => {
+  const renderedBookCards = () => {
     return dataChunks
       .filter((_, i) => i + 1 === currentPage)
       .at(0)
@@ -36,10 +36,7 @@ export const Search = (): JSX.Element => {
 
   return (
     <>
-      {/* Container for search bar */}
-      <Box sx={{ mb: 4, px: 4 }}>
-        <TextField label="Search" variant="outlined" sx={{ width: "100%" }} />
-      </Box>
+      <SearchBar />
 
       {/* Container for book cards */}
       <Box
@@ -51,9 +48,10 @@ export const Search = (): JSX.Element => {
           mb: 4,
         }}
       >
-        {renderedBooks()}
+        {renderedBookCards()}
       </Box>
 
+      {/* Container for pagination element */}
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Pagination
           page={currentPage} // Still don't know if this prop is useful
