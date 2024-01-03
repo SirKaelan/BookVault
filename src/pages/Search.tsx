@@ -3,12 +3,16 @@ import React from "react";
 import { PAGE_CHUNK_SIZE } from "randomConfig";
 import { Box, Pagination, PaginationItem, TextField } from "@mui/material";
 import { BookCard } from "components";
-import { booksData } from "mockBooksData";
 import { Book, useBookState } from "contexts/books";
 import { useLocation, Link } from "react-router-dom";
 import { createArrayChunks, useGetPageNumber } from "utils";
+import { useFetchBooks } from "services";
+import { BOOK_FETCHING_URL } from "randomConfig"; // For later use
 
 export const Search = (): JSX.Element => {
+  // Somehow this hook needs to not call at every re-render
+  const { booksData, isLoading, error, fetchBooks } =
+    useFetchBooks<Book[]>(BOOK_FETCHING_URL);
   const BookState = useBookState();
   const currentPage = useGetPageNumber("page", useLocation);
   const dataChunks: Book[][] = createArrayChunks<Book>(
