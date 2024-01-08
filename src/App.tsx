@@ -20,7 +20,7 @@ import {
 import { Home, Placeholder, Search, ProductDetails } from "pages";
 import { Book, BookProvider, useBookState } from "contexts/books";
 import { BOOK_FETCHING_URL } from "randomConfig"; // For later use
-import { useFetchBooks } from "services";
+import { useFetchBooks } from "hooks";
 
 function App() {
   // Keeping for reference for now
