@@ -17,6 +17,7 @@ export type BookProviderProps = {
 };
 
 export type Book = {
+  type: "book";
   id: number;
   title: string;
   author: string;

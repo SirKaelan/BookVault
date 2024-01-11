@@ -1,6 +1,13 @@
-import { Book } from "contexts/books";
+export type APIBookFormat = {
+  id: number;
+  title: string;
+  author: string;
+  genres: string[];
+  synopsis: string;
+  cover: string;
+};
 
-export const booksData: Book[] = [
+export const booksData: APIBookFormat[] = [
   {
     id: 1,
     cover:

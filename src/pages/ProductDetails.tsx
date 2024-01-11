@@ -1,13 +1,24 @@
 import React from "react";
 import { useGetQueryValue } from "utils";
 import { useLocation } from "react-router-dom";
-import { useBookState } from "contexts/books";
+import { useFetchBook } from "hooks";
 
 export const ProductDetails = (): JSX.Element => {
-  const { books } = useBookState();
   const bookId = useGetQueryValue("id", useLocation);
+  const book = useFetchBook(bookId);
 
-  console.log(books.filter((x) => x.id === bookId));
+  console.log(book);
 
-  return <div>Book id: {bookId}</div>;
+  switch (book.type) {
+    case "loading":
+      return <div>Loading....</div>;
+    case "error":
+      return <div>{book.message}</div>;
+    default:
+      return (
+        <div>
+          Book title: {book.title}, Author: {book.author}
+        </div>
+      );
+  }
 };

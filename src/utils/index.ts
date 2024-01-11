@@ -1,2 +1,2 @@
-export { createArrayChunks } from "./generalUtils";
+export { createArrayChunks, getErrorMessage } from "./generalUtils";
 export { useGetQueryValue } from "./specificUtils";

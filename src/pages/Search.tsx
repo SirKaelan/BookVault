@@ -1,62 +1,70 @@
 import React from "react";
 
-import { PAGE_CHUNK_SIZE } from "randomConfig";
+import { PAGE_SIZE } from "randomConfig";
 import { Box, Pagination, PaginationItem } from "@mui/material";
 import { BookCard, SearchBar } from "components";
-import { Book, useBookState } from "contexts/books";
 import { useLocation, Link } from "react-router-dom";
-import { createArrayChunks, useGetQueryValue } from "utils";
+import { useGetQueryValue } from "utils";
+import { useFetchPaginatedBooks } from "hooks";
 
 export const Search = (): JSX.Element => {
-  const BookState = useBookState();
   const currentPage = useGetQueryValue("page", useLocation);
-  const dataChunks: Book[][] = createArrayChunks<Book>(
-    BookState.books,
-    PAGE_CHUNK_SIZE
-  );
+  const paginatedData = useFetchPaginatedBooks(currentPage, PAGE_SIZE);
 
-  const renderedBookCards = () => {
-    return dataChunks
-      .filter((_, i) => i + 1 === currentPage)
-      .at(0)
-      ?.map((book) => <BookCard key={book.id} bookData={book} />);
-  };
+  if (paginatedData.type === "loading") {
+    return (
+      <>
+        <SearchBar />
+        <div>Loading...</div>
+      </>
+    );
+  } else if (paginatedData.type === "error") {
+    return (
+      <>
+        <SearchBar />
+        <div>{paginatedData.message}</div>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <SearchBar />
+        {/* Container for book cards */}
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 3,
+            justifyContent: "center",
+            mb: 4,
+          }}
+        >
+          {paginatedData.data.map((book) => (
+            <BookCard key={book.id} bookData={book} />
+          ))}
+        </Box>
 
-  return (
-    <>
-      <SearchBar />
-
-      {/* Container for book cards */}
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: 3,
-          justifyContent: "center",
-          mb: 4,
-        }}
-      >
-        {renderedBookCards()}
-      </Box>
-
-      {/* Container for pagination element */}
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Pagination
-          page={currentPage} // Still don't know if this prop is useful
-          count={dataChunks.length}
-          shape="rounded"
-          variant="outlined"
-          color="primary"
-          size="large"
-          renderItem={(btnData) => (
-            <PaginationItem
-              component={Link}
-              to={`/search${btnData.page === 1 ? "" : `?page=${btnData.page}`}`}
-              {...btnData}
-            />
-          )}
-        />
-      </Box>
-    </>
-  );
+        {/* Container for pagination element */}
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Pagination
+            page={paginatedData.pagination.current_page}
+            count={paginatedData.pagination.total_pages}
+            shape="rounded"
+            variant="outlined"
+            color="primary"
+            size="large"
+            renderItem={(btnData) => (
+              <PaginationItem
+                component={Link}
+                to={`/search${
+                  btnData.page === 1 ? "" : `?page=${btnData.page}`
+                }`}
+                {...btnData}
+              />
+            )}
+          />
+        </Box>
+      </>
+    );
+  }
 };
