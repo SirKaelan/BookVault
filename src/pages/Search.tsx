@@ -3,13 +3,23 @@ import React from "react";
 import { PAGE_SIZE } from "randomConfig";
 import { Box, Pagination, PaginationItem } from "@mui/material";
 import { BookCard, SearchBar } from "components";
-import { useLocation, Link } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useGetQueryValue } from "utils";
 import { useFetchPaginatedBooks } from "hooks";
 
 export const Search = (): JSX.Element => {
-  const currentPage = useGetQueryValue("page", useLocation);
+  const paramName = "page";
+  const currentPage = useGetQueryValue(paramName);
+  const [_, setSearchParams] = useSearchParams();
   const paginatedData = useFetchPaginatedBooks(currentPage, PAGE_SIZE);
+
+  const handlePaginationClick = (nextPage: number | null) => {
+    if (nextPage === currentPage) return;
+    setSearchParams((params) => {
+      params.set(paramName, String(nextPage));
+      return params;
+    });
+  };
 
   if (paginatedData.type === "loading") {
     return (
@@ -55,11 +65,8 @@ export const Search = (): JSX.Element => {
             size="large"
             renderItem={(btnData) => (
               <PaginationItem
-                component={Link}
-                to={`/search${
-                  btnData.page === 1 ? "" : `?page=${btnData.page}`
-                }`}
                 {...btnData}
+                onClick={() => handlePaginationClick(btnData.page)}
               />
             )}
           />

@@ -1,10 +1,9 @@
 import React from "react";
 import { useGetQueryValue } from "utils";
-import { useLocation } from "react-router-dom";
 import { useFetchBook } from "hooks";
 
 export const ProductDetails = (): JSX.Element => {
-  const bookId = useGetQueryValue("id", useLocation);
+  const bookId = useGetQueryValue("id");
   const book = useFetchBook(bookId);
 
   console.log(book);
