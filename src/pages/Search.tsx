@@ -1,6 +1,10 @@
 import React from "react";
 
-import { PAGE_SIZE } from "randomConfig";
+import {
+  PAGE_SIZE,
+  PAGE_NUMBER_PARAM_NAME,
+  SEARCH_TERM_PARAM_NAME,
+} from "randomConfig";
 import { Box, Pagination, PaginationItem } from "@mui/material";
 import { BookCard, SearchBar } from "components";
 import { useSearchParams } from "react-router-dom";
@@ -8,15 +12,19 @@ import { useGetQueryValue } from "utils";
 import { useFetchPaginatedBooks } from "hooks";
 
 export const Search = (): JSX.Element => {
-  const paramName = "page";
-  const currentPage = useGetQueryValue(paramName);
-  const [_, setSearchParams] = useSearchParams();
-  const paginatedData = useFetchPaginatedBooks(currentPage, PAGE_SIZE);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = useGetQueryValue(PAGE_NUMBER_PARAM_NAME);
+  const searchTerm = searchParams.get(SEARCH_TERM_PARAM_NAME);
+  const paginatedData = useFetchPaginatedBooks(
+    currentPage,
+    PAGE_SIZE,
+    searchTerm
+  );
 
   const handlePaginationClick = (nextPage: number | null) => {
     if (nextPage === currentPage) return;
     setSearchParams((params) => {
-      params.set(paramName, String(nextPage));
+      params.set(PAGE_NUMBER_PARAM_NAME, String(nextPage));
       return params;
     });
   };

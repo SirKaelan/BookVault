@@ -21,40 +21,80 @@ class BookProvider {
     return book;
   }
 
-  // Temporary method
-  private findDataChunk(chunkedData: APIBookFormat[][], page: number): Book[] {
-    return chunkedData[page - 1]?.map((x): Book => {
-      return {
-        ...x,
-        type: "book",
-      };
-    });
-  }
-
   async getPaginatedData(
     page: number,
-    pageSize: number
+    pageSize: number,
+    searchTerm: string | null
   ): Promise<PaginatedBooksResponse> {
-    const chunkedData: APIBookFormat[][] = createArrayChunks<APIBookFormat>(
-      booksData,
-      pageSize
-    );
-    const pageBooks: Book[] = this.findDataChunk(chunkedData, page);
+    let books: APIBookFormat[] | undefined = booksData;
+
+    if (searchTerm) {
+      books = this.filterBySearchTerm(searchTerm, booksData);
+
+      if (!books) {
+        return {
+          type: "error",
+          message: "Couldn't find any books with your search term",
+        };
+      }
+    }
+
+    const pageBooks = this.paginateDataForPage(books, page, pageSize);
+
     if (!pageBooks) {
       return {
         type: "error",
-        message: "Couldn't fetch paginated books",
+        message: "Couldn't fetch paginated books for this page",
       };
     }
 
     return {
       type: "pagination",
-      data: pageBooks,
+      data: pageBooks.data,
       pagination: {
         current_page: page,
-        total_pages: chunkedData.length,
+        total_pages: pageBooks.total_pages,
       },
     };
+  }
+
+  // Temporary util methods
+  private findDataChunk(
+    chunkedData: APIBookFormat[][],
+    page: number
+  ): Book[] | undefined {
+    const pageBooks: APIBookFormat[] | undefined = chunkedData[page - 1];
+    return pageBooks
+      ? pageBooks.map((x): Book => {
+          return {
+            ...x,
+            type: "book",
+          };
+        })
+      : undefined;
+  }
+
+  private paginateDataForPage(
+    booksData: APIBookFormat[],
+    page: number,
+    pageSize: number
+  ): { data: Book[]; total_pages: number } | undefined {
+    const chunkedBooks = createArrayChunks<APIBookFormat>(booksData, pageSize);
+    const pageBooks = this.findDataChunk(chunkedBooks, page);
+    return pageBooks
+      ? { data: pageBooks, total_pages: chunkedBooks.length }
+      : undefined;
+  }
+
+  private filterBySearchTerm(
+    searchTerm: string,
+    booksData: APIBookFormat[]
+  ): APIBookFormat[] | undefined {
+    const filteredBooks = booksData.filter((x) =>
+      // Filtering only by book title
+      x.title.toLowerCase().includes(searchTerm)
+    );
+    return filteredBooks.length > 0 ? filteredBooks : undefined;
   }
 }
 

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+
+import { SEARCH_TERM_PARAM_NAME } from "randomConfig";
 import { Box, TextField } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 
 export const SearchBar = (): JSX.Element => {
-  const paramName = "search_query";
   const [term, setTerm] = useState<string>("");
   const [_, setSearchParams] = useSearchParams();
 
@@ -16,7 +17,7 @@ export const SearchBar = (): JSX.Element => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!term) return;
-    setSearchParams({ [paramName]: term });
+    setSearchParams({ [SEARCH_TERM_PARAM_NAME]: term });
     setTerm("");
   };
 
