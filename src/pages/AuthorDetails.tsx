@@ -1,3 +1,7 @@
+import { useGetQueryValue } from "utils";
+
 export const AuthorDetails = (): JSX.Element => {
-  return <div>Author page</div>;
+  const authorId = useGetQueryValue("id");
+
+  return <div>Author id: {authorId}</div>;
 };
