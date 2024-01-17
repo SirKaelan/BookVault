@@ -1,10 +1,5 @@
 import { APIBookFormat, booksData } from "mockBooksData";
-
-export enum AuthorIds {
-  BrandonSanderson = 1,
-  BrentWeeks = 2,
-  BrianMcClellan = 3,
-}
+import { AuthorIds } from "authorsIdsEnum";
 
 export type APIAuthorFormat = {
   id: number;
@@ -15,19 +10,19 @@ export type APIAuthorFormat = {
 
 export const authorsData: APIAuthorFormat[] = [
   {
-    id: 1,
+    id: AuthorIds.BrandonSanderson,
     name: "Brandon Sanderson",
     books: booksData.filter((x) => x.author === "Brandon Sanderson"),
     bio: "Very nice beard",
   },
   {
-    id: 2,
+    id: AuthorIds.BrentWeeks,
     name: "Brent Weeks",
     books: booksData.filter((x) => x.author === "Brent Weeks"),
     bio: "Cool guy probably",
   },
   {
-    id: 3,
+    id: AuthorIds.BrianMcClellan,
     name: "Brian McClellan",
     books: booksData.filter((x) => x.author === "Brian McClellan"),
     bio: "Has some nice books",

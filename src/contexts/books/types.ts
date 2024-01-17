@@ -19,6 +19,7 @@ export type BookProviderProps = {
 export type Book = {
   type: "book";
   id: number;
+  author_id: number;
   title: string;
   author: string;
   genres: string[];
@@ -44,3 +45,12 @@ type APIDataAction = {
 };
 
 export type BookAction = UpdateBookAction | APIDataAction;
+
+// Not sure where to put this type
+export type Author = {
+  type: "author";
+  id: number;
+  name: string;
+  books: Book[];
+  bio: string;
+};

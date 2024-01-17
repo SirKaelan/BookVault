@@ -10,7 +10,7 @@ import {
   Typography,
   Link,
 } from "@mui/material";
-import { AnchorClickEvent, DivClickEvent } from "types/eventTypes";
+import { AnchorClickEvent } from "types/eventTypes";
 import { useNavigate } from "react-router-dom";
 
 type BookCardProps = {
@@ -20,13 +20,12 @@ type BookCardProps = {
 export const BookCard = ({ bookData }: BookCardProps): JSX.Element => {
   const navigate = useNavigate();
 
-  const handleCardClick = (e: DivClickEvent) => {
-    navigate({ pathname: "/book", search: `?id=${bookData.id.toString()}` });
+  const handleCardClick = () => {
+    navigate({ pathname: "/book", search: `?id=${bookData.id}` });
   };
 
   const handleAuthorClick = (e: AnchorClickEvent) => {
-    // TODO: Make the ID come in from somewhere
-    navigate({ pathname: "/author", search: `?id=1` });
+    navigate({ pathname: "/author", search: `?id=${bookData.author_id}` });
     e.stopPropagation(); // Prevents the click event from bubbling up
   };
 

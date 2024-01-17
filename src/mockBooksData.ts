@@ -1,4 +1,4 @@
-import { AuthorIds } from "mockAuthorsData";
+import { AuthorIds } from "authorsIdsEnum";
 
 export type APIBookFormat = {
   id: number;
