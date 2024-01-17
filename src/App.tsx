@@ -17,7 +17,13 @@ import {
   Outlet,
   RouterProvider,
 } from "react-router-dom";
-import { Home, Placeholder, Search, ProductDetails } from "pages";
+import {
+  Home,
+  Placeholder,
+  Search,
+  ProductDetails,
+  AuthorDetails,
+} from "pages";
 import { BookProvider } from "contexts/books";
 
 function App() {
@@ -37,7 +43,7 @@ function App() {
         <Route path="/search" element={<Search />}></Route>
         <Route path="/placeholder" element={<Placeholder />}></Route>
         <Route path="/book" element={<ProductDetails />}></Route>
-        {/* <Route path="/author" element={<ProductDetails />}></Route> */}
+        <Route path="/author" element={<AuthorDetails />}></Route>
       </Route>
     )
   );
