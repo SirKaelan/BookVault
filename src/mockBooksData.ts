@@ -1,5 +1,8 @@
+import { AuthorIds } from "mockAuthorsData";
+
 export type APIBookFormat = {
   id: number;
+  author_id: number;
   title: string;
   author: string;
   genres: string[];
@@ -10,6 +13,7 @@ export type APIBookFormat = {
 export const booksData: APIBookFormat[] = [
   {
     id: 1,
+    author_id: AuthorIds.BrentWeeks,
     cover:
       "https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/91XfWTLEoXL._AC_UF1000,1000_QL80_.jpg",
     synopsis:
@@ -20,6 +24,7 @@ export const booksData: APIBookFormat[] = [
   },
   {
     id: 2,
+    author_id: AuthorIds.BrandonSanderson,
     cover:
       "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1599911216l/49021976.jpg",
     synopsis:
@@ -30,6 +35,7 @@ export const booksData: APIBookFormat[] = [
   },
   {
     id: 3,
+    author_id: AuthorIds.BrandonSanderson,
     cover:
       "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1660269968i/17182126.jpg",
     synopsis:
@@ -40,6 +46,7 @@ export const booksData: APIBookFormat[] = [
   },
   {
     id: 4,
+    author_id: AuthorIds.BrandonSanderson,
     cover:
       "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1672574587i/60531406.jpg",
     synopsis:
@@ -50,112 +57,123 @@ export const booksData: APIBookFormat[] = [
   },
   {
     id: 5,
+    author_id: AuthorIds.BrentWeeks,
     cover:
-      "https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/91XfWTLEoXL._AC_UF1000,1000_QL80_.jpg",
+      "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1672601160i/3227063.jpg",
     synopsis:
-      "Guile is the Prism, the most powerful man in the world. He is high priest and emperor, a man whose power, wit, and charm are all that preserves a tenuous peace. Yet Prisms never last, and Guile knows exactly how long he has left to live.",
+      "For Azoth, survival is precarious. Something you never take for granted. As a guild rat, he's grown up in the slums, and learned to judge people quickly - and to take risks. Risks like apprenticing himself to Durzo Blint.",
     genres: ["fantasy", "fiction", "epic fantasy", "high fantasy", "magic"],
-    title: "The Black Prism",
+    title: "The Way of Shadows",
     author: "Brent Weeks",
   },
   {
     id: 6,
+    author_id: AuthorIds.BrandonSanderson,
     cover:
-      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1599911216l/49021976.jpg",
+      "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1617768316i/68428.jpg",
     synopsis:
-      "After forming a coalition of human resistance against the enemy invasion, Dalinar Kholin and his Knights Radiant have spent a year fighting a protracted, brutal war. Neither side has gained an advantage, and the threat of a betrayal by Dalinar's crafty ally Taravangian looms over every strategic move.",
+      'For a thousand years the ash fell and no flowers bloomed. For a thousand years the Skaa slaved in misery and lived in fear. For a thousand years the Lord Ruler, the "Sliver of Infinity," reigned with absolute power and ultimate terror, divinely invincible.',
     genres: ["fantasy", "fiction", "epic fantasy", "high fantasy"],
-    title: "Rhythm of War",
+    title: "The Final Empire",
     author: "Brandon Sanderson",
   },
   {
     id: 7,
+    author_id: AuthorIds.BrianMcClellan,
     cover:
-      "https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/91XfWTLEoXL._AC_UF1000,1000_QL80_.jpg",
+      "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1659903996i/15790883.jpg",
     synopsis:
       "Guile is the Prism, the most powerful man in the world. He is high priest and emperor, a man whose power, wit, and charm are all that preserves a tenuous peace. Yet Prisms never last, and Guile knows exactly how long he has left to live.",
     genres: ["fantasy", "fiction", "epic fantasy", "high fantasy", "magic"],
-    title: "The Black Prism",
-    author: "Brent Weeks",
+    title: "Promise of Blood",
+    author: "Brian McClellan",
   },
   {
     id: 8,
+    author_id: AuthorIds.BrandonSanderson,
     cover:
-      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1599911216l/49021976.jpg",
+      "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1475740953i/68427.jpg",
     synopsis:
-      "After forming a coalition of human resistance against the enemy invasion, Dalinar Kholin and his Knights Radiant have spent a year fighting a protracted, brutal war. Neither side has gained an advantage, and the threat of a betrayal by Dalinar's crafty ally Taravangian looms over every strategic move.",
+      "Elantris was the capital of Arelon: gigantic, beautiful, literally radiant, filled with benevolent beings who used their powerful magical abilities for the benefit of all. Yet each of these demigods was once an ordinary person until touched by the mysterious transforming power of the Shaod.",
     genres: ["fantasy", "fiction", "epic fantasy", "high fantasy"],
-    title: "Rhythm of War",
+    title: "Elantris",
     author: "Brandon Sanderson",
   },
   {
     id: 9,
+    author_id: AuthorIds.BrianMcClellan,
     cover:
-      "https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/91XfWTLEoXL._AC_UF1000,1000_QL80_.jpg",
+      "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1659901327i/20883847.jpg",
     synopsis:
-      "Guile is the Prism, the most powerful man in the world. He is high priest and emperor, a man whose power, wit, and charm are all that preserves a tenuous peace. Yet Prisms never last, and Guile knows exactly how long he has left to live.",
+      "Field Marshal Tamas returns to his beloved country to find that for the first time in history, the capital city of Adro lies in the hands of a foreign invader. His son is missing, his allies are indistinguishable from his foes, and reinforcements are several weeks away.",
     genres: ["fantasy", "fiction", "epic fantasy", "high fantasy", "magic"],
-    title: "The Black Prism",
-    author: "Brent Weeks",
+    title: "The Autumn Republic",
+    author: "Brian McClellan",
   },
   {
     id: 10,
+    author_id: AuthorIds.BrandonSanderson,
     cover:
-      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1599911216l/49021976.jpg",
+      "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1654573897i/34002132.jpg",
     synopsis:
-      "After forming a coalition of human resistance against the enemy invasion, Dalinar Kholin and his Knights Radiant have spent a year fighting a protracted, brutal war. Neither side has gained an advantage, and the threat of a betrayal by Dalinar's crafty ally Taravangian looms over every strategic move.",
+      "n Oathbringer, the third volume of the New York Times bestselling Stormlight Archive, humanity faces a new Desolation with the return of the Voidbringers, a foe with numbers as great as their thirst for vengeance.",
     genres: ["fantasy", "fiction", "epic fantasy", "high fantasy"],
-    title: "Rhythm of War",
+    title: "Oathbringer",
     author: "Brandon Sanderson",
   },
   {
     id: 11,
+    author_id: AuthorIds.BrianMcClellan,
     cover:
-      "https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/91XfWTLEoXL._AC_UF1000,1000_QL80_.jpg",
+      "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1659901305i/17608111.jpg",
     synopsis:
       "Guile is the Prism, the most powerful man in the world. He is high priest and emperor, a man whose power, wit, and charm are all that preserves a tenuous peace. Yet Prisms never last, and Guile knows exactly how long he has left to live.",
     genres: ["fantasy", "fiction", "epic fantasy", "high fantasy", "magic"],
-    title: "The Black Prism",
-    author: "Brent Weeks",
+    title: "The Crimson Campaign",
+    author: "Brian McClellan",
   },
   {
     id: 12,
+    author_id: AuthorIds.BrandonSanderson,
     cover:
-      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1599911216l/49021976.jpg",
+      "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1442889632i/10803121.jpg",
     synopsis:
-      "After forming a coalition of human resistance against the enemy invasion, Dalinar Kholin and his Knights Radiant have spent a year fighting a protracted, brutal war. Neither side has gained an advantage, and the threat of a betrayal by Dalinar's crafty ally Taravangian looms over every strategic move.",
+      "Three hundred years after the events of the Mistborn trilogy, Scadrial is now on the verge of modernity, with railroads to supplement the canals, electric lighting in the streets and the homes of the wealthy, and the first steel-framed skyscrapers racing for the clouds.",
     genres: ["fantasy", "fiction", "epic fantasy", "high fantasy"],
-    title: "Rhythm of War",
+    title: "The Alloy of Law",
     author: "Brandon Sanderson",
   },
   {
     id: 13,
+    author_id: AuthorIds.BrandonSanderson,
     cover:
-      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1599911216l/49021976.jpg",
+      "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1659906200i/13578175.jpg",
     synopsis:
-      "After forming a coalition of human resistance against the enemy invasion, Dalinar Kholin and his Knights Radiant have spent a year fighting a protracted, brutal war. Neither side has gained an advantage, and the threat of a betrayal by Dalinar's crafty ally Taravangian looms over every strategic move.",
+      "A heretic thief is the empire’s only hope in this fascinating tale that inhabits the same world as the popular novel, Elantris.",
     genres: ["fantasy", "fiction", "epic fantasy", "high fantasy"],
-    title: "Rhythm of War",
+    title: "The Emperor's Soul",
     author: "Brandon Sanderson",
   },
   {
     id: 14,
+    author_id: AuthorIds.BrianMcClellan,
     cover:
-      "https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/91XfWTLEoXL._AC_UF1000,1000_QL80_.jpg",
+      "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1472056794i/28811016.jpg",
     synopsis:
-      "Guile is the Prism, the most powerful man in the world. He is high priest and emperor, a man whose power, wit, and charm are all that preserves a tenuous peace. Yet Prisms never last, and Guile knows exactly how long he has left to live.",
+      "The young nation of Fatrasta is a turbulent place -- a frontier destination for criminals, fortune-hunters, brave settlers, and sorcerers seeking relics of the past. Only the iron will of the lady chancellor and her secret police holds the capital city of Landfall together against the unrest of an oppressed population and the machinations of powerful empires.",
     genres: ["fantasy", "fiction", "epic fantasy", "high fantasy", "magic"],
-    title: "The Black Prism",
-    author: "Brent Weeks",
+    title: "Sins of Empire",
+    author: "Brian McClellan",
   },
   {
     id: 15,
+    author_id: AuthorIds.BrandonSanderson,
     cover:
-      "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1599911216l/49021976.jpg",
+      "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1569876576i/42769202.jpg",
     synopsis:
-      "After forming a coalition of human resistance against the enemy invasion, Dalinar Kholin and his Knights Radiant have spent a year fighting a protracted, brutal war. Neither side has gained an advantage, and the threat of a betrayal by Dalinar's crafty ally Taravangian looms over every strategic move.",
-    genres: ["fantasy", "fiction", "epic fantasy", "high fantasy"],
-    title: "Rhythm of War",
+      "All her life, Spensa has dreamed of becoming a pilot. Of proving she's a hero like her father. She made it to the sky, but the truths she learned about her father were crushing.",
+    genres: ["science-fiction", "young-adult", "fantasy", "fiction"],
+    title: "Starsight",
     author: "Brandon Sanderson",
   },
 ];
