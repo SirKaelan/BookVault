@@ -8,8 +8,9 @@ import {
   CardContent,
   CardMedia,
   Typography,
+  Link,
 } from "@mui/material";
-import { DivClickEvent } from "types/eventTypes";
+import { AnchorClickEvent, DivClickEvent } from "types/eventTypes";
 import { useNavigate } from "react-router-dom";
 
 type BookCardProps = {
@@ -21,6 +22,12 @@ export const BookCard = ({ bookData }: BookCardProps): JSX.Element => {
 
   const handleCardClick = (e: DivClickEvent) => {
     navigate({ pathname: "/book", search: `?id=${bookData.id.toString()}` });
+  };
+
+  const handleAuthorClick = (e: AnchorClickEvent) => {
+    // TODO: Make the ID come in from somewhere
+    navigate({ pathname: "/author", search: `?id=1` });
+    e.stopPropagation(); // Prevents the click event from bubbling up
   };
 
   return (
@@ -45,9 +52,11 @@ export const BookCard = ({ bookData }: BookCardProps): JSX.Element => {
         <Typography gutterBottom variant="h5" component="div">
           {bookData.title}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {bookData.author}
-        </Typography>
+        <Link underline="hover" color="inherit" onClick={handleAuthorClick}>
+          <Typography variant="body2" color="text.secondary">
+            {bookData.author}
+          </Typography>
+        </Link>
       </CardContent>
       <CardActions>
         <Button size="small" variant="contained">

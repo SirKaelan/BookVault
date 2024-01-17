@@ -37,6 +37,7 @@ function App() {
         <Route path="/search" element={<Search />}></Route>
         <Route path="/placeholder" element={<Placeholder />}></Route>
         <Route path="/book" element={<ProductDetails />}></Route>
+        {/* <Route path="/author" element={<ProductDetails />}></Route> */}
       </Route>
     )
   );
