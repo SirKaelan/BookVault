@@ -1,4 +1,3 @@
-import React from "react";
 import { useGetQueryValue } from "utils";
 import { useFetchBook } from "hooks";
 
@@ -8,16 +7,17 @@ export const ProductDetails = (): JSX.Element => {
 
   console.log(book);
 
-  switch (book.type) {
-    case "loading":
-      return <div>Loading....</div>;
-    case "error":
-      return <div>{book.message}</div>;
-    default:
-      return (
-        <div>
-          Book title: {book.title}, Author: {book.author}
-        </div>
-      );
+  if (book.type === "loading") {
+    return <div>Loading....</div>;
   }
+
+  if (book.type === "error") {
+    return <div>{book.message}</div>;
+  }
+
+  return (
+    <div>
+      Book title: {book.title}, Author: {book.author}
+    </div>
+  );
 };

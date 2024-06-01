@@ -36,50 +36,52 @@ export const Search = (): JSX.Element => {
         <div>Loading...</div>
       </>
     );
-  } else if (paginatedData.type === "error") {
+  }
+
+  if (paginatedData.type === "error") {
     return (
       <>
         <SearchBar />
         <div>{paginatedData.message}</div>
       </>
     );
-  } else {
-    return (
-      <>
-        <SearchBar />
-        {/* Container for book cards */}
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 3,
-            justifyContent: "center",
-            mb: 4,
-          }}
-        >
-          {paginatedData.data.map((book) => (
-            <BookCard key={book.id} bookData={book} />
-          ))}
-        </Box>
-
-        {/* Container for pagination element */}
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Pagination
-            page={paginatedData.pagination.current_page}
-            count={paginatedData.pagination.total_pages}
-            shape="rounded"
-            variant="outlined"
-            color="primary"
-            size="large"
-            renderItem={(btnData) => (
-              <PaginationItem
-                {...btnData}
-                onClick={() => handlePaginationClick(btnData.page)}
-              />
-            )}
-          />
-        </Box>
-      </>
-    );
   }
+
+  return (
+    <>
+      <SearchBar />
+      {/* Container for book cards */}
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 3,
+          justifyContent: "center",
+          mb: 4,
+        }}
+      >
+        {paginatedData.data.map((book) => (
+          <BookCard key={book.id} bookData={book} />
+        ))}
+      </Box>
+
+      {/* Container for pagination element */}
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Pagination
+          page={paginatedData.pagination.current_page}
+          count={paginatedData.pagination.total_pages}
+          shape="rounded"
+          variant="outlined"
+          color="primary"
+          size="large"
+          renderItem={(btnData) => (
+            <PaginationItem
+              {...btnData}
+              onClick={() => handlePaginationClick(btnData.page)}
+            />
+          )}
+        />
+      </Box>
+    </>
+  );
 };
