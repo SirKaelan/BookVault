@@ -8,14 +8,11 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 class Database {
   async open() {
-    console.log();
     const db = await open({
       filename: `${__dirname}\\bookVault.db`,
       driver: sqlite3.Database,
     });
-
     console.log("Log: Connected to database.");
-
     return db;
   }
 }

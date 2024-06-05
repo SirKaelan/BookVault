@@ -2,10 +2,10 @@ import { Database } from "../database/Database.js";
 
 // Must match capitalization of Table row names
 interface AuthorModel {
-  Author_ID: number;
-  First_Name: string;
-  Last_Name: string;
-  Bio: string;
+  author_id: number;
+  first_name: string;
+  last_name: string;
+  bio: string;
 }
 
 class Author {
@@ -14,7 +14,7 @@ class Author {
   async getAuthorById(authorId: string): Promise<AuthorModel | undefined> {
     const db = await this.dbInstance.open();
     const result = await db.get<AuthorModel>(
-      "SELECT * FROM Authors WHERE Author_ID = ?",
+      "SELECT * FROM Authors WHERE author_id = ?",
       authorId
     );
     if (result) console.log("Log: Fetched author from database.");
