@@ -44,6 +44,15 @@ app.use(async (ctx) => {
   }
 
   // Book routes
+  params = matchRoute(url, "/books/:id/genres");
+  if (params) {
+    const bookId = params.id;
+    const response = await books.getBookGenres(bookId);
+    ctx.response.status = 200;
+    ctx.response.body = response;
+    return;
+  }
+
   params = matchRoute(url, "/books/:id");
   if (params) {
     const bookId = params.id;
@@ -55,6 +64,16 @@ app.use(async (ctx) => {
       ctx.response.status = 404;
       ctx.response.body = `Book with ID: ${bookId} doesn't exist.`;
     }
+    return;
+  }
+
+  params = matchRoute(url, "/books");
+  if (params) {
+    const page = ctx.query.page ? parseInt(ctx.query.page as string) : 1;
+    const limit = ctx.query.limit ? parseInt(ctx.query.limit as string) : 5;
+    const response = await books.getPaginatedBooks(page, limit);
+    ctx.response.status = 200;
+    ctx.response.body = response;
     return;
   }
 

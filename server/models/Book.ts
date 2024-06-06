@@ -44,6 +44,86 @@ class Book {
     console.log("Log: Disconnected from database.");
     return result;
   }
+
+  async getBookGenres(bookId: string) {
+    const db = await this.dbInstance.open();
+    const sql = `
+      SELECT g.genre_id, g.genre_name
+      FROM Books AS b
+      INNER JOIN BookGenres AS bg ON b.book_id = bg.book_id
+      INNER JOIN Genres AS g ON bg.genre_id = g.genre_id
+      WHERE b.book_id = ?
+    `;
+    const result: BookGenres = { genres: [] };
+    console.log("Log: Fetching genres for a single book.");
+    await db.each<GenreModel>(sql, [bookId], (err, row) => {
+      if (err) {
+        console.error(`Error fetching genres of book: ${err.message}`);
+        return undefined;
+      }
+      const genre: GenreModel = {
+        genre_id: row.genre_id,
+        genre_name: row.genre_name,
+      };
+      result.genres.push(genre);
+    });
+
+    await db.close();
+    console.log("Log: Disconnected from database.");
+    return result;
+  }
+
+  async getPaginatedBooks(page: number, limit: number) {
+    const offset = (page - 1) * limit;
+
+    const db = await this.dbInstance.open();
+
+    const sql1 = `
+      SELECT b.book_id, b.title, b.synopsis, b.cover_url, b.price
+      FROM Books AS b
+      ORDER BY b.book_id
+      LIMIT ? OFFSET ?
+    `;
+
+    const result: PaginationResponse = {
+      data: [],
+      total_books: 0,
+      current_page: page,
+      previous_page: 0,
+      next_page: 0,
+      total_pages: 0,
+    };
+
+    console.log("Log: Fetching paginated books.");
+    await db.each(sql1, [limit, offset], (err, row) => {
+      if (err) {
+        console.error(`Error fetching paginated books: ${err.message}`);
+        return undefined;
+      }
+      const book: BookModel = {
+        book_id: row.book_id,
+        title: row.title,
+        synopsis: row.synopsis,
+        cover_url: row.cover_url,
+        price: row.price,
+      };
+      result.data.push(book);
+    });
+
+    const sql2 = "SELECT COUNT(DISTINCT book_id) as count FROM Books";
+
+    console.log("Log: Counting rows in books table.");
+    const booksCount = await db.get<RowsCount>(sql2);
+
+    result.total_books = (booksCount as RowsCount).count;
+    result.total_pages = Math.ceil((booksCount as RowsCount).count / limit);
+    result.previous_page = page > 1 ? page - 1 : null;
+    result.next_page = page < result.total_pages ? page + 1 : null;
+
+    await db.close();
+    console.log("Log: Disconnected from database.");
+    return result;
+  }
 }
 
 export { Book };
@@ -58,4 +138,26 @@ interface BookModel {
 
 interface AuthorBooks {
   author_books: BookModel[];
+}
+
+interface GenreModel {
+  genre_id: number;
+  genre_name: string;
+}
+
+interface BookGenres {
+  genres: GenreModel[];
+}
+
+interface PaginationResponse {
+  data: BookModel[];
+  total_books: number;
+  current_page: number;
+  previous_page: number | null;
+  next_page: number | null;
+  total_pages: number;
+}
+
+interface RowsCount {
+  count: number;
 }
