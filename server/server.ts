@@ -1,12 +1,13 @@
 import Koa from "koa";
 import { Database } from "./database/Database.js";
-import { Author } from "./models/Author.js";
+import { Author, Book } from "./models/index.js";
 
 const app = new Koa({ proxy: true });
 const PORT = 3000;
 
 const db = new Database();
 const authors = new Author(db);
+const books = new Book(db);
 
 app.use(async (ctx) => {
   const url = ctx.URL.pathname;
@@ -21,8 +22,10 @@ app.use(async (ctx) => {
   // Author routes
   params = matchRoute(url, "/authors/:id/books");
   if (params) {
+    const authorId = params.id;
+    const response = await books.getAuthorBooks(authorId);
     ctx.response.status = 200;
-    ctx.response.body = `Attempting to request books of author with "id: ${params.id}"`;
+    ctx.response.body = response;
     return;
   }
 

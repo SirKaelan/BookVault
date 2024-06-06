@@ -1,13 +1,5 @@
 import { Database } from "../database/Database.js";
 
-// Must match capitalization of Table row names
-interface AuthorModel {
-  author_id: number;
-  first_name: string;
-  last_name: string;
-  bio: string;
-}
-
 class Author {
   constructor(private dbInstance: Database) {}
 
@@ -25,3 +17,10 @@ class Author {
 }
 
 export { Author };
+
+interface AuthorModel {
+  author_id: number;
+  first_name: string;
+  last_name: string;
+  bio: string;
+}
