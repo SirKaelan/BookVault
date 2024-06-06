@@ -43,6 +43,21 @@ app.use(async (ctx) => {
     return;
   }
 
+  // Book routes
+  params = matchRoute(url, "/books/:id");
+  if (params) {
+    const bookId = params.id;
+    const book = await books.getBookById(bookId);
+    if (book) {
+      ctx.response.status = 200;
+      ctx.response.body = book;
+    } else {
+      ctx.response.status = 404;
+      ctx.response.body = `Book with ID: ${bookId} doesn't exist.`;
+    }
+    return;
+  }
+
   // Entered endpoint isn't supported
   ctx.status = 404;
   ctx.response.message = "Page not found.";

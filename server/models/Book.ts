@@ -34,6 +34,16 @@ class Book {
     console.log("Log: Disconnected from database.");
     return result;
   }
+
+  async getBookById(bookId: string) {
+    const db = await this.dbInstance.open();
+    const sql = "SELECT * FROM Books WHERE book_id = ?";
+    console.log("Log: Fetching a single book.");
+    const result = await db.get<BookModel>(sql, bookId);
+    await db.close();
+    console.log("Log: Disconnected from database.");
+    return result;
+  }
 }
 
 export { Book };
