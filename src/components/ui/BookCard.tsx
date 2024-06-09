@@ -44,7 +44,8 @@ export const BookCard = ({ bookData }: BookCardProps): JSX.Element => {
       <CardMedia
         sx={{ height: 300 }}
         component="img"
-        image={bookData.cover}
+        // TODO: Temporary solution
+        image={bookData.cover as string}
         title={`"${bookData.title}" cover`}
       />
       <CardContent>
@@ -53,7 +54,7 @@ export const BookCard = ({ bookData }: BookCardProps): JSX.Element => {
         </Typography>
         <Link underline="hover" color="inherit" onClick={handleAuthorClick}>
           <Typography variant="body2" color="text.secondary">
-            {bookData.author}
+            {bookData.author_name}
           </Typography>
         </Link>
       </CardContent>

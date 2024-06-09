@@ -1,13 +1,16 @@
 import Koa from "koa";
+import cors from "@koa/cors";
 import { Database } from "./database/Database.js";
 import { Author, Book } from "./models/index.js";
 
 const app = new Koa({ proxy: true });
-const PORT = 3000;
+const PORT = 3001;
 
 const db = new Database();
 const authors = new Author(db);
 const books = new Book(db);
+
+app.use(cors());
 
 app.use(async (ctx) => {
   const url = ctx.URL.pathname;

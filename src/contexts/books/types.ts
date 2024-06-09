@@ -21,10 +21,11 @@ export type Book = {
   id: number;
   author_id: number;
   title: string;
-  author: string;
-  genres: string[];
+  author_name: string;
+  genres: Genre[];
   synopsis: string;
-  cover: string;
+  cover: string | null;
+  price: number;
 };
 
 export type BookState = {
@@ -51,6 +52,11 @@ export type Author = {
   type: "author";
   id: number;
   name: string;
-  books: Book[];
   bio: string;
+  books: Book[];
+};
+
+export type Genre = {
+  id: number;
+  name: string;
 };

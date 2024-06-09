@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { authorProvider } from "apis/authorProvider";
 import { AuthorResult } from "hooks/types";
 
-// TODO: Create AuthorResult type
 export const useFetchAuthor = (id: number): AuthorResult => {
   const [data, setData] = useState<AuthorResult>({ type: "loading" });
 

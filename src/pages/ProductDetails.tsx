@@ -17,7 +17,7 @@ export const ProductDetails = (): JSX.Element => {
 
   return (
     <div>
-      Book title: {book.title}, Author: {book.author}
+      Book title: {book.title}, Author: {book.author_name}
     </div>
   );
 };

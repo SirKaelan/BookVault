@@ -5,8 +5,6 @@ export const AuthorDetails = (): JSX.Element => {
   const authorId = useGetQueryValue("id");
   const author = useFetchAuthor(authorId);
 
-  console.log(author);
-
   if (author.type === "loading") {
     return <div>Loading....</div>;
   }
@@ -17,7 +15,27 @@ export const AuthorDetails = (): JSX.Element => {
 
   return (
     <div>
-      Author: {author.name}, Bio: {author.bio}
+      <>
+        Author: {author.name}, Bio: {author.bio}
+        <br></br>
+        <br></br>
+        Books:{" "}
+        {author.books.map((book) => {
+          return (
+            <div key={book.id}>
+              <div>Title: {book.title}</div>
+              <div>
+                Genres:{" "}
+                {book.genres.length !== 0
+                  ? book.genres.map((genre, i) => [i > 0 && ", ", genre.name])
+                  : "No genres."}
+              </div>
+              <div>Price: {book.price}</div>
+              <br></br>
+            </div>
+          );
+        })}
+      </>
     </div>
   );
 };

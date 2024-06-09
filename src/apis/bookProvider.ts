@@ -99,3 +99,11 @@ class BookProvider {
 }
 
 export const bookProvider = new BookProvider();
+
+export type BookAPI = {
+  book_id: number;
+  title: string;
+  synopsis: string;
+  cover_url: string | null;
+  price: number;
+};
