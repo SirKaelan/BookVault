@@ -23,6 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 check-list.txt
 
-server/oldCode
 server/node_modules
 server/database/queries.sql

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
 import { bookProvider } from "apis/bookProvider";
-import { BookResult } from "hooks/types";
+import { BookStates } from "hooks/types";
 
-export const useFetchBook = (id: number): BookResult => {
-  const [data, setData] = useState<BookResult>({ type: "loading" });
+export const useFetchBook = (id: number): BookStates => {
+  const [data, setData] = useState<BookStates>({ type: "loading" });
 
   useEffect(() => {
     bookProvider.getById(id).then((data) => setData(data));

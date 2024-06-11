@@ -50,6 +50,7 @@ export const Search = (): JSX.Element => {
   return (
     <>
       <SearchBar />
+      <p>Searching for: "{searchTerm}"</p>
       {/* Container for book cards */}
       <Box
         sx={{
@@ -60,9 +61,11 @@ export const Search = (): JSX.Element => {
           mb: 4,
         }}
       >
-        {paginatedData.data.map((book) => (
-          <BookCard key={book.id} bookData={book} />
-        ))}
+        {paginatedData.data.length > 0
+          ? paginatedData.data.map((book) => (
+              <BookCard key={book.id} bookData={book} />
+            ))
+          : "No books were found."}
       </Box>
 
       {/* Container for pagination element */}

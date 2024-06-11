@@ -5,8 +5,6 @@ export const ProductDetails = (): JSX.Element => {
   const bookId = useGetQueryValue("id");
   const book = useFetchBook(bookId);
 
-  console.log(book);
-
   if (book.type === "loading") {
     return <div>Loading....</div>;
   }

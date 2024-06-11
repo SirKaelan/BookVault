@@ -74,7 +74,8 @@ app.use(async (ctx) => {
   if (params) {
     const page = ctx.query.page ? parseInt(ctx.query.page as string) : 1;
     const limit = ctx.query.limit ? parseInt(ctx.query.limit as string) : 5;
-    const response = await books.getPaginatedBooks(page, limit);
+    const title = ctx.query.title ? (ctx.query.title as string) : undefined;
+    const response = await books.getPaginatedBooks(page, limit, title);
     ctx.response.status = 200;
     ctx.response.body = response;
     return;

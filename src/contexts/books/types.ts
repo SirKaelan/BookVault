@@ -60,3 +60,15 @@ export type Genre = {
   id: number;
   name: string;
 };
+
+export type PaginatedBooks = {
+  type: "pagination";
+  data: Book[];
+  pagination: {
+    previous_page: number | null;
+    current_page: number;
+    next_page: number | null;
+    total_pages: number;
+    total_books: number;
+  };
+};

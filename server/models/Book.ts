@@ -26,6 +26,9 @@ class Book {
         synopsis: row.synopsis,
         cover_url: row.cover_url,
         price: row.price,
+        author_id: row.author_id,
+        author_fn: row.author_fn,
+        author_ln: row.author_ln,
       };
       result.author_books.push(book);
     });
@@ -37,7 +40,12 @@ class Book {
 
   async getBookById(bookId: string) {
     const db = await this.dbInstance.open();
-    const sql = "SELECT * FROM Books WHERE book_id = ?";
+    const sql = `
+      SELECT b.book_id, b.title, b.synopsis, b.cover_url, b.price, b.author_id, a.first_name AS author_fn, a.last_name AS author_ln
+      FROM Books AS b
+      INNER JOIN Authors AS a ON b.author_id = a.author_id
+      WHERE b.book_id = ?
+    `;
     console.log("Log: Fetching a single book.");
     const result = await db.get<BookModel>(sql, bookId);
     await db.close();
@@ -73,18 +81,9 @@ class Book {
     return result;
   }
 
-  async getPaginatedBooks(page: number, limit: number) {
+  async getPaginatedBooks(page: number, limit: number, searchTerm?: string) {
     const offset = (page - 1) * limit;
-
     const db = await this.dbInstance.open();
-
-    const sql1 = `
-      SELECT b.book_id, b.title, b.synopsis, b.cover_url, b.price
-      FROM Books AS b
-      ORDER BY b.book_id
-      LIMIT ? OFFSET ?
-    `;
-
     const result: PaginationResponse = {
       data: [],
       total_books: 0,
@@ -93,9 +92,9 @@ class Book {
       next_page: 0,
       total_pages: 0,
     };
-
-    console.log("Log: Fetching paginated books.");
-    await db.each(sql1, [limit, offset], (err, row) => {
+    let sql1: string;
+    let sql2: string;
+    let queryCallback: (err: any, row: BookModel) => void = (err, row) => {
       if (err) {
         console.error(`Error fetching paginated books: ${err.message}`);
         return undefined;
@@ -106,14 +105,52 @@ class Book {
         synopsis: row.synopsis,
         cover_url: row.cover_url,
         price: row.price,
+        author_id: row.author_id,
+        author_fn: row.author_fn,
+        author_ln: row.author_ln,
       };
       result.data.push(book);
-    });
+    };
+    let booksCount: RowsCount | undefined;
 
-    const sql2 = "SELECT COUNT(DISTINCT book_id) as count FROM Books";
-
-    console.log("Log: Counting rows in books table.");
-    const booksCount = await db.get<RowsCount>(sql2);
+    console.log("Log: Fetching paginated books.");
+    if (!searchTerm) {
+      sql1 = `
+        SELECT b.book_id, b.title, b.synopsis, b.cover_url, b.price, b.author_id, a.first_name AS author_fn, a.last_name AS author_ln
+        FROM Books AS b
+        INNER JOIN Authors AS a ON b.author_id = a.author_id
+        ORDER BY b.book_id
+        LIMIT ? OFFSET ?
+      `;
+      sql2 = `
+        SELECT COUNT(DISTINCT book_id) AS count
+        FROM Books
+      `;
+      await db.each<BookModel>(sql1, [limit, offset], queryCallback);
+      console.log("Log: Counting rows in books table.");
+      booksCount = await db.get<RowsCount>(sql2);
+    } else {
+      sql1 = `
+        SELECT b.book_id, b.title, b.synopsis, b.cover_url, b.price, b.author_id, a.first_name AS author_fn, a.last_name AS author_ln
+        FROM Books AS b
+        INNER JOIN Authors AS a ON b.author_id = a.author_id
+        WHERE b.title LIKE ?
+        ORDER BY b.book_id
+        LIMIT ? OFFSET ?
+      `;
+      sql2 = `
+        SELECT COUNT(DISTINCT book_id) AS count
+        FROM Books AS b
+        WHERE b.title LIKE ?
+      `;
+      await db.each<BookModel>(
+        sql1,
+        [`%${searchTerm}%`, limit, offset],
+        queryCallback
+      );
+      console.log("Log: Counting rows in filtered books table.");
+      booksCount = await db.get<RowsCount>(sql2, [`%${searchTerm}%`]);
+    }
 
     result.total_books = (booksCount as RowsCount).count;
     result.total_pages = Math.ceil((booksCount as RowsCount).count / limit);
@@ -134,6 +171,9 @@ interface BookModel {
   synopsis: string;
   cover_url: string | null;
   price: number;
+  author_id: number;
+  author_fn: string;
+  author_ln: string;
 }
 
 interface AuthorBooks {

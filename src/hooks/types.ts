@@ -1,4 +1,4 @@
-import { Author, Book } from "contexts/books";
+import { Author, Book, PaginatedBooks } from "contexts/books";
 
 export type Loading = { type: "loading" };
 export type ErrorMessage = {
@@ -7,20 +7,9 @@ export type ErrorMessage = {
 };
 
 // Book related types
-export type BookResult = Book | ErrorMessage | Loading;
+export type BookStates = Book | ErrorMessage | Loading;
 
-export type PaginatedBooksFormat = {
-  type: "pagination";
-  data: Book[];
-  pagination: {
-    current_page: number;
-    total_pages: number;
-  };
-};
-export type PaginatedBooksResult =
-  | PaginatedBooksFormat
-  | ErrorMessage
-  | Loading;
+export type PaginatedBooksStates = PaginatedBooks | ErrorMessage | Loading;
 
 // Author related types
-export type AuthorResult = Author | ErrorMessage | Loading;
+export type AuthorStates = Author | ErrorMessage | Loading;

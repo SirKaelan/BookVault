@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 
 import { bookProvider } from "apis/bookProvider";
-import { PaginatedBooksResult } from "hooks/types";
+import { PaginatedBooksStates } from "hooks/types";
 
 export const useFetchPaginatedBooks = (
   page: number,
   pageSize: number,
   searchTerm: string | null
-): PaginatedBooksResult => {
-  const [data, setData] = useState<PaginatedBooksResult>({ type: "loading" });
+): PaginatedBooksStates => {
+  const [data, setData] = useState<PaginatedBooksStates>({ type: "loading" });
 
   useEffect(() => {
     bookProvider
-      .getPaginatedData(page, pageSize, searchTerm)
+      .getPaginatedBooks(page, pageSize, searchTerm)
       .then((data) => setData(data));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm, page]);
