@@ -3,20 +3,17 @@ import "./App.css";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "theme";
-
 import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Stack,
-  Button,
-  Container,
-} from "@mui/material";
+  Navigation,
+  LogoData,
+  ButtonCollection,
+} from "components/ui/Navigation";
+
+import { Container } from "@mui/material";
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
-  Link,
   Outlet,
   RouterProvider,
 } from "react-router-dom";
@@ -64,26 +61,15 @@ function App() {
 export default App;
 
 const Root = (): JSX.Element => {
+  const logo: LogoData = { text: "book vault" };
+  const buttons: ButtonCollection = [
+    { text: "home", endpoint: "/" },
+    { text: "Search", endpoint: "search" },
+    { text: "Placehouldar", endpoint: "placeholder" },
+  ];
   return (
     <>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-            Book Vault
-          </Typography>
-          <Stack direction="row" spacing={2}>
-            <Button color="inherit">
-              <Link to="/">Home</Link>
-            </Button>
-            <Button color="inherit">
-              <Link to="search">Search</Link>
-            </Button>
-            <Button color="inherit">
-              <Link to="placeholder">Placeholder</Link>
-            </Button>
-          </Stack>
-        </Toolbar>
-      </AppBar>
+      <Navigation logo={logo} buttons={buttons} />
       <Container sx={{ height: "100%", py: 4 }}>
         <Outlet />
       </Container>
