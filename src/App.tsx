@@ -1,5 +1,8 @@
 import React from "react";
 import "./App.css";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
+import { theme } from "theme";
 
 import {
   AppBar,
@@ -49,9 +52,12 @@ function App() {
   );
 
   return (
-    <BookProvider>
-      <RouterProvider router={router} />
-    </BookProvider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <BookProvider>
+        <RouterProvider router={router} />
+      </BookProvider>
+    </ThemeProvider>
   );
 }
 
