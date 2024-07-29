@@ -1,6 +1,27 @@
 import React from "react";
-import { AppBar, Button, Stack, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  Stack,
+  Toolbar,
+  Typography,
+  styled,
+} from "@mui/material";
 import { Link } from "react-router-dom";
+
+const NavButton = styled(Button)({
+  color: "inherit",
+  fontSize: "1.7rem",
+  textTransform: "none",
+  fontWeight: 400,
+});
+
+const LogoContainer = styled(Typography)({
+  display: "flex",
+  alignItems: "stretch",
+  margin: "0 2rem 0 2rem",
+  textTransform: "uppercase",
+});
 
 export const Navigation = ({ logo, buttons }: NavigationProps): JSX.Element => {
   // Fixing both logo and button information if it has wrong capitalization
@@ -24,21 +45,33 @@ export const Navigation = ({ logo, buttons }: NavigationProps): JSX.Element => {
       endpoint: btn.endpoint.toLowerCase(),
     };
   });
+  const middle = Math.ceil(editedBtnData.length / 2);
+  const firstHalf = editedBtnData.slice(0, middle);
+  const secondHalf = editedBtnData.slice(middle);
 
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-          {
-            // currently logo image is being ignored
-            editedLogo.text
-          }
-        </Typography>
-        <Stack direction="row" spacing={2}>
-          {editedBtnData.map((btn) => (
-            <Button color="inherit">
+    <AppBar position="static" color="primary">
+      <Toolbar sx={{ justifyContent: "center", alignItems: "stretch" }}>
+        <Stack direction="row" spacing={0.5}>
+          {firstHalf.map((btn) => (
+            <NavButton key={btn.text}>
               <Link to={`${btn.endpoint}`}>{`${btn.text}`}</Link>
-            </Button>
+            </NavButton>
+          ))}
+        </Stack>
+        <LogoContainer variant="h4" component="div">
+          <Link to="/" style={{ display: "flex", alignItems: "center" }}>
+            {
+              // currently logo image is being ignored
+              editedLogo.text
+            }
+          </Link>
+        </LogoContainer>
+        <Stack direction="row" spacing={0.5}>
+          {secondHalf.map((btn) => (
+            <NavButton key={btn.text}>
+              <Link to={`${btn.endpoint}`}>{`${btn.text}`}</Link>
+            </NavButton>
           ))}
         </Stack>
       </Toolbar>

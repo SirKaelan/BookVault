@@ -65,7 +65,7 @@ const Root = (): JSX.Element => {
   const buttons: ButtonCollection = [
     { text: "home", endpoint: "/" },
     { text: "Search", endpoint: "search" },
-    { text: "Placehouldar", endpoint: "placeholder" },
+    { text: "Placeholder", endpoint: "placeholder" },
   ];
   return (
     <>
