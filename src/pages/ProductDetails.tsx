@@ -2,6 +2,7 @@ import { useGetQueryValue } from "utils";
 import { useFetchBook } from "hooks";
 import { Box, Grid, Typography, styled, Theme, Button } from "@mui/material";
 import { ExpandableContent } from "components/ExpandableContent";
+import { QuantityInput } from "components/QuantityInput";
 
 const PriceTag = styled(Typography)(({ theme }: PriceTagProps) => ({
   borderBottom: `2px solid ${theme.palette.secondary.main}`,
@@ -87,7 +88,7 @@ export const ProductDetails = (): JSX.Element => {
             />
           </Box>
           {/* Pages */}
-          <Box>
+          <Box mb={3.5}>
             <Typography variant="h5" component="span" fontWeight="light" mr={1}>
               Pages:
             </Typography>
@@ -95,6 +96,10 @@ export const ProductDetails = (): JSX.Element => {
             <Typography variant="h5" component="span" fontWeight="light">
               1000
             </Typography>
+          </Box>
+          {/* Quanity input + Checkout button */}
+          <Box>
+            <QuantityInput />
           </Box>
         </Grid>
       </Grid>

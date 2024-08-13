@@ -5,6 +5,7 @@
   "dependencies": {
     "@craco/craco": "^7.1.0",
     "@fontsource/roboto": "^5.0.8",
+    "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.14.20",
     "@mui/styled-engine-sc": "^6.0.0-alpha.7",
     "@testing-library/jest-dom": "^5.17.0",
