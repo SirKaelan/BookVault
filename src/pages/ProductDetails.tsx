@@ -99,7 +99,7 @@ export const ProductDetails = (): JSX.Element => {
           </Box>
           {/* Quanity input + Checkout button */}
           <Box>
-            <QuantityInput />
+            <QuantityInput label="QTY" />
           </Box>
         </Grid>
       </Grid>

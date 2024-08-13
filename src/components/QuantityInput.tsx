@@ -2,7 +2,7 @@ import React from "react";
 import { styled, Typography, IconButton, Theme } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 
-export const QuantityInput = () => {
+export const QuantityInput = ({ label }: QuantityInputProps) => {
   const [quantity, setQuantity] = React.useState<number>(
     LOWEST_ALLOWED_QUANTITY
   );
@@ -31,7 +31,7 @@ export const QuantityInput = () => {
 
   return (
     <Container>
-      <Label>QTY</Label>
+      <Label>{label}</Label>
       <NumberInput onChange={handleQuantityInput} value={quantity} />
       <ButtonsContainer>
         <ButtonContainer onClick={handleQuantityIncrease}>
@@ -71,6 +71,7 @@ const Label = styled((props) => (
   display: "flex",
   alignItems: "center",
   padding: "1rem 2rem",
+  fontWeight: "lighter",
 });
 
 const NumberInput = styled(MyInputField)({
@@ -80,6 +81,7 @@ const NumberInput = styled(MyInputField)({
   outline: "none", // Probably not good to leave this here
   fontSize: "1.6rem",
   padding: "0 0.5rem",
+  fontWeight: "lighter",
 });
 
 const ButtonsContainer = styled("div")({
@@ -103,6 +105,10 @@ const ButtonContainer = styled((props) => <IconButton {...props} />)(
 );
 
 // --------------- Types ---------------
+type QuantityInputProps = {
+  label: string;
+};
+
 type MyInputFieldProps = React.InputHTMLAttributes<HTMLInputElement>;
 
 type ButtonContainerProps = {
