@@ -55,10 +55,11 @@ const MyInputField = (props: MyInputFieldProps) => (
   <input {...props} type="text" />
 );
 
-const Container = styled("span")({
+const Container = styled("div")({
   display: "flex",
   backgroundColor: "lightgrey",
   width: "max-content",
+  height: "auto",
   padding: ELEMENT_GAP,
   gap: ELEMENT_GAP,
 });
@@ -95,6 +96,7 @@ const ButtonContainer = styled((props) => <IconButton {...props} />)(
     backgroundColor: "#fff",
     borderRadius: "0",
     padding: "0.5rem",
+    flex: "1",
     "&:hover": {
       backgroundColor: `${theme.palette.secondary.main}`,
     },

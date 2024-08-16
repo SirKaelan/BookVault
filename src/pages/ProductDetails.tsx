@@ -3,10 +3,7 @@ import { useFetchBook } from "hooks";
 import { Box, Grid, Typography, styled, Theme, Button } from "@mui/material";
 import { ExpandableContent } from "components/ExpandableContent";
 import { QuantityInput } from "components/QuantityInput";
-
-const PriceTag = styled(Typography)(({ theme }: PriceTagProps) => ({
-  borderBottom: `2px solid ${theme.palette.secondary.main}`,
-}));
+import { AddCartButton } from "components/AddCartButton";
 
 export const ProductDetails = (): JSX.Element => {
   const bookId = useGetQueryValue("id");
@@ -98,8 +95,14 @@ export const ProductDetails = (): JSX.Element => {
             </Typography>
           </Box>
           {/* Quanity input + Checkout button */}
-          <Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
             <QuantityInput label="QTY" />
+            <AddCartButton />
           </Box>
         </Grid>
       </Grid>
@@ -107,6 +110,12 @@ export const ProductDetails = (): JSX.Element => {
   );
 };
 
+// --------------- Styling ---------------
+const PriceTag = styled(Typography)(({ theme }: PriceTagProps) => ({
+  borderBottom: `2px solid ${theme.palette.secondary.main}`,
+}));
+
+// --------------- Types ---------------
 type PriceTagProps = {
   theme: Theme;
 };
