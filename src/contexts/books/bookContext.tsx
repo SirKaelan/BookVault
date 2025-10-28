@@ -1,6 +1,6 @@
 import React from "react";
 
-import { BookContextType, BookProviderProps, BookState } from "./types";
+import type { BookContextType, BookProviderProps, BookState } from "./types";
 import { bookReducer } from "./reducer";
 
 const INITIAL_STATE: BookState = {

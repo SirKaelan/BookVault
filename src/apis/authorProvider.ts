@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
-import { Author } from "contexts/books";
-import { AuthorResponse } from "apis/types";
+import type { Author } from "contexts/books";
+import type { AuthorResponse } from "apis/types";
 import { BookProvider } from "apis/bookProvider";
 
 class AuthorProvider {

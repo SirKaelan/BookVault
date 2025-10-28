@@ -1,11 +1,8 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "theme";
-import {
-  Navigation,
-  LogoData,
-  ButtonCollection,
-} from "components/ui/Navigation";
+import { Navigation } from "components/ui/Navigation";
+import type { LogoData, ButtonCollection } from "components/ui/Navigation";
 
 import { Container } from "@mui/material";
 import {

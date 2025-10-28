@@ -1,6 +1,7 @@
 import { useGetQueryValue } from "utils";
 import { useFetchBook } from "hooks";
-import { Box, Grid, Typography, styled, Theme, Button } from "@mui/material";
+import { Box, Grid, Typography, styled, Button } from "@mui/material";
+import type { Theme } from "@mui/material";
 import { ExpandableContent } from "components/ExpandableContent";
 import { QuantityInput } from "components/QuantityInput";
 import { AddCartButton } from "components/AddCartButton";

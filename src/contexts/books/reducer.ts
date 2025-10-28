@@ -1,4 +1,5 @@
-import { BookAction, BookActionType, BookState } from "./types";
+import { BookActionType } from "./types";
+import type { BookAction, BookState } from "./types";
 
 export const bookReducer = (
   state: BookState,
