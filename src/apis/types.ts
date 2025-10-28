@@ -1,5 +1,5 @@
-import { Book, Author, PaginatedBooks } from "contexts/books";
-import { ErrorMessage } from "hooks/types";
+import type { Book, Author, PaginatedBooks } from "contexts/books";
+import type { ErrorMessage } from "hooks/types";
 
 // Book provider types
 export type BookResponse = Book | ErrorMessage;

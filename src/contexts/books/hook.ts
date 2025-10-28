@@ -1,6 +1,7 @@
 import React from "react";
 import { BookContext } from "./bookContext";
-import { Book, BookActionType } from "./types";
+import { BookActionType } from "./types";
+import type { Book } from "./types";
 
 export const useBookState = () => {
   const context = React.useContext(BookContext);

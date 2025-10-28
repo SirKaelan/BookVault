@@ -1,4 +1,5 @@
-import { styled, Theme, Typography, Button } from "@mui/material";
+import { styled, Typography, Button } from "@mui/material";
+import type { Theme } from "@mui/material";
 import { ShoppingCart } from "@mui/icons-material";
 
 export const AddCartButton = () => {

@@ -1,5 +1,6 @@
 import React from "react";
-import { styled, Typography, IconButton, Theme } from "@mui/material";
+import { styled, Typography, IconButton } from "@mui/material";
+import type { Theme } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 
 export const QuantityInput = ({ label }: QuantityInputProps) => {

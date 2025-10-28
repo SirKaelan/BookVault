@@ -1,4 +1,4 @@
-import { Author, Book, PaginatedBooks } from "contexts/books";
+import type { Author, Book, PaginatedBooks } from "contexts/books";
 
 export type Loading = { type: "loading" };
 export type ErrorMessage = {
