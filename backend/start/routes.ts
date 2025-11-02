@@ -9,6 +9,9 @@
 
 import router from '@adonisjs/core/services/router'
 
+// Validate "id" param globally with built-in matcher for numbers
+router.where('id', router.matchers.number())
+
 router.get('/', async () => {
   return 'Home endpoint!'
 })
