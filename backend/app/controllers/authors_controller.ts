@@ -20,11 +20,32 @@ export default class AuthorsController {
     }
 
     return {
-      data: author.serialize(),
+      data: author,
     }
   }
 
   async books({ params, response }: HttpContext) {
-    response.send(`All books of a single author with id of ${params.id} endpoint!`)
+    // TODO: Consider pagination for this (some authors might have a ton of books)
+    const author = await Author.query()
+      .where('author_id', params.id)
+      .preload('books', (booksQuery) => booksQuery.preload('genres'))
+      .first()
+    if (!author) {
+      const body: ErrorResponse = {
+        errors: [
+          {
+            status: 404,
+            code: 'AUTHOR_NOT_FOUND',
+            message: 'Author not found',
+            meta: { id: params.id },
+          },
+        ],
+      }
+      return response.status(404).send(body)
+    }
+
+    return {
+      data: author.books,
+    }
   }
 }
