@@ -7,6 +7,19 @@ export default class extends BaseSeeder {
       { genreName: 'Fantasy' },
       { genreName: 'Young Adult' },
       { genreName: 'Novel' },
+      { genreName: 'Biography' },
+      { genreName: 'Crime' },
+      { genreName: 'Historical Fiction' },
+      { genreName: 'Horror' },
+      { genreName: 'Literary Fiction' },
+      { genreName: 'Mystery' },
+      { genreName: 'Non-Fiction' },
+      { genreName: 'Philosophy' },
+      { genreName: 'Poetry' },
+      { genreName: 'Romance' },
+      { genreName: 'Science Fiction' },
+      { genreName: 'Self-Help' },
+      { genreName: 'Thriller' },
     ])
   }
 }

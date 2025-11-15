@@ -16,7 +16,7 @@ export default class Author extends BaseModel {
   @column()
   declare bio: string
 
-  @hasMany(() => Book, { foreignKey: 'bookId' })
+  @hasMany(() => Book, { foreignKey: 'authorId' })
   declare books: HasMany<typeof Book>
 
   @column.dateTime({ autoCreate: true, serializeAs: null })

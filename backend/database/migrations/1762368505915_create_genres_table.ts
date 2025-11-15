@@ -6,7 +6,7 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('genre_id')
-      table.string('genre_name', 100)
+      table.string('genre_name', 100).unique()
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })
