@@ -1,5 +1,9 @@
 import app from '@adonisjs/core/services/app'
 import { HttpContext, ExceptionHandler } from '@adonisjs/core/http'
+import { errors as coreErrors } from '@adonisjs/core'
+import { errors as lucidErrors } from '@adonisjs/lucid'
+import { ErrorResponse } from '#types/responses'
+import { capitalizeFirstLetter } from '#helpers/capitalize_first_letter'
 
 export default class HttpExceptionHandler extends ExceptionHandler {
   /**
@@ -13,6 +17,38 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * response to the client
    */
   async handle(error: unknown, ctx: HttpContext) {
+    if (error instanceof coreErrors.E_ROUTE_NOT_FOUND) {
+      const body: ErrorResponse = {
+        errors: [
+          {
+            status: 404,
+            code: 'ROUTE_NOT_FOUND',
+            message: 'The requested endpoint does not exist',
+            meta: {
+              path: ctx.request.url(),
+              method: ctx.request.method(),
+            },
+          },
+        ],
+      }
+      return ctx.response.status(404).json(body)
+    }
+
+    if (error instanceof lucidErrors.E_ROW_NOT_FOUND) {
+      const body: ErrorResponse = {
+        errors: [
+          {
+            status: 404,
+            code: `${error.model?.name?.toUpperCase() || 'RESOURCE'}_NOT_FOUND`,
+            message: `${error.model ? capitalizeFirstLetter(error.model.name) : 'Resource'} not found`,
+            ...(ctx.params.id && { meta: { id: ctx.params.id } }),
+          },
+        ],
+      }
+      return ctx.response.status(404).json(body)
+    }
+
+    // handles the rest of the exceptions
     return super.handle(error, ctx)
   }
 

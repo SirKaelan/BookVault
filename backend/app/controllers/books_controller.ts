@@ -1,6 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Book from '#models/book'
-import { ErrorResponse } from '#types/responses'
 
 export default class BooksController {
   async index() {
@@ -11,43 +10,15 @@ export default class BooksController {
     }
   }
 
-  async show({ params, response }: HttpContext) {
-    const book = await Book.query().where('book_id', params.id).preload('genres').first()
-    if (!book) {
-      const body: ErrorResponse = {
-        errors: [
-          {
-            status: 404,
-            code: 'BOOK_NOT_FOUND',
-            message: 'Book not found',
-            meta: { id: params.id },
-          },
-        ],
-      }
-      return response.status(404).send(body)
-    }
-
+  async show({ params }: HttpContext) {
+    const book = await Book.query().where('book_id', params.id).preload('genres').firstOrFail()
     return {
       data: book,
     }
   }
 
-  async genres({ params, response }: HttpContext) {
-    const book = await Book.query().where('book_id', params.id).preload('genres').first()
-    if (!book) {
-      const body: ErrorResponse = {
-        errors: [
-          {
-            status: 404,
-            code: 'BOOK_NOT_FOUND',
-            message: 'Book not found',
-            meta: { id: params.id },
-          },
-        ],
-      }
-      return response.status(404).send(body)
-    }
-
+  async genres({ params }: HttpContext) {
+    const book = await Book.query().where('book_id', params.id).preload('genres').firstOrFail()
     return {
       data: book.genres,
     }
