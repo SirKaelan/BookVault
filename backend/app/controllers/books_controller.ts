@@ -3,8 +3,10 @@ import Book from '#models/book'
 import { PaginatedResponse } from '#types/index'
 import { DEFAULT_PAGE_SIZE, DEFAULT_START_PAGE } from '#config/pagination'
 import { paginationValidator } from '#validators/pagination'
+import { idValidator } from '#validators/id'
 
 export default class BooksController {
+  // books
   async index({ request }: HttpContext): Promise<PaginatedResponse<Book>> {
     const { page, page_size: pageSize, search } = await request.validateUsing(paginationValidator)
 
@@ -36,23 +38,27 @@ export default class BooksController {
         next: paginator.getNextPageUrl(),
       },
       meta: {
-        current_page: paginator.currentPage,
-        page_size: paginator.perPage,
-        total_pages: paginator.lastPage,
-        total_items: paginator.total,
-        has_more_pages: paginator.hasMorePages,
+        currentPage: paginator.currentPage,
+        pageSize: paginator.perPage,
+        totalPages: paginator.lastPage,
+        totalItems: paginator.total,
+        hasMorePages: paginator.hasMorePages,
       },
     }
   }
 
-  async show({ params }: HttpContext) {
+  // books/:id
+  async show({ request }: HttpContext) {
+    const { params } = await request.validateUsing(idValidator)
     const book = await Book.query().where('book_id', params.id).preload('genres').firstOrFail()
     return {
       data: book,
     }
   }
 
-  async genres({ params }: HttpContext) {
+  // books/:id/genres
+  async genres({ request }: HttpContext) {
+    const { params } = await request.validateUsing(idValidator)
     const book = await Book.query().where('book_id', params.id).preload('genres').firstOrFail()
     return {
       data: book.genres,

@@ -18,11 +18,12 @@ export type PaginatedResponse<T> = {
     next: string | null
   }
   meta: {
-    current_page: number
-    page_size: number
-    total_pages: number
-    total_items: number
-    has_more_pages: boolean
+    // probably not a good idea to have this as camel case, but w/e
+    currentPage: number
+    pageSize: number
+    totalPages: number
+    totalItems: number
+    hasMorePages: boolean
   }
 }
 

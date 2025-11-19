@@ -11,9 +11,6 @@ import router from '@adonisjs/core/services/router'
 const BooksController = () => import('#controllers/books_controller')
 const AuthorsController = () => import('#controllers/authors_controller')
 
-// Validate "id" param globally with built-in matcher for numbers
-router.where('id', router.matchers.number())
-
 // Book endpoints
 // Might be a useless endpoint and i can just eager-load genres when fetching books
 router.get('/books/:id/genres', [BooksController, 'genres'])
