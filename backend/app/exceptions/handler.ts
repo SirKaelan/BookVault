@@ -2,7 +2,8 @@ import app from '@adonisjs/core/services/app'
 import { HttpContext, ExceptionHandler } from '@adonisjs/core/http'
 import { errors as coreErrors } from '@adonisjs/core'
 import { errors as lucidErrors } from '@adonisjs/lucid'
-import { ErrorResponse } from '#types/responses'
+import { errors as vineErrors } from '@vinejs/vine'
+import { ErrorResponse, ErrorResponseObject, ValidationErrorObject } from '#types/index'
 import { capitalizeFirstLetter } from '#helpers/capitalize_first_letter'
 
 export default class HttpExceptionHandler extends ExceptionHandler {
@@ -17,6 +18,24 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * response to the client
    */
   async handle(error: unknown, ctx: HttpContext) {
+    if (error instanceof vineErrors.E_VALIDATION_ERROR) {
+      const validationErrors = error.messages as ValidationErrorObject[]
+      const body: ErrorResponse = {
+        errors: validationErrors.map(
+          (err): ErrorResponseObject => ({
+            status: 422,
+            code: 'VALIDATION_ERROR',
+            message: err.message,
+            meta: {
+              field: err.field,
+              rule: err.rule,
+            },
+          })
+        ),
+      }
+      return ctx.response.status(422).json(body)
+    }
+
     if (error instanceof coreErrors.E_ROUTE_NOT_FOUND) {
       const body: ErrorResponse = {
         errors: [
