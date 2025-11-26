@@ -23,7 +23,16 @@ test.group('Books - list (GET /books)', (group) => {
     expect(data).toBeInstanceOf(Array)
     expect(data.length).toBeGreaterThan(0)
   })
-  test('returns 200 and empty array when no books exist', async () => {})
+
+  test('returns 200 and empty array when no books exist', async ({ client, expect }) => {
+    const response = await client.get('/books')
+
+    response.assertStatus(200)
+
+    let { data } = response.body() as PaginatedResponse<Book>
+    expect(data).toBeInstanceOf(Array)
+    expect(data.length).toBe(0)
+  })
   // test unhappy 422 response (bad QPs)
 })
 
