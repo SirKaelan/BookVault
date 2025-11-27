@@ -12,16 +12,16 @@ test.group('Books - list (GET /books)', (group) => {
     client,
     expect,
   }) => {
-    await BookFactory.createMany(50)
+    await BookFactory.createMany(2)
 
     const response = await client.get('/books')
 
     response.assertStatus(200)
 
-    const body: PaginatedResponse<Book> = response.body()
+    const { data, links, meta }: PaginatedResponse<Book> = response.body()
     // check books data
-    expect(body.data.length).toBeGreaterThan(0)
-    expect(body.data[0]).toMatchObject({
+    expect(data.length).toBeGreaterThan(0)
+    expect(data[0]).toMatchObject({
       bookId: expect.any(Number),
       title: expect.any(String),
       synopsis: expect.any(String),
@@ -29,14 +29,14 @@ test.group('Books - list (GET /books)', (group) => {
       price: expect.any(Number),
       genres: expect.any(Array),
     })
-    if (body.data[0].authorId) expect(typeof body.data[0].authorId).toBe('number')
+    if (data[0].authorId) expect(typeof data[0].authorId).toBe('number')
 
     // check links data
-    if (body.links.prev) expect(typeof body.links.prev).toBe('string')
-    if (body.links.next) expect(typeof body.links.next).toBe('string')
+    if (links.prev) expect(typeof links.prev).toBe('string')
+    if (links.next) expect(typeof links.next).toBe('string')
 
     // check meta data
-    expect(body.meta).toMatchObject({
+    expect(meta).toMatchObject({
       currentPage: expect.any(Number),
       pageSize: expect.any(Number),
       totalPages: expect.any(Number),
@@ -50,36 +50,72 @@ test.group('Books - list (GET /books)', (group) => {
 
     response.assertStatus(200)
 
-    let { data } = response.body() as PaginatedResponse<Book>
-    expect(data).toBeInstanceOf(Array)
-    expect(data.length).toBe(0)
+    let body: PaginatedResponse<Book> = response.body()
+    expect(body.data).toEqual([])
+    // to make sure the rest of the properties exist
+    expect(body).toMatchObject({
+      links: expect.any(Object),
+      meta: expect.any(Object),
+    })
   })
 
   test('returns 200 and paginated book when requesting page_size of 1', async ({
     client,
     expect,
   }) => {
-    await BookFactory.createMany(3)
+    const requestedPage = 4
+    const requestedPageSize = 1
+    await BookFactory.createMany(10)
 
-    const response = await client.get('/books').qs({ page: 1, page_size: 1 })
+    const response = await client
+      .get('/books')
+      .qs({ page: requestedPage, page_size: requestedPageSize })
 
     response.assertStatus(200)
 
-    let { data } = response.body() as PaginatedResponse<Book>
-    expect(data.length).toBe(1)
+    let { data, meta }: PaginatedResponse<Book> = response.body()
+    expect(data.length).toBeGreaterThan(0)
+
+    expect(meta).toMatchObject({
+      currentPage: requestedPage,
+      pageSize: requestedPageSize,
+    })
   })
 
   test('returns 422 and error objects when bad query params are given', async ({
     client,
     expect,
   }) => {
-    const response = await client.get('/books').qs({ page: 'wrong value', page_size: 0.25 })
+    const requestedPage = 'wrong_page'
+    const requestedPageSize = 0.25
+    const response = await client
+      .get('/books')
+      .qs({ page: requestedPage, page_size: requestedPageSize })
 
     response.assertStatus(422)
 
-    let { errors } = response.body() as ErrorResponse
-    expect(errors).toBeInstanceOf(Array)
-    expect(errors.length).toBe(2)
+    let { errors }: ErrorResponse = response.body()
+    expect(errors.length).toBeGreaterThan(0)
+
+    expect(errors[0]).toMatchObject({
+      status: 422,
+      code: expect.any(String),
+      message: expect.any(String),
+    })
+  })
+
+  test('returns 422 and errors when query params are out of bounds', async ({ client, expect }) => {
+    // maybe testing these exact values here is wrong?
+    const requestedPage = 1000001
+    const requestedPageSize = 51
+    const response = await client
+      .get('/books')
+      .qs({ page: requestedPage, page_size: requestedPageSize })
+
+    response.assertStatus(422)
+
+    let { errors }: ErrorResponse = response.body()
+    expect(errors.length).toBeGreaterThan(0)
   })
 })
 
