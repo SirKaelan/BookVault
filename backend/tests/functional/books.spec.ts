@@ -12,15 +12,37 @@ test.group('Books - list (GET /books)', (group) => {
     client,
     expect,
   }) => {
-    await BookFactory.createMany(2)
+    await BookFactory.createMany(50)
 
     const response = await client.get('/books')
 
     response.assertStatus(200)
 
-    let { data } = response.body() as PaginatedResponse<Book>
-    expect(data).toBeInstanceOf(Array)
-    expect(data.length).toBeGreaterThan(0)
+    const body: PaginatedResponse<Book> = response.body()
+    // check books data
+    expect(body.data.length).toBeGreaterThan(0)
+    expect(body.data[0]).toMatchObject({
+      bookId: expect.any(Number),
+      title: expect.any(String),
+      synopsis: expect.any(String),
+      coverUrl: expect.any(String),
+      price: expect.any(Number),
+      genres: expect.any(Array),
+    })
+    if (body.data[0].authorId) expect(typeof body.data[0].authorId).toBe('number')
+
+    // check links data
+    if (body.links.prev) expect(typeof body.links.prev).toBe('string')
+    if (body.links.next) expect(typeof body.links.next).toBe('string')
+
+    // check meta data
+    expect(body.meta).toMatchObject({
+      currentPage: expect.any(Number),
+      pageSize: expect.any(Number),
+      totalPages: expect.any(Number),
+      totalItems: expect.any(Number),
+      hasMorePages: expect.any(Boolean),
+    })
   })
 
   test('returns 200 and empty array when no books exist', async ({ client, expect }) => {
