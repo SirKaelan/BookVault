@@ -119,15 +119,68 @@ test.group('Books - list (GET /books)', (group) => {
   })
 })
 
-test.group('Books - get one (GET /books/:id)', () => {
-  // test happy path
-  test('returns 200 and requested book data when book exists', async () => {})
-  // test unhappy 404 response
+test.group('Books - get one (GET /books/:id)', (group) => {
+  group.each.setup(() => testUtils.db().withGlobalTransaction())
+
+  test('returns 200 and book data when book exists', async ({ client, expect }) => {
+    await BookFactory.create()
+
+    const response = await client.get('/books/1')
+
+    response.assertStatus(200)
+
+    const { data }: { data: Book } = response.body()
+
+    expect(data).toMatchObject({
+      bookId: expect.any(Number),
+      title: expect.any(String),
+      synopsis: expect.any(String),
+      coverUrl: expect.any(String),
+      price: expect.any(Number),
+      genres: expect.any(Array),
+    })
+  })
+
+  test('returns 404 error when book does not exist for given proper id', async ({
+    client,
+    expect,
+  }) => {
+    const response = await client.get('/books/1')
+
+    response.assertStatus(404)
+
+    const { errors }: ErrorResponse = response.body()
+    expect(errors.length).toBe(1)
+
+    expect(errors[0]).toMatchObject({
+      status: 404,
+      code: expect.any(String),
+      message: expect.any(String),
+      meta: { id: expect.any(String) },
+    })
+  })
+
+  test('returns 422 error when requesting for a single book with a bad id', async ({
+    client,
+    expect,
+  }) => {
+    const response = await client.get('/books/test')
+
+    response.assertStatus(422)
+
+    const { errors }: ErrorResponse = response.body()
+    expect(errors.length).toBe(1)
+
+    expect(errors[0]).toMatchObject({
+      status: 422,
+      code: expect.any(String),
+      message: expect.any(String),
+    })
+  })
 })
 
 // probably gonna be useless in the future
 test.group('Books - list (GET /books/:id/genres)', () => {
   // test happy path
-  test("returns 200 and list of requested book's genres when they exist", async () => {})
-  test('returns 200 and empty array when no genres exist', async () => {})
+  test("returns 200 and list of requested book's genres", async () => {})
 })
