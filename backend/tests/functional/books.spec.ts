@@ -1,9 +1,12 @@
 import { test } from '@japa/runner'
 
-import Book from '#models/book'
-import { ErrorResponse, PaginatedResponse } from '#types/index'
 import testUtils from '@adonisjs/core/services/test_utils'
+
+import Book from '#models/book'
+import Genre from '#models/genre'
 import { BookFactory } from '#database/factories/book_factory'
+import { GenreFactory } from '#database/factories/genre_factory'
+import { ErrorResponse, PaginatedResponse } from '#types/index'
 
 test.group('Books - list (GET /books)', (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction())
@@ -180,7 +183,36 @@ test.group('Books - get one (GET /books/:id)', (group) => {
 })
 
 // probably gonna be useless in the future
-test.group('Books - list (GET /books/:id/genres)', () => {
-  // test happy path
-  test("returns 200 and list of requested book's genres", async () => {})
+test.group('Books - list (GET /books/:id/genres)', (group) => {
+  group.each.setup(() => testUtils.db().withGlobalTransaction())
+
+  test("returns 200 and list of requested book's genres", async ({ client, expect }) => {
+    // I create a single genre to avoid the off chance Faker
+    // decides on a genre value that's already in the database
+    // which would trigger the unique constraint
+    const genre = await GenreFactory.create()
+    const book = await BookFactory.create()
+    book.related('genres').attach([genre].map((g) => g.genreId))
+
+    const response = await client.get('/books/1/genres')
+
+    response.assertStatus(200)
+
+    const { data }: { data: Genre[] } = response.body()
+    expect(data.length).toBeGreaterThan(0)
+  })
+
+  test('returns 200 and empty genre list when there are none for requested book', async ({
+    client,
+    expect,
+  }) => {
+    await BookFactory.create()
+
+    const response = await client.get('/books/1/genres')
+
+    response.assertStatus(200)
+
+    let { data }: { data: Genre[] } = response.body()
+    expect(data).toEqual([])
+  })
 })
