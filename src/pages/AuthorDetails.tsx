@@ -1,7 +1,8 @@
+import React from "react";
 import { useGetQueryValue } from "utils";
 import { useFetchAuthor } from "hooks";
 
-export const AuthorDetails = (): JSX.Element => {
+export const AuthorDetails = (): React.JSX.Element => {
   const authorId = useGetQueryValue("id");
   const author = useFetchAuthor(authorId);
 

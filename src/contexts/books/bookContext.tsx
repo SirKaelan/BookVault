@@ -9,7 +9,9 @@ const INITIAL_STATE: BookState = {
 
 export const BookContext = React.createContext<BookContextType>(undefined);
 
-export const BookProvider = ({ children }: BookProviderProps): JSX.Element => {
+export const BookProvider = ({
+  children,
+}: BookProviderProps): React.JSX.Element => {
   const [state, dispatch] = React.useReducer(bookReducer, INITIAL_STATE);
   const contextValue = { state, dispatch };
   return (

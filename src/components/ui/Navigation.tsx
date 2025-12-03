@@ -23,7 +23,10 @@ const LogoContainer = styled(Typography)({
   textTransform: "uppercase",
 });
 
-export const Navigation = ({ logo, buttons }: NavigationProps): JSX.Element => {
+export const Navigation = ({
+  logo,
+  buttons,
+}: NavigationProps): React.JSX.Element => {
   // Fixing both logo and button information if it has wrong capitalization
   let editedLogo: LogoData = { ...logo };
   if (!logo.imagePath) {

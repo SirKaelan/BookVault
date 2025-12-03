@@ -1,3 +1,4 @@
+import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "theme";
@@ -46,7 +47,7 @@ function App() {
 
 export default App;
 
-const Root = (): JSX.Element => {
+const Root = (): React.JSX.Element => {
   const logo: LogoData = { text: "book vault" };
   const buttons: ButtonCollection = [
     { text: "home", endpoint: "/" },

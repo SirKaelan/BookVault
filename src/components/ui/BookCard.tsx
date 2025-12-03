@@ -17,7 +17,7 @@ type BookCardProps = {
   bookData: Book;
 };
 
-export const BookCard = ({ bookData }: BookCardProps): JSX.Element => {
+export const BookCard = ({ bookData }: BookCardProps): React.JSX.Element => {
   const navigate = useNavigate();
 
   const handleCardClick = () => {

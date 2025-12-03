@@ -4,7 +4,7 @@ import { SEARCH_TERM_PARAM_NAME } from "randomConfig";
 import { Box, TextField } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 
-export const SearchBar = (): JSX.Element => {
+export const SearchBar = (): React.JSX.Element => {
   const [term, setTerm] = useState<string>("");
   const [_, setSearchParams] = useSearchParams();
 
