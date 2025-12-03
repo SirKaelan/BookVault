@@ -1,3 +1,5 @@
+import React from "react";
+
 export enum BookActionType {
   ADD_BOOK = "ADD_BOOK",
   ADD_BOOKS = "ADD_BOOKS",
@@ -13,7 +15,7 @@ export type BookContextType =
   | undefined;
 
 export type BookProviderProps = {
-  children: JSX.Element;
+  children: React.JSX.Element;
 };
 
 export type Book = {

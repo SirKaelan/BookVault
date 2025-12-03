@@ -11,7 +11,7 @@ import { useSearchParams } from "react-router-dom";
 import { useGetQueryValue } from "utils";
 import { useFetchPaginatedBooks } from "hooks";
 
-export const Search = (): JSX.Element => {
+export const Search = (): React.JSX.Element => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = useGetQueryValue(PAGE_NUMBER_PARAM_NAME);
   const searchTerm = searchParams.get(SEARCH_TERM_PARAM_NAME);
