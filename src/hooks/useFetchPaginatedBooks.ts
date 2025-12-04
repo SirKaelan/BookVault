@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
-import { bookProvider } from "apis/bookProvider";
-import type { PaginatedBooksStates } from "hooks/types";
+import { bookProvider } from "@/apis/bookProvider";
+import type { PaginatedBooksStates } from "@/hooks/types";
 
 export const useFetchPaginatedBooks = (
   page: number,

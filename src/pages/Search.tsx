@@ -4,12 +4,12 @@ import {
   PAGE_SIZE,
   PAGE_NUMBER_PARAM_NAME,
   SEARCH_TERM_PARAM_NAME,
-} from "randomConfig";
+} from "@/randomConfig";
 import { Box, Pagination, PaginationItem } from "@mui/material";
-import { BookCard, SearchBar } from "components";
+import { BookCard, SearchBar } from "@/components";
 import { useSearchParams } from "react-router-dom";
-import { useGetQueryValue } from "utils";
-import { useFetchPaginatedBooks } from "hooks";
+import { useGetQueryValue } from "@/utils";
+import { useFetchPaginatedBooks } from "@/hooks";
 
 export const Search = (): React.JSX.Element => {
   const [searchParams, setSearchParams] = useSearchParams();

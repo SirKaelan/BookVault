@@ -1,3 +1,8 @@
-export { BookProvider } from "./bookContext";
-export { useBookState } from "./hook";
-export type { Book, Author, Genre, PaginatedBooks } from "./types";
+export { BookProvider } from "@/contexts/books/bookContext";
+export { useBookState } from "@/contexts/books/hook";
+export type {
+  Book,
+  Author,
+  Genre,
+  PaginatedBooks,
+} from "@/contexts/books/types";

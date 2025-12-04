@@ -1,5 +1,5 @@
-export { Home } from "./Home";
-export { Placeholder } from "./Placeholder";
-export { Search } from "./Search";
-export { ProductDetails } from "./ProductDetails";
-export { AuthorDetails } from "./AuthorDetails";
+export { Home } from "@/pages/Home";
+export { Placeholder } from "@/pages/Placeholder";
+export { Search } from "@/pages/Search";
+export { ProductDetails } from "@/pages/ProductDetails";
+export { AuthorDetails } from "@/pages/AuthorDetails";

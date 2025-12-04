@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
-import { bookProvider } from "apis/bookProvider";
-import type { BookStates } from "hooks/types";
+import { bookProvider } from "@/apis/bookProvider";
+import type { BookStates } from "@/hooks/types";
 
 export const useFetchBook = (id: number): BookStates => {
   const [data, setData] = useState<BookStates>({ type: "loading" });

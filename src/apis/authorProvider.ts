@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
-import type { Author } from "contexts/books";
-import type { AuthorResponse } from "apis/types";
-import { BookProvider } from "apis/bookProvider";
+import type { Author } from "@/contexts/books";
+import type { AuthorResponse } from "@/apis/types";
+import { BookProvider } from "@/apis/bookProvider";
 
 class AuthorProvider {
   private url: string = "http://localhost:3001";

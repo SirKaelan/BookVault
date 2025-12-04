@@ -1,2 +1,2 @@
-export { BookCard } from "./ui/BookCard";
-export { SearchBar } from "./ui/SearchBar";
+export { BookCard } from "@/components/ui/BookCard";
+export { SearchBar } from "@/components/ui/SearchBar";

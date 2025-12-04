@@ -1,5 +1,5 @@
-import { BookActionType } from "./types";
-import type { BookAction, BookState } from "./types";
+import { BookActionType } from "@/contexts/books/types";
+import type { BookAction, BookState } from "@/contexts/books/types";
 
 export const bookReducer = (
   state: BookState,

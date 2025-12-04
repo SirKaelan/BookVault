@@ -1,7 +1,11 @@
 import React from "react";
 
-import type { BookContextType, BookProviderProps, BookState } from "./types";
-import { bookReducer } from "./reducer";
+import type {
+  BookContextType,
+  BookProviderProps,
+  BookState,
+} from "@/contexts/books/types";
+import { bookReducer } from "@/contexts/books/reducer";
 
 const INITIAL_STATE: BookState = {
   books: [],

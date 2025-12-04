@@ -1,6 +1,6 @@
 import React from "react";
-import { useGetQueryValue } from "utils";
-import { useFetchAuthor } from "hooks";
+import { useGetQueryValue } from "@/utils";
+import { useFetchAuthor } from "@/hooks";
 
 export const AuthorDetails = (): React.JSX.Element => {
   const authorId = useGetQueryValue("id");

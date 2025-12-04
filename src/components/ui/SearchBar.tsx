@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
-import { SEARCH_TERM_PARAM_NAME } from "randomConfig";
-import { Box, TextField } from "@mui/material";
+import { SEARCH_TERM_PARAM_NAME } from "@/randomConfig";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 import { useSearchParams } from "react-router-dom";
 
 export const SearchBar = (): React.JSX.Element => {

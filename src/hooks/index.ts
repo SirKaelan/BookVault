@@ -1,3 +1,3 @@
-export { useFetchPaginatedBooks } from "./useFetchPaginatedBooks";
-export { useFetchBook } from "./useFetchBook";
-export { useFetchAuthor } from "./useFetchAuthor";
+export { useFetchPaginatedBooks } from "@/hooks/useFetchPaginatedBooks";
+export { useFetchBook } from "@/hooks/useFetchBook";
+export { useFetchAuthor } from "@/hooks/useFetchAuthor";

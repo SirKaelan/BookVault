@@ -1,9 +1,9 @@
 import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "theme";
-import { Navigation } from "components/ui/Navigation";
-import type { LogoData, ButtonCollection } from "components/ui/Navigation";
+import { theme } from "@/theme";
+import { Navigation } from "@/components/ui/Navigation";
+import type { LogoData, ButtonCollection } from "@/components/ui/Navigation";
 
 import { Container } from "@mui/material";
 import {
@@ -19,8 +19,8 @@ import {
   Search,
   ProductDetails,
   AuthorDetails,
-} from "pages";
-import { BookProvider } from "contexts/books";
+} from "@/pages";
+import { BookProvider } from "@/contexts/books";
 
 function App() {
   const router = createBrowserRouter(

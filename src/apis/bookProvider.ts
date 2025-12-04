@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import type { AxiosRequestConfig } from "axios";
-import type { Book, Genre, PaginatedBooks } from "contexts/books";
-import type { BookResponse, PaginatedBooksResponse } from "apis/types";
+import type { Book, Genre, PaginatedBooks } from "@/contexts/books";
+import type { BookResponse, PaginatedBooksResponse } from "@/apis/types";
 
 export class BookProvider {
   private url: string = "http://localhost:3001";

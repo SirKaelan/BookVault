@@ -1,2 +1,2 @@
-export { getErrorMessage } from "./generalUtils";
-export { useGetQueryValue } from "./specificUtils";
+export { getErrorMessage } from "@/utils/generalUtils";
+export { useGetQueryValue } from "@/utils/specificUtils";

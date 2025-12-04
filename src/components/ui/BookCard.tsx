@@ -1,6 +1,6 @@
 import React from "react";
 
-import type { Book } from "contexts/books";
+import type { Book } from "@/contexts/books";
 import {
   Button,
   Card,
@@ -10,7 +10,7 @@ import {
   Typography,
   Link,
 } from "@mui/material";
-import type { AnchorClickEvent } from "types/eventTypes";
+import type { AnchorClickEvent } from "@/types/eventTypes";
 import { useNavigate } from "react-router-dom";
 
 type BookCardProps = {

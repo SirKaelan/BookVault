@@ -1,11 +1,11 @@
 import React from "react";
-import { useGetQueryValue } from "utils";
-import { useFetchBook } from "hooks";
+import { useGetQueryValue } from "@/utils";
+import { useFetchBook } from "@/hooks";
 import { Box, Grid, Typography, styled, Button } from "@mui/material";
 import type { Theme } from "@mui/material";
-import { ExpandableContent } from "components/ExpandableContent";
-import { QuantityInput } from "components/QuantityInput";
-import { AddCartButton } from "components/AddCartButton";
+import { ExpandableContent } from "@/components/ExpandableContent";
+import { QuantityInput } from "@/components/QuantityInput";
+import { AddCartButton } from "@/components/AddCartButton";
 
 export const ProductDetails = (): React.JSX.Element => {
   const bookId = useGetQueryValue("id");
