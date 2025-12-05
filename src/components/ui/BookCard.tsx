@@ -11,7 +11,7 @@ import {
   Link,
 } from "@mui/material";
 import type { AnchorClickEvent } from "@/types/eventTypes";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 type BookCardProps = {
   bookData: Book;

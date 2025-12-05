@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { SEARCH_TERM_PARAM_NAME } from "@/randomConfig";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 
 export const SearchBar = (): React.JSX.Element => {
   const [term, setTerm] = useState<string>("");

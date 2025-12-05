@@ -1,6 +1,6 @@
 // File name is probably subject to change
 
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 
 // Not sure if hooks should be here or not
 export const useGetQueryValue = (queryKey: string): number => {

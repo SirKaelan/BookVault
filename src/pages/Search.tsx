@@ -7,7 +7,7 @@ import {
 } from "@/randomConfig";
 import { Box, Pagination, PaginationItem } from "@mui/material";
 import { BookCard, SearchBar } from "@/components";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { useGetQueryValue } from "@/utils";
 import { useFetchPaginatedBooks } from "@/hooks";
 

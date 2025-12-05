@@ -7,7 +7,7 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 const NavButton = styled(Button)({
   color: "inherit",
