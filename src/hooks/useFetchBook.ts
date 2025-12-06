@@ -2,13 +2,18 @@ import { useState, useEffect } from "react";
 
 import { bookProvider } from "@/apis/bookProvider";
 import type { BookStates } from "@/hooks/types";
+import { getBookById } from "@/mocks";
 
 export const useFetchBook = (id: number): BookStates => {
   const [data, setData] = useState<BookStates>({ type: "loading" });
 
+  // useEffect(() => {
+  //   bookProvider.getById(id).then((data) => setData(data));
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
   useEffect(() => {
-    bookProvider.getById(id).then((data) => setData(data));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setData(getBookById(id));
   }, []);
 
   return data;

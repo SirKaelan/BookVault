@@ -26,3 +26,5 @@ check-list.txt
 server/
 server/node_modules
 server/database/queries.sql
+
+/.vscode
