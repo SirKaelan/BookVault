@@ -17,7 +17,9 @@ export const AuthorDetails = (): React.JSX.Element => {
   return (
     <div>
       <>
-        Author: {author.name}, Bio: {author.bio}
+        Author: {author.name}
+        <br></br>
+        Bio: {author.bio}
         <br></br>
         <br></br>
         Books:{" "}

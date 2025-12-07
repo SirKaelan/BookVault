@@ -7,3 +7,5 @@ export {
   getPaginatedMockBooks,
   getMockBookById,
 } from "@/mocks/services/bookService";
+
+export { getMockAuthorById } from "@/mocks/services/authorService";
