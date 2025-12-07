@@ -17,7 +17,7 @@ export const SearchBar = (): React.JSX.Element => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!term) return;
+    // if (!term) return;
     setSearchParams({ [SEARCH_TERM_PARAM_NAME]: term });
     setTerm("");
   };

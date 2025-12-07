@@ -1,4 +1,5 @@
-import type { Book, PaginatedBooks } from "@/contexts/books";
+import type { Book } from "@/contexts/books";
+import type { BookStates, PaginatedBooksStates } from "@/hooks/types";
 import { mockBooks } from "@/mocks/data/books";
 import { paginateMock } from "@/mocks/utils";
 
@@ -10,7 +11,7 @@ export const getPaginatedMockBooks = (
   page: number,
   pageSize: number,
   searchTerm: string | null
-): PaginatedBooks => {
+): PaginatedBooksStates => {
   let mockBooksArr = mockBooks;
 
   // filter mock books by book title (fuzzy find)
@@ -36,7 +37,15 @@ export const getPaginatedMockBooks = (
   };
 };
 
-// TODO: This has to return the proper types
-export const getMockBookById = (id: number) => {
-  return mockBooks.find((b) => b.id === id) as Book;
+export const getMockBookById = (id: number): BookStates => {
+  const foundBook = mockBooks.find((b) => b.id === id);
+
+  if (!foundBook) {
+    return {
+      type: "error",
+      message: "Book could not be found.",
+    };
+  }
+
+  return { ...foundBook };
 };
