@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import { bookProvider } from "@/apis/bookProvider";
 import type { BookStates } from "@/hooks/types";
-import { getBookById } from "@/mocks";
+import { getMockBookById } from "@/mocks";
 
 export const useFetchBook = (id: number): BookStates => {
   const [data, setData] = useState<BookStates>({ type: "loading" });
@@ -13,7 +13,7 @@ export const useFetchBook = (id: number): BookStates => {
   // }, []);
 
   useEffect(() => {
-    setData(getBookById(id));
+    setData(getMockBookById(id));
   }, []);
 
   return data;

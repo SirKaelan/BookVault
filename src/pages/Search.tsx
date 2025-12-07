@@ -21,6 +21,8 @@ export const Search = (): React.JSX.Element => {
     searchTerm
   );
 
+  console.log(paginatedData);
+
   const handlePaginationClick = (nextPage: number | null) => {
     if (nextPage === currentPage) return;
     setSearchParams((params) => {

@@ -19,8 +19,8 @@ export const useFetchPaginatedBooks = (
   // }, [searchTerm, page]);
 
   useEffect(() => {
-    setData(getPaginatedMockBooks());
-  }, []);
+    setData(getPaginatedMockBooks(page, pageSize, searchTerm));
+  }, [searchTerm, page]);
 
   return data;
 };

@@ -1,3 +1,9 @@
-export { mockAuthors } from "@/mocks/authors";
-export { mockBooks, getPaginatedMockBooks, getBookById } from "@/mocks/books";
-export { mockGenres } from "@/mocks/genres";
+export { mockAuthors } from "@/mocks/data/authors";
+export { mockBooks } from "@/mocks/data/books";
+export { mockGenres } from "@/mocks/data/genres";
+
+// Services api
+export {
+  getPaginatedMockBooks,
+  getMockBookById,
+} from "@/mocks/services/bookService";

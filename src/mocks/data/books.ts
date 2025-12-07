@@ -1,5 +1,5 @@
-import type { Book, PaginatedBooks } from "@/contexts/books";
-import { genreObjects, GenreNames } from "@/mocks/genres";
+import type { Book } from "@/contexts/books";
+import { genreObjects, GenreNames } from "@/mocks/data/genres";
 
 export const mockBooks: Book[] = [
   {
@@ -246,27 +246,3 @@ export const mockBooks: Book[] = [
     price: 11.99,
   },
 ];
-
-export const authorBooks = (authorId: number, mockBooks: Book[]) => {
-  return mockBooks.filter((b) => b.author_id === authorId);
-};
-
-// TODO: Make this more usable
-export const getPaginatedMockBooks = (): PaginatedBooks => {
-  return {
-    type: "pagination",
-    data: mockBooks.slice(0, 4),
-    pagination: {
-      previous_page: null,
-      current_page: 1,
-      next_page: 2,
-      total_pages: 2,
-      total_books: mockBooks.length,
-    },
-  };
-};
-
-// TODO: This has to return the proper types
-export const getBookById = (id: number) => {
-  return mockBooks.find((b) => b.id === id) as Book;
-};
