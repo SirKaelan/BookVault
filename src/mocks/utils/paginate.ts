@@ -25,19 +25,8 @@ export const paginateMock = <T>(
   // calculate pagination metadata
   const prevPage: number | null = safePage > 1 ? safePage - 1 : null;
   const totalPages = Math.ceil(mockData.length / safePageSize);
-
-  let nextPage: number | null = null;
-  // check if content size is the same as requested size
-  // this kind of page might be the last
-  if (mockDataPortion.length === safePageSize) {
-    // check the data one page ahead
-    const nextStartIndex = startIndex + safePageSize;
-    const nextEndIndex = endIndex + safePageSize;
-
-    const nextMockDataPortion = mockData.slice(nextStartIndex, nextEndIndex);
-
-    if (nextMockDataPortion.length !== 0) nextPage = safePage + 1;
-  }
+  const nextPage: number | null =
+    startIndex + safePageSize < mockData.length ? safePage + 1 : null;
 
   return {
     mockData: mockDataPortion,
