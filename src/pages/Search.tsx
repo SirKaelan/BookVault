@@ -5,7 +5,9 @@ import {
   PAGE_NUMBER_PARAM_NAME,
   SEARCH_TERM_PARAM_NAME,
 } from "@/randomConfig";
-import { Box, Pagination, PaginationItem } from "@mui/material";
+import Box from "@mui/material/Box";
+import Pagination from "@mui/material/Pagination";
+import PaginationItem from "@mui/material/PaginationItem";
 import { BookCard, SearchBar } from "@/components";
 import { useSearchParams } from "react-router";
 import { useGetQueryValue } from "@/utils";
@@ -20,8 +22,6 @@ export const Search = (): React.JSX.Element => {
     PAGE_SIZE,
     searchTerm
   );
-
-  console.log(paginatedData);
 
   const handlePaginationClick = (nextPage: number | null) => {
     if (nextPage === currentPage) return;
