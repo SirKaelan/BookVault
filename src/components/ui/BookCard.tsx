@@ -34,7 +34,6 @@ export const BookCard = ({ bookData }: BookCardProps): React.JSX.Element => {
       sx={{
         width: 245,
         boxShadow: 6,
-        mb: 4,
         cursor: "pointer",
         transition: "transform 0.1s ease-in-out",
         "&:hover": { transform: "translateY(-0.5rem)" },

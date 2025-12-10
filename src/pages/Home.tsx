@@ -12,13 +12,13 @@ export const Home = (): React.JSX.Element => {
   return (
     <>
       <Stack gap="20">
-        <Heading size="6xl">
+        <Heading size="4xl">
           <Center>Welcome to Book Vault</Center>
         </Heading>
 
         {/* Featured books */}
         <Stack gap="5">
-          <Heading size="4xl">Featured books</Heading>
+          <Heading size="2xl">Featured books</Heading>
           <Box position="relative">
             <HStack gap="5" overflow="hidden">
               {[...Array(8)].map(() => (
@@ -35,7 +35,6 @@ export const Home = (): React.JSX.Element => {
               right="-10px"
               top="50%"
               transform="translateY(-50%)"
-              size="xl"
               colorPalette="teal"
               variant="subtle"
               rounded="full"

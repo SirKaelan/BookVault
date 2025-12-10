@@ -1,37 +1,38 @@
 import React from "react";
+import { useSearchParams } from "react-router";
+import { useFetchPaginatedBooks } from "@/hooks";
 
+import { useGetQueryValue } from "@/utils";
 import {
   PAGE_SIZE,
   PAGE_NUMBER_PARAM_NAME,
   SEARCH_TERM_PARAM_NAME,
 } from "@/randomConfig";
-import Box from "@mui/material/Box";
-import Pagination from "@mui/material/Pagination";
-import PaginationItem from "@mui/material/PaginationItem";
+
 import { BookCard, SearchBar } from "@/components";
-import { useSearchParams } from "react-router";
-import { useGetQueryValue } from "@/utils";
-import { useFetchPaginatedBooks } from "@/hooks";
+import { Text } from "@chakra-ui/react/text";
+import { Stack } from "@chakra-ui/react/stack";
+import { Wrap } from "@chakra-ui/react/wrap";
+import { Center } from "@chakra-ui/react/center";
+import { ButtonGroup, IconButton } from "@chakra-ui/react/button";
+import { Pagination } from "@chakra-ui/react/pagination";
+import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 
 export const Search = (): React.JSX.Element => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = useGetQueryValue(PAGE_NUMBER_PARAM_NAME);
   const searchTerm = searchParams.get(SEARCH_TERM_PARAM_NAME);
-  const paginatedData = useFetchPaginatedBooks(
-    currentPage,
-    PAGE_SIZE,
-    searchTerm
-  );
+  const books = useFetchPaginatedBooks(currentPage, PAGE_SIZE, searchTerm);
 
-  const handlePaginationClick = (nextPage: number | null) => {
-    if (nextPage === currentPage) return;
+  const handlePaginationClick = (newPage: number | null) => {
+    if (newPage === currentPage) return;
     setSearchParams((params) => {
-      params.set(PAGE_NUMBER_PARAM_NAME, String(nextPage));
+      params.set(PAGE_NUMBER_PARAM_NAME, String(newPage));
       return params;
     });
   };
 
-  if (paginatedData.type === "loading") {
+  if (books.type === "loading") {
     return (
       <>
         <SearchBar />
@@ -40,53 +41,69 @@ export const Search = (): React.JSX.Element => {
     );
   }
 
-  if (paginatedData.type === "error") {
+  if (books.type === "error") {
     return (
       <>
         <SearchBar />
-        <div>{paginatedData.message}</div>
+        <div>{books.message}</div>
       </>
     );
   }
 
   return (
     <>
-      <SearchBar />
-      <p>Searching for: "{searchTerm}"</p>
-      {/* Container for book cards */}
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: 3,
-          justifyContent: "center",
-          mb: 4,
-        }}
-      >
-        {paginatedData.data.length > 0
-          ? paginatedData.data.map((book) => (
-              <BookCard key={book.id} bookData={book} />
-            ))
-          : "No books were found."}
-      </Box>
+      <Stack gap="20">
+        <SearchBar />
 
-      {/* Container for pagination element */}
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Pagination
-          page={paginatedData.pagination.current_page}
-          count={paginatedData.pagination.total_pages}
-          shape="rounded"
-          variant="outlined"
-          color="primary"
-          size="large"
-          renderItem={(btnData) => (
-            <PaginationItem
-              {...btnData}
-              onClick={() => handlePaginationClick(btnData.page)}
-            />
-          )}
-        />
-      </Box>
+        <Stack gap="10">
+          <Text fontSize="xl">Searching for: '{searchTerm}'</Text>
+          {/* Container for book cards */}
+          <Wrap justify="center" gap="6">
+            {books.data.length > 0
+              ? books.data.map((book) => (
+                  <BookCard key={book.id} bookData={book} />
+                ))
+              : "No books were found."}
+          </Wrap>
+
+          {/* Pagination component */}
+          <Center>
+            <Pagination.Root
+              count={books.pagination.total_books}
+              pageSize={PAGE_SIZE}
+              page={currentPage}
+            >
+              <ButtonGroup size="md" variant="ghost">
+                <Pagination.PrevTrigger asChild>
+                  <IconButton>
+                    <LuChevronLeft />
+                  </IconButton>
+                </Pagination.PrevTrigger>
+
+                <Pagination.Items
+                  render={(page) => (
+                    <IconButton
+                      variant={{ base: "ghost", _selected: "surface" }}
+                      _selected={{
+                        bg: "blue.100/50",
+                      }}
+                      onClick={() => handlePaginationClick(page.value)}
+                    >
+                      {page.value}
+                    </IconButton>
+                  )}
+                />
+
+                <Pagination.NextTrigger asChild>
+                  <IconButton>
+                    <LuChevronRight />
+                  </IconButton>
+                </Pagination.NextTrigger>
+              </ButtonGroup>
+            </Pagination.Root>
+          </Center>
+        </Stack>
+      </Stack>
     </>
   );
 };

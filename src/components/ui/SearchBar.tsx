@@ -23,7 +23,7 @@ export const SearchBar = (): React.JSX.Element => {
   };
 
   return (
-    <Box sx={{ mb: 4, px: 4 }}>
+    <Box sx={{ px: 4 }}>
       <form onSubmit={handleSubmit}>
         <TextField
           onChange={handleOnChange}
