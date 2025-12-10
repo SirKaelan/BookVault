@@ -2,7 +2,6 @@ import React from "react";
 import { useSearchParams } from "react-router";
 import { useFetchPaginatedBooks } from "@/hooks";
 
-import { useGetQueryValue } from "@/utils";
 import {
   PAGE_SIZE,
   PAGE_NUMBER_PARAM_NAME,
@@ -20,15 +19,18 @@ import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 
 export const Search = (): React.JSX.Element => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentPage = useGetQueryValue(PAGE_NUMBER_PARAM_NAME);
+  const currentPage = parseInt(
+    searchParams.get(PAGE_NUMBER_PARAM_NAME) || "1",
+    10
+  );
   const searchTerm = searchParams.get(SEARCH_TERM_PARAM_NAME);
   const books = useFetchPaginatedBooks(currentPage, PAGE_SIZE, searchTerm);
 
-  const handlePaginationClick = (newPage: number | null) => {
+  const handlePaginationClick = (newPage: number) => {
     if (newPage === currentPage) return;
-    setSearchParams((params) => {
-      params.set(PAGE_NUMBER_PARAM_NAME, String(newPage));
-      return params;
+    setSearchParams((prevParams) => {
+      prevParams.set(PAGE_NUMBER_PARAM_NAME, newPage.toString());
+      return prevParams;
     });
   };
 
@@ -52,12 +54,13 @@ export const Search = (): React.JSX.Element => {
 
   return (
     <>
-      <Stack gap="20">
+      <Stack gap="10">
         <SearchBar />
 
-        <Stack gap="10">
+        <Stack gap="20">
           <Text fontSize="xl">Searching for: '{searchTerm}'</Text>
-          {/* Container for book cards */}
+
+          {/* Search results book cards */}
           <Wrap justify="center" gap="6">
             {books.data.length > 0
               ? books.data.map((book) => (

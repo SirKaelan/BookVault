@@ -11,7 +11,6 @@ import { theme } from "@/theme";
 // Chakra imports
 import { Provider } from "@/components/ui/provider";
 
-import "./index.css";
 import App from "@/App";
 
 createRoot(document.getElementById("root")!).render(
