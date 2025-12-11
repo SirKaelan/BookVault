@@ -58,14 +58,14 @@ export const Search = (): React.JSX.Element => {
         <SearchBar />
 
         <Stack gap="20">
-          <Text fontSize="xl">Searching for: '{searchTerm}'</Text>
+          <Text fontSize="xl" fontWeight="light">
+            Searching for: '{searchTerm}'
+          </Text>
 
           {/* Search results book cards */}
           <Wrap justify="center" gap="6">
             {books.data.length > 0
-              ? books.data.map((book) => (
-                  <BookCard key={book.id} bookData={book} />
-                ))
+              ? books.data.map((book) => <BookCard key={book.id} data={book} />)
               : "No books were found."}
           </Wrap>
 

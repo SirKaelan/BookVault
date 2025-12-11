@@ -47,7 +47,7 @@ export const SearchBar = (): React.JSX.Element => {
               />
             </InputGroup>
           </Field.Root>
-          <Button bg="bg.subtle" variant="outline" size="lg" type="submit">
+          <Button colorPalette="blue" variant="solid" size="lg" type="submit">
             Search
           </Button>
         </Group>

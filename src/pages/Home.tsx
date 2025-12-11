@@ -32,7 +32,7 @@ export const Home = (): React.JSX.Element => {
             </HStack>
             <Button
               position="absolute"
-              right="-10px"
+              right="-20px"
               top="50%"
               transform="translateY(-50%)"
               colorPalette="teal"

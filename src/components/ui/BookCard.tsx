@@ -1,67 +1,70 @@
 import React from "react";
-
-import type { Book } from "@/contexts/books";
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Typography,
-  Link,
-} from "@mui/material";
-import type { AnchorClickEvent } from "@/types/eventTypes";
 import { useNavigate } from "react-router";
 
+import type { Book } from "@/contexts/books";
+import type { AnchorClickEvent } from "@/types/eventTypes";
+
+import { Card } from "@chakra-ui/react/card";
+import { Image } from "@chakra-ui/react/image";
+import { AspectRatio } from "@chakra-ui/react/aspect-ratio";
+import { Link as ChakraLink } from "@chakra-ui/react/link";
+import { Text } from "@chakra-ui/react/text";
+import { Button } from "@chakra-ui/react/button";
+
 type BookCardProps = {
-  bookData: Book;
+  data: Book;
 };
 
-export const BookCard = ({ bookData }: BookCardProps): React.JSX.Element => {
+export const BookCard = ({ data }: BookCardProps): React.JSX.Element => {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate({ pathname: "/book", search: `?id=${bookData.id}` });
+    navigate({ pathname: "/book", search: `?id=${data.id}` });
   };
 
   const handleAuthorClick = (e: AnchorClickEvent) => {
-    navigate({ pathname: "/author", search: `?id=${bookData.author_id}` });
+    navigate({ pathname: "/author", search: `?id=${data.author_id}` });
     e.stopPropagation(); // Prevents the click event from bubbling up
   };
 
   return (
-    <Card
-      sx={{
-        width: 245,
-        boxShadow: 6,
-        cursor: "pointer",
-        transition: "transform 0.1s ease-in-out",
-        "&:hover": { transform: "translateY(-0.5rem)" },
-      }}
+    <Card.Root
+      variant="elevated"
+      gap="2"
+      size="sm"
+      overflow="hidden"
+      transition="transform 0.125s ease-in-out"
+      _hover={{ transform: "translateY(-0.5rem)", cursor: "pointer" }}
       onClick={handleCardClick}
     >
-      <CardMedia
-        sx={{ height: 300 }}
-        component="img"
-        // TODO: Temporary solution
-        image={bookData.cover as string}
-        title={`"${bookData.title}" cover`}
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {bookData.title}
-        </Typography>
-        <Link underline="hover" color="inherit" onClick={handleAuthorClick}>
-          <Typography variant="body2" color="text.secondary">
-            {bookData.author_name}
-          </Typography>
-        </Link>
-      </CardContent>
-      <CardActions>
-        <Button size="small" variant="contained">
-          Add
+      {/* Book cover */}
+      <AspectRatio minW="250px" ratio={1 / 1.6}>
+        <Image
+          src={data.cover ? data.cover : ""}
+          title={`'${data.title}' cover`}
+          alt={`'${data.title}' cover`}
+        />
+      </AspectRatio>
+      {/* Book information */}
+      <Card.Body gap="1">
+        <Text fontSize="xl" fontWeight="medium">
+          {data.title}
+        </Text>
+
+        <ChakraLink onClick={handleAuthorClick}>
+          <Card.Description>{data.author_name}</Card.Description>
+        </ChakraLink>
+
+        <Text fontSize="2xl" fontWeight="medium" letterSpacing="tight" mt="2">
+          ${data.price.toFixed(2)}
+        </Text>
+      </Card.Body>
+      {/* Card button */}
+      <Card.Footer>
+        <Button w="full" colorPalette="blue" variant="solid" size="sm">
+          Add to Cart
         </Button>
-      </CardActions>
-    </Card>
+      </Card.Footer>
+    </Card.Root>
   );
 };
