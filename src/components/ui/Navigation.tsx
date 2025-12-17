@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink as RouterNavLink } from "react-router";
 
 import { Box } from "@chakra-ui/react/box";
-import { Button } from "@chakra-ui/react/button";
+import { Button, IconButton, CloseButton } from "@chakra-ui/react/button";
 import { Heading } from "@chakra-ui/react/heading";
-import { HStack } from "@chakra-ui/react/stack";
+import { HStack, VStack } from "@chakra-ui/react/stack";
 import { Icon } from "@chakra-ui/react/icon";
 import { Flex } from "@chakra-ui/react/flex";
+import { Drawer } from "@chakra-ui/react/drawer";
+import { Portal } from "@chakra-ui/react/portal";
+import { useBreakpointValue } from "@chakra-ui/react/hooks";
+
 import { FaUser } from "react-icons/fa";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 import type { LogoData, ButtonCollection } from "@/components/Layout";
 
@@ -20,8 +25,20 @@ export const Navigation = ({
   logo,
   buttons,
 }: NavigationProps): React.JSX.Element => {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const isMobile = useBreakpointValue(
+    { base: true, md: false },
+    { ssr: false }
+  );
+
+  // Closes drawer if it's open and you resize away from mobile nav
+  useEffect(() => {
+    if (!isMobile && isDrawerOpen) setIsDrawerOpen(false);
+  }, [isDrawerOpen, isMobile]);
+
   return (
     <>
+      {/* Desktop nav */}
       <Box
         as="nav"
         hideBelow="md"
@@ -64,8 +81,78 @@ export const Navigation = ({
         </Flex>
       </Box>
 
-      {/* FIXME: Turn this into a mobile navbar */}
-      <Box hideFrom="md">Mobile nav</Box>
+      {/* Mobile nav */}
+      <Box
+        as="nav"
+        hideFrom="md"
+        py="3"
+        px="8"
+        css={{ position: "sticky", top: "0" }}
+        bgColor="white/70"
+        backdropFilter="blur(5px)"
+        zIndex="sticky"
+      >
+        <Flex align="center" justify="space-between">
+          <RouterNavLink to="/">
+            <Heading size="2xl">{logo.text}</Heading>
+          </RouterNavLink>
+
+          {/* Mobile navigation menu */}
+          <Drawer.Root
+            open={isDrawerOpen}
+            onOpenChange={(e) => setIsDrawerOpen(e.open)}
+          >
+            <Drawer.Trigger asChild>
+              <IconButton
+                aria-label="Open mobile menu"
+                variant="ghost"
+                size="2xl"
+                cursor="pointer"
+              >
+                <RxHamburgerMenu />
+              </IconButton>
+            </Drawer.Trigger>
+            <Portal>
+              <Drawer.Backdrop />
+              <Drawer.Positioner>
+                <Drawer.Content py="20" px="8">
+                  {/* Add buttons here */}
+                  <VStack as="ul">
+                    {buttons.map((btn) => (
+                      <Box key={btn.text} as="li" w="full">
+                        <Drawer.Context>
+                          {(store) => (
+                            <RouterNavLink
+                              to={btn.endpoint}
+                              onClick={() => store.setOpen(false)}
+                            >
+                              {({ isActive }) => (
+                                <Button
+                                  as="span"
+                                  w="full"
+                                  bgColor={isActive ? "bg.muted" : undefined}
+                                  variant="ghost"
+                                  size="2xl"
+                                  fontWeight="light"
+                                >
+                                  {btn.text}
+                                </Button>
+                              )}
+                            </RouterNavLink>
+                          )}
+                        </Drawer.Context>
+                      </Box>
+                    ))}
+                  </VStack>
+                  <Drawer.CloseTrigger asChild>
+                    <CloseButton size="xl" />
+                  </Drawer.CloseTrigger>
+                </Drawer.Content>
+              </Drawer.Positioner>
+            </Portal>
+          </Drawer.Root>
+        </Flex>
+      </Box>
     </>
   );
 };
