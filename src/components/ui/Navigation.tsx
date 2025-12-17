@@ -1,100 +1,71 @@
 import React from "react";
-import {
-  AppBar,
-  Button,
-  Stack,
-  Toolbar,
-  Typography,
-  styled,
-} from "@mui/material";
-import { Link } from "react-router";
+import { NavLink as RouterNavLink } from "react-router";
 
-const NavButton = styled(Button)({
-  color: "inherit",
-  fontSize: "1.7rem",
-  textTransform: "none",
-  fontWeight: 400,
-});
+import { Box } from "@chakra-ui/react/box";
+import { Button } from "@chakra-ui/react/button";
+import { Heading } from "@chakra-ui/react/heading";
+import { HStack } from "@chakra-ui/react/stack";
+import { Icon } from "@chakra-ui/react/icon";
+import { Flex } from "@chakra-ui/react/flex";
+import { FaUser } from "react-icons/fa";
 
-const LogoContainer = styled(Typography)({
-  display: "flex",
-  alignItems: "stretch",
-  margin: "0 2rem 0 2rem",
-  textTransform: "uppercase",
-});
+import type { LogoData, ButtonCollection } from "@/components/Layout";
+
+type NavigationProps = {
+  logo: LogoData;
+  buttons: ButtonCollection;
+};
 
 export const Navigation = ({
   logo,
   buttons,
 }: NavigationProps): React.JSX.Element => {
-  // Fixing both logo and button information if it has wrong capitalization
-  let editedLogo: LogoData = { ...logo };
-  if (!logo.imagePath) {
-    editedLogo = {
-      text: logo.text
-        .split(" ")
-        .map((word) => {
-          const loweredWord = word.toLowerCase();
-          return loweredWord.charAt(0).toUpperCase() + loweredWord.slice(1);
-        })
-        .join(" "),
-    };
-  }
-
-  const editedBtnData = buttons.map((btn): ButtonData => {
-    const loweredText = btn.text.toLowerCase();
-    return {
-      text: loweredText.charAt(0).toUpperCase() + loweredText.slice(1),
-      endpoint: btn.endpoint.toLowerCase(),
-    };
-  });
-  const middle = Math.ceil(editedBtnData.length / 2);
-  const firstHalf = editedBtnData.slice(0, middle);
-  const secondHalf = editedBtnData.slice(middle);
-
   return (
-    <AppBar position="static" color="primary">
-      <Toolbar sx={{ justifyContent: "center", alignItems: "stretch" }}>
-        <Stack direction="row" spacing={0.5}>
-          {firstHalf.map((btn) => (
-            <NavButton key={btn.text}>
-              <Link to={`${btn.endpoint}`}>{`${btn.text}`}</Link>
-            </NavButton>
-          ))}
-        </Stack>
-        <LogoContainer variant="h4" component="div">
-          <Link to="/" style={{ display: "flex", alignItems: "center" }}>
-            {
-              // currently logo image is being ignored
-              editedLogo.text
-            }
-          </Link>
-        </LogoContainer>
-        <Stack direction="row" spacing={0.5}>
-          {secondHalf.map((btn) => (
-            <NavButton key={btn.text}>
-              <Link to={`${btn.endpoint}`}>{`${btn.text}`}</Link>
-            </NavButton>
-          ))}
-        </Stack>
-      </Toolbar>
-    </AppBar>
+    <>
+      <Box
+        as="nav"
+        hideBelow="md"
+        py="5"
+        px="8"
+        css={{ position: "sticky", top: "0" }}
+        bgColor="white/70"
+        backdropFilter="blur(5px)"
+        zIndex="sticky"
+      >
+        <Flex align="center" gap="14">
+          {/* Logo container on the left side */}
+          <RouterNavLink to="/">
+            <Heading size="2xl">{logo.text}</Heading>
+          </RouterNavLink>
+          {/* Button container in the middle */}
+          <HStack as="ul" flexGrow="1">
+            {buttons.map((btn) => (
+              <Box key={btn.text} as="li">
+                <RouterNavLink to={btn.endpoint}>
+                  {({ isActive }) => (
+                    <Button
+                      as="span"
+                      bgColor={isActive ? "bg.muted" : undefined}
+                      variant="ghost"
+                      size="lg"
+                      fontWeight="light"
+                    >
+                      {btn.text}
+                    </Button>
+                  )}
+                </RouterNavLink>
+              </Box>
+            ))}
+          </HStack>
+          {/* Icon + Signin/Signout buttons on right side */}
+          <Icon size="md" cursor="pointer">
+            <FaUser />
+          </Icon>
+        </Flex>
+      </Box>
+
+      {/* FIXME: Turn this into a mobile navbar */}
+      <Box hideFrom="md">Mobile nav</Box>
+    </>
   );
-};
-
-export type LogoData = {
-  imagePath?: string;
-  text: string;
-};
-
-type ButtonData = {
-  text: string;
-  endpoint: string;
-};
-
-export type ButtonCollection = ButtonData[];
-
-type NavigationProps = {
-  logo: LogoData;
-  buttons: ButtonCollection;
 };
