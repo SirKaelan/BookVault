@@ -1,5 +1,5 @@
 import { Outlet } from "react-router";
-import { Container } from "@mui/material";
+import { Container } from "@chakra-ui/react/container";
 import { Navigation } from "@/components/ui/Navigation";
 
 export const Layout = (): React.JSX.Element => {
@@ -12,7 +12,7 @@ export const Layout = (): React.JSX.Element => {
   return (
     <>
       <Navigation logo={logo} buttons={buttons} />
-      <Container sx={{ height: "100%", py: 4 }}>
+      <Container py="4" maxW="6xl">
         <Outlet />
       </Container>
     </>
