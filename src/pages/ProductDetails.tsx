@@ -2,7 +2,7 @@ import React from "react";
 import { useGetQueryValue } from "@/utils";
 import { useFetchBook } from "@/hooks";
 
-import { HStack } from "@chakra-ui/react/stack";
+import { HStack, VStack } from "@chakra-ui/react/stack";
 import { Image } from "@chakra-ui/react/image";
 import { Box } from "@chakra-ui/react/box";
 import { Flex } from "@chakra-ui/react/flex";
@@ -12,6 +12,9 @@ import { Text } from "@chakra-ui/react/text";
 import { RatingGroup } from "@chakra-ui/react/rating-group";
 import { Button } from "@chakra-ui/react/button";
 import { Icon } from "@chakra-ui/react/icon";
+import { Separator } from "@chakra-ui/react/separator";
+import { Grid, GridItem } from "@chakra-ui/react/grid";
+import { Group } from "@chakra-ui/react/group";
 
 import { LuChevronUp } from "react-icons/lu";
 import { LuChevronDown } from "react-icons/lu";
@@ -60,7 +63,7 @@ export const ProductDetails = (): React.JSX.Element => {
         {/* Title, Author, Rating */}
         <Flex direction="column" gap="2">
           <Heading size="4xl">{book.title}</Heading>
-          <Text as="span" fontWeight="light">
+          <Text as="span" fontWeight="light" color="gray.500">
             {book.author_name}
           </Text>
           <Flex gap="2">
@@ -100,7 +103,84 @@ export const ProductDetails = (): React.JSX.Element => {
           </Button>
         </Flex>
 
-        {/* FIXME: Add book metadata info */}
+        <Separator />
+
+        {/* TODO: Make data object of this */}
+        <Grid
+          templateColumns={{
+            base: "max-content auto",
+            md: "repeat(2, max-content 1fr)",
+          }}
+          templateRows="repeat(3, auto)"
+          columnGap="7"
+          rowGap="2"
+        >
+          {/* Info combo 1 */}
+          <GridItem colStart={1} rowStart={1}>
+            <Text fontSize="sm" fontWeight="bold" textTransform="uppercase">
+              Publisher
+            </Text>
+          </GridItem>
+          <GridItem colStart={1} rowStart={2}>
+            <Text fontSize="sm" fontWeight="bold" textTransform="uppercase">
+              First Publish
+            </Text>
+          </GridItem>
+          <GridItem colStart={1} rowStart={3}>
+            <Text fontSize="sm" fontWeight="bold" textTransform="uppercase">
+              ISBN
+            </Text>
+          </GridItem>
+
+          <GridItem colStart={2} rowStart={1}>
+            <Text fontSize="sm" color="gray.500">
+              Tor Books (US) & Gollancz (UK)
+            </Text>
+          </GridItem>
+          <GridItem colStart={2} rowStart={2}>
+            <Text fontSize="sm" color="gray.500">
+              November 17, 2020
+            </Text>
+          </GridItem>
+          <GridItem colStart={2} rowStart={3}>
+            <Text fontSize="sm" color="gray.500">
+              978-1429952040
+            </Text>
+          </GridItem>
+
+          {/* Info combo 2 */}
+          <GridItem colStart={3} rowStart={1}>
+            <Text fontSize="sm" fontWeight="bold" textTransform="uppercase">
+              Language
+            </Text>
+          </GridItem>
+          <GridItem colStart={3} rowStart={2}>
+            <Text fontSize="sm" fontWeight="bold" textTransform="uppercase">
+              Pages
+            </Text>
+          </GridItem>
+          <GridItem colStart={3} rowStart={3}>
+            <Text fontSize="sm" fontWeight="bold" textTransform="uppercase">
+              Series
+            </Text>
+          </GridItem>
+
+          <GridItem colStart={4} rowStart={1}>
+            <Text fontSize="sm" color="gray.500">
+              English
+            </Text>
+          </GridItem>
+          <GridItem colStart={4} rowStart={2}>
+            <Text fontSize="sm" color="gray.500">
+              1213
+            </Text>
+          </GridItem>
+          <GridItem colStart={4} rowStart={3}>
+            <Text fontSize="sm" color="gray.500">
+              The Stormlight Archive (Book 4 of 5)
+            </Text>
+          </GridItem>
+        </Grid>
       </Flex>
     </Flex>
     // <Box>
