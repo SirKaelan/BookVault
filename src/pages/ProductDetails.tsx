@@ -25,6 +25,26 @@ import { ExpandableContent } from "@/components/ExpandableContent";
 import { QuantityInput } from "@/components/QuantityInput";
 import { AddCartButton } from "@/components/AddCartButton";
 
+// TODO: Move to mock data
+const bookMetadata = [
+  {
+    id: 1,
+    colData: [
+      { key: "Publisher", value: "Tor Books (US) & Gollancz (UK)" },
+      { key: "First publish", value: "November 17, 2020" },
+      { key: "Isbn", value: "978-1429952040" },
+    ],
+  },
+  {
+    id: 2,
+    colData: [
+      { key: "Language", value: "English" },
+      { key: "Pages", value: "1213" },
+      { key: "Series", value: "The Stormlight Archive (Book 4 of 5)" },
+    ],
+  },
+];
+
 export const ProductDetails = (): React.JSX.Element => {
   // FIXME: Change query approach
   const bookId = useGetQueryValue("id");
@@ -105,82 +125,44 @@ export const ProductDetails = (): React.JSX.Element => {
 
         <Separator />
 
-        {/* TODO: Make data object of this */}
+        {/* Book metadata */}
         <Grid
           templateColumns={{
-            base: "max-content auto",
+            base: "max-content 1fr",
             md: "repeat(2, max-content 1fr)",
           }}
-          templateRows="repeat(3, auto)"
           columnGap="7"
           rowGap="2"
         >
-          {/* Info combo 1 */}
-          <GridItem colStart={1} rowStart={1}>
-            <Text fontSize="sm" fontWeight="bold" textTransform="uppercase">
-              Publisher
-            </Text>
-          </GridItem>
-          <GridItem colStart={1} rowStart={2}>
-            <Text fontSize="sm" fontWeight="bold" textTransform="uppercase">
-              First Publish
-            </Text>
-          </GridItem>
-          <GridItem colStart={1} rowStart={3}>
-            <Text fontSize="sm" fontWeight="bold" textTransform="uppercase">
-              ISBN
-            </Text>
-          </GridItem>
-
-          <GridItem colStart={2} rowStart={1}>
-            <Text fontSize="sm" color="gray.500">
-              Tor Books (US) & Gollancz (UK)
-            </Text>
-          </GridItem>
-          <GridItem colStart={2} rowStart={2}>
-            <Text fontSize="sm" color="gray.500">
-              November 17, 2020
-            </Text>
-          </GridItem>
-          <GridItem colStart={2} rowStart={3}>
-            <Text fontSize="sm" color="gray.500">
-              978-1429952040
-            </Text>
-          </GridItem>
-
-          {/* Info combo 2 */}
-          <GridItem colStart={3} rowStart={1}>
-            <Text fontSize="sm" fontWeight="bold" textTransform="uppercase">
-              Language
-            </Text>
-          </GridItem>
-          <GridItem colStart={3} rowStart={2}>
-            <Text fontSize="sm" fontWeight="bold" textTransform="uppercase">
-              Pages
-            </Text>
-          </GridItem>
-          <GridItem colStart={3} rowStart={3}>
-            <Text fontSize="sm" fontWeight="bold" textTransform="uppercase">
-              Series
-            </Text>
-          </GridItem>
-
-          <GridItem colStart={4} rowStart={1}>
-            <Text fontSize="sm" color="gray.500">
-              English
-            </Text>
-          </GridItem>
-          <GridItem colStart={4} rowStart={2}>
-            <Text fontSize="sm" color="gray.500">
-              1213
-            </Text>
-          </GridItem>
-          <GridItem colStart={4} rowStart={3}>
-            <Text fontSize="sm" color="gray.500">
-              The Stormlight Archive (Book 4 of 5)
-            </Text>
-          </GridItem>
+          {bookMetadata.map((col) => (
+            <Grid
+              key={col.id}
+              gridColumn="span 2"
+              templateColumns="subgrid"
+              rowGap="2"
+            >
+              {col.colData.map((dataPair) => (
+                <React.Fragment key={dataPair.key}>
+                  <Text
+                    fontSize="sm"
+                    fontWeight="bold"
+                    textTransform="uppercase"
+                  >
+                    {dataPair.key}
+                  </Text>
+                  <Text fontSize="sm" color="gray.500">
+                    {dataPair.value}
+                  </Text>
+                </React.Fragment>
+              ))}
+            </Grid>
+          ))}
         </Grid>
+
+        {/* TODO: Display genres */}
+        {/* TODO: Display price */}
+        {/* TODO: Display "add to card" button */}
+        {/* TODO: Display product quantity input */}
       </Flex>
     </Flex>
     // <Box>
