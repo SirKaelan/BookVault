@@ -14,7 +14,7 @@ import { Button } from "@chakra-ui/react/button";
 import { Icon } from "@chakra-ui/react/icon";
 import { Separator } from "@chakra-ui/react/separator";
 import { Grid, GridItem } from "@chakra-ui/react/grid";
-import { Group } from "@chakra-ui/react/group";
+import { Badge } from "@chakra-ui/react/badge";
 
 import { LuChevronUp } from "react-icons/lu";
 import { LuChevronDown } from "react-icons/lu";
@@ -67,7 +67,12 @@ export const ProductDetails = (): React.JSX.Element => {
   //   "Roshar is a world of stone and storms. Uncanny tempests of incredible power sweep across the rocky terrain so frequently that they have shaped ecology and civilization alike. Animals hide in shells, trees pull in branches, and grass retracts into the soilless ground. Cities are built only where the topography offers shelter.It has been centuries since the fall of the ten consecrated orders known as the Knights Radiant, but their Shardblades and Shardplate remain: mystical swords and suits of armor that transform ordinary men into near-invincible warriors. Men trade kingdoms for Shardblades. Wars were fought for them, and won by them.One such war rages on a ruined landscape called the Shattered Plains. There, Kaladin, who traded his medical apprenticeship for a spear to protect his little brother, has been reduced to slavery. In a war that makes no sense, where ten armies fight separately against a single foe, he struggles to save his men and to fathom the leaders who consider them expendable.Brightlord Dalinar Kholin commands one of those other armies. Like his brother, the late king, he is fascinated by an ancient text called The Way of Kings. Troubled by over-powering visions of ancient times and the Knights Radiant, he has begun to doubt his own sanity.Across the ocean, an untried young woman named Shallan seeks to train under an eminent scholar and notorious heretic, Dalinar's niece, Jasnah. Though she genuinely loves learning, Shallan's motives are less than pure. As she plans a daring theft, her research for Jasnah hints at secrets of the Knights Radiant and the true cause of the war.The result of over ten years of planning, writing, and world-building, The Way of Kings is but the opening movement of the Stormlight Archive, a bold masterpiece in the making.Speak again the ancient oaths:Life before death.Strength before weakness.Journey before Destination.and return to men the Shards they once bore.The Knights Radiant must stand again.";
 
   return (
-    <Flex gap="8">
+    <Flex
+      gap="8"
+      // FIXME: Tons more work on making this properly responsive
+      alignItems={{ base: "center", md: "stretch" }}
+      direction={{ base: "column", md: "row" }}
+    >
       {/* Book cover */}
       <Box w="30%" shadow="xl" rounded="sm" overflow="hidden">
         <AspectRatio ratio={1 / 1.6}>
@@ -103,6 +108,15 @@ export const ProductDetails = (): React.JSX.Element => {
             </Text>
           </Flex>
         </Flex>
+
+        {/* Genres */}
+        <HStack flexWrap="wrap">
+          {book.genres.map((g) => (
+            <Badge key={g.id} colorPalette="blue" color="gray.600">
+              {g.name}
+            </Badge>
+          ))}
+        </HStack>
 
         {/* Synopsis */}
         <Flex direction="column" alignItems="start" gap="3">
@@ -159,7 +173,6 @@ export const ProductDetails = (): React.JSX.Element => {
           ))}
         </Grid>
 
-        {/* TODO: Display genres */}
         {/* TODO: Display price */}
         {/* TODO: Display "add to card" button */}
         {/* TODO: Display product quantity input */}
