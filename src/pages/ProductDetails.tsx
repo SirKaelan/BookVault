@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useGetQueryValue } from "@/utils";
 import { useFetchBook } from "@/hooks";
 
-import { HStack, VStack } from "@chakra-ui/react/stack";
+import { HStack } from "@chakra-ui/react/stack";
 import { Image } from "@chakra-ui/react/image";
 import { Box } from "@chakra-ui/react/box";
 import { Flex } from "@chakra-ui/react/flex";
@@ -10,20 +10,21 @@ import { AspectRatio } from "@chakra-ui/react/aspect-ratio";
 import { Heading } from "@chakra-ui/react/heading";
 import { Text } from "@chakra-ui/react/text";
 import { RatingGroup } from "@chakra-ui/react/rating-group";
-import { Button } from "@chakra-ui/react/button";
+import { Button, IconButton } from "@chakra-ui/react/button";
 import { Icon } from "@chakra-ui/react/icon";
 import { Separator } from "@chakra-ui/react/separator";
-import { Grid, GridItem } from "@chakra-ui/react/grid";
+import { Grid } from "@chakra-ui/react/grid";
 import { Badge } from "@chakra-ui/react/badge";
+import { NumberInput } from "@chakra-ui/react/number-input";
+import { Field } from "@chakra-ui/react/field";
 
-import { LuChevronUp } from "react-icons/lu";
-import { LuChevronDown } from "react-icons/lu";
-
-// import { Box, Grid, Typography, styled, Button } from "@mui/material";
-import type { Theme } from "@mui/material";
-import { ExpandableContent } from "@/components/ExpandableContent";
-import { QuantityInput } from "@/components/QuantityInput";
-import { AddCartButton } from "@/components/AddCartButton";
+import {
+  LuChevronUp,
+  LuChevronDown,
+  LuMinus,
+  LuPlus,
+  LuShoppingCart,
+} from "react-icons/lu";
 
 // TODO: Move to mock data
 const bookMetadata = [
@@ -46,6 +47,8 @@ const bookMetadata = [
 ];
 
 export const ProductDetails = (): React.JSX.Element => {
+  // TODO: Add state to expand or hide book synopsis
+  const [quantity, setQuantity] = useState(1);
   // FIXME: Change query approach
   const bookId = useGetQueryValue("id");
   const book = useFetchBook(bookId);
@@ -68,13 +71,14 @@ export const ProductDetails = (): React.JSX.Element => {
 
   return (
     <Flex
-      gap="8"
+      gap="10"
       // FIXME: Tons more work on making this properly responsive
-      alignItems={{ base: "center", md: "stretch" }}
+      align={{ base: "center", md: "start" }}
       direction={{ base: "column", md: "row" }}
     >
       {/* Book cover */}
-      <Box w="30%" shadow="xl" rounded="sm" overflow="hidden">
+      {/* FIXME: Fix how this behaves */}
+      <Box w="32%" shadow="xl" rounded="sm" overflow="hidden">
         <AspectRatio ratio={1 / 1.6}>
           <Image
             src={book.cover ? book.cover : ""}
@@ -84,7 +88,7 @@ export const ProductDetails = (): React.JSX.Element => {
       </Box>
 
       {/* Book info */}
-      <Flex w="70%" direction="column" gap="6">
+      <Flex w="68%" direction="column" gap="6">
         {/* Title, Author, Rating */}
         <Flex direction="column" gap="2">
           <Heading size="4xl">{book.title}</Heading>
@@ -130,7 +134,7 @@ export const ProductDetails = (): React.JSX.Element => {
             rounded="none"
             _hover={{ borderBottom: "1px solid gray", bgColor: "transparent" }}
           >
-            Show more{" "}
+            Show more
             <Icon p="0">
               <LuChevronDown />
             </Icon>
@@ -173,101 +177,66 @@ export const ProductDetails = (): React.JSX.Element => {
           ))}
         </Grid>
 
-        {/* TODO: Display price */}
-        {/* TODO: Display "add to card" button */}
-        {/* TODO: Display product quantity input */}
+        <Separator />
+
+        <Flex
+          align={{ base: "start", md: "end" }}
+          justify="space-between"
+          gap="4"
+          direction={{ base: "column", md: "row" }}
+        >
+          {/* Book quantity */}
+          <Field.Root>
+            <Field.Label color="gray.500" fontWeight="light">
+              Quantity
+            </Field.Label>
+            <NumberInput.Root
+              unstyled
+              spinOnPress={false}
+              value={quantity.toString()}
+              onValueChange={(details) =>
+                details.valueAsNumber > 0 && setQuantity(details.valueAsNumber)
+              }
+            >
+              <HStack gap="2">
+                <NumberInput.DecrementTrigger asChild>
+                  <IconButton variant="outline" size="sm">
+                    <LuMinus />
+                  </IconButton>
+                </NumberInput.DecrementTrigger>
+                <NumberInput.ValueText
+                  textAlign="center"
+                  fontSize="lg"
+                  minW="3ch"
+                />
+                <NumberInput.IncrementTrigger asChild>
+                  <IconButton variant="outline" size="sm">
+                    <LuPlus />
+                  </IconButton>
+                </NumberInput.IncrementTrigger>
+              </HStack>
+            </NumberInput.Root>
+          </Field.Root>
+          {/* Price and add to cart button */}
+          <HStack gap="8">
+            <Text fontSize="3xl" letterSpacing="wide">
+              ${(book.price * quantity).toFixed(2)}
+            </Text>
+            <Button
+              size="xl"
+              variant="solid"
+              colorPalette="blue"
+              textTransform="uppercase"
+              letterSpacing="widest"
+            >
+              <Icon>
+                <LuShoppingCart />
+              </Icon>
+              Add To Cart
+            </Button>
+          </HStack>
+        </Flex>
       </Flex>
     </Flex>
-    // <Box>
-    //   <Grid container columnSpacing={4}>
-    //     <Grid item xs={4}>
-    //       Image column
-    //     </Grid>
-    //     <Grid item xs={8}>
-    //       {/* Book title + Author */}
-    //       <Box>
-    //         <Typography
-    //           variant="h2"
-    //           component="h2"
-    //           fontWeight="medium"
-    //           mb={0.5}
-    //         >
-    //           {book.title}
-    //         </Typography>
-    //         <Typography variant="h4" component="h4" fontWeight="light">
-    //           {book.author_name}
-    //         </Typography>
-    //       </Box>
-    //       {/* Book price */}
-    //       <Box my={3.5}>
-    //         <PriceTag variant="h3" component="span" fontWeight="regular">
-    //           $16.99
-    //         </PriceTag>
-    //       </Box>
-    //       {/* Synopsis */}
-    //       <Box mb={2.5}>
-    //         <Typography variant="h4" component="h4" fontWeight="medium" mb={1}>
-    //           Synopsis:
-    //         </Typography>
-    //         <ExpandableContent
-    //           content={book.synopsis}
-    //           wordCount={160}
-    //           ContentContainer={
-    //             <Typography variant="h5" component="p" fontWeight="light" />
-    //           }
-    //           ButtonComponent={<Button />}
-    //         />
-    //       </Box>
-    //       {/* Genres */}
-    //       <Box mb={1} sx={{ display: "flex" }}>
-    //         <Typography variant="h5" component="span" fontWeight="light" mr={1}>
-    //           Genres:
-    //         </Typography>
-    //         <ExpandableContent
-    //           content={extractedGenres}
-    //           wordCount={5}
-    //           ContentContainer={
-    //             <Typography
-    //               variant="h5"
-    //               component="span"
-    //               fontWeight="regular"
-    //             />
-    //           }
-    //           ButtonComponent={<Button />}
-    //         />
-    //       </Box>
-    //       {/* Pages */}
-    //       <Box mb={3.5}>
-    //         <Typography variant="h5" component="span" fontWeight="light" mr={1}>
-    //           Pages:
-    //         </Typography>
-    //         {/* TODO: When i add a field to Books in DB for pages, fix this hardcoded value */}
-    //         <Typography variant="h5" component="span" fontWeight="light">
-    //           1000
-    //         </Typography>
-    //       </Box>
-    //       {/* Quanity input + Checkout button */}
-    //       <Box
-    //         sx={{
-    //           display: "flex",
-    //           justifyContent: "space-between",
-    //         }}
-    //       >
-    //         <QuantityInput label="QTY" />
-    //         <AddCartButton />
-    //       </Box>
-    //     </Grid>
-    //   </Grid>
-    // </Box>
   );
 };
-
-// --------------- Styling ---------------
-// const PriceTag = styled(Typography)(({ theme }: PriceTagProps) => ({
-//   borderBottom: `2px solid ${theme.palette.secondary.main}`,
-// }));
-
-// --------------- Types ---------------
-// type PriceTagProps = {
-//   theme: Theme;
-// };
