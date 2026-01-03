@@ -10,6 +10,14 @@ import { Heading } from "@chakra-ui/react/heading";
 import { Text } from "@chakra-ui/react/text";
 import { Badge } from "@chakra-ui/react/badge";
 import { Grid } from "@chakra-ui/react/grid";
+import { Button, IconButton } from "@chakra-ui/react/button";
+import { Link } from "@chakra-ui/react/link";
+import { Icon } from "@chakra-ui/react/icon";
+import { Separator } from "@chakra-ui/react/separator";
+
+import { LuExternalLink } from "react-icons/lu";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
 
 import { useGetQueryValue } from "@/utils";
 import { useFetchAuthor } from "@/hooks";
@@ -31,8 +39,8 @@ const authorMetadata = [
       { key: "Genres", value: "blabla, blabla, blabla" },
       { key: "Interests", value: "Blabla, blabla, more bla bla" },
     ],
-  }
-]
+  },
+];
 
 export const AuthorDetails = (): React.JSX.Element => {
   // FIXME: Change query approach (don't use my hook)
@@ -51,11 +59,7 @@ export const AuthorDetails = (): React.JSX.Element => {
     <Flex direction="column" gap="20">
       {/* Author info */}
       <Flex gap="10" align="start">
-        <Box
-          maxWidth="300px"
-          rounded="sm"
-          overflow="hidden"
-        >
+        <Box maxWidth="300px" rounded="sm" overflow="hidden">
           <Image
             // FIXME: Add images to all author objects
             src="https://m.media-amazon.com/images/S/amzn-author-media-prod/o1ehbft4gejvtoskr22jt89eit._SY600_.jpg"
@@ -64,19 +68,28 @@ export const AuthorDetails = (): React.JSX.Element => {
           />
         </Box>
 
-        <Flex flex="1" direction="column" gap="10">
+        <Flex flex="1" direction="column" gap="8">
           {/* Name + Badges */}
           <Flex gap="4" direction="column">
             <Heading size="4xl">{author.name}</Heading>
             <Flex gap="2">
-              <Badge size="md" colorPalette="yellow">New York Times Bestseller</Badge>
-              <Badge size="md" colorPalette="blue">Award-Winning Author</Badge>
-              <Badge size="md" colorPalette="blue">75+ Published Books</Badge>
+              <Badge size="md" colorPalette="yellow">
+                New York Times Bestseller
+              </Badge>
+              <Badge size="md" colorPalette="blue">
+                Award-Winning Author
+              </Badge>
+              <Badge size="md" colorPalette="blue">
+                75+ Published Books
+              </Badge>
             </Flex>
           </Flex>
 
           {/* Bio */}
+          {/* FIXME: Add the read more button and increase bio text length */}
           <Text>{author.bio}</Text>
+
+          <Separator />
 
           {/* Author metadata */}
           {/* FIXME: This is the same as "product details", make a component */}
@@ -112,6 +125,62 @@ export const AuthorDetails = (): React.JSX.Element => {
               </Grid>
             ))}
           </Grid>
+
+          <Separator />
+
+          {/* Socials + Website */}
+          {/* FIXME: Design needs a bit more work */}
+          <Flex justify="space-between" align="center">
+            <Flex gap="4">
+              <IconButton
+                asChild
+                aria-label="Open author X account"
+                variant="outline"
+                rounded="full"
+              >
+                <Link href="#">
+                  <FaXTwitter />
+                </Link>
+              </IconButton>
+
+              <IconButton
+                asChild
+                aria-label="Open author facebook account"
+                variant="outline"
+                rounded="full"
+              >
+                <Link href="#">
+                  <FaFacebook />
+                </Link>
+              </IconButton>
+
+              <IconButton
+                asChild
+                aria-label="Open author instagram account"
+                variant="outline"
+                rounded="full"
+              >
+                <Link href="#">
+                  <FaInstagram />
+                </Link>
+              </IconButton>
+            </Flex>
+
+            <Button
+              asChild
+              colorPalette="blue"
+              variant="solid"
+              size="xl"
+              letterSpacing="wider"
+            >
+              <Link href="#">
+                Visit Website
+                <Icon>
+                  <LuExternalLink />
+                </Icon>
+              </Link>
+            </Button>
+          </Flex>
         </Flex>
       </Flex>
 
@@ -120,7 +189,9 @@ export const AuthorDetails = (): React.JSX.Element => {
         <Heading size="2xl">Author books</Heading>
         <Wrap gap="6">
           {/* FIXME: Temporary solution, the cards are too big */}
-          {author.books.map((book) => <BookCard key={book.id} data={book} />)}
+          {author.books.map((book) => (
+            <BookCard key={book.id} data={book} />
+          ))}
         </Wrap>
       </Flex>
     </Flex>
