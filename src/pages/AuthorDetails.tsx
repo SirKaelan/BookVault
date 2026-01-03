@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router";
 
 import { BookCard } from "@/components";
 
@@ -14,6 +15,7 @@ import { Button, IconButton } from "@chakra-ui/react/button";
 import { Link } from "@chakra-ui/react/link";
 import { Icon } from "@chakra-ui/react/icon";
 import { Separator } from "@chakra-ui/react/separator";
+import { AspectRatio } from "@chakra-ui/react/aspect-ratio";
 
 import { LuExternalLink } from "react-icons/lu";
 import { FaXTwitter } from "react-icons/fa6";
@@ -21,6 +23,7 @@ import { FaFacebook, FaInstagram } from "react-icons/fa";
 
 import { useGetQueryValue } from "@/utils";
 import { useFetchAuthor } from "@/hooks";
+import type { Book } from "@/contexts/books";
 
 // TODO: Move to mock data
 const authorMetadata = [
@@ -46,6 +49,7 @@ export const AuthorDetails = (): React.JSX.Element => {
   // FIXME: Change query approach (don't use my hook)
   const authorId = useGetQueryValue("id");
   const author = useFetchAuthor(authorId);
+  const navigate = useNavigate();
 
   if (author.type === "loading") {
     return <div>Loading....</div>;
@@ -55,10 +59,18 @@ export const AuthorDetails = (): React.JSX.Element => {
     return <div>{author.message}</div>;
   }
 
+  const handleBookClick = (book: Book) => {
+    navigate({ pathname: "/book", search: `?id=${book.id}` });
+  };
+
   return (
-    <Flex direction="column" gap="20">
+    <Flex direction="column" gap="40">
       {/* Author info */}
-      <Flex gap="10" align="start">
+      <Flex
+        gap="10"
+        align={{ base: "center", md: "start" }}
+        direction={{ base: "column", md: "row" }}
+      >
         <Box maxWidth="300px" rounded="sm" overflow="hidden">
           <Image
             // FIXME: Add images to all author objects
@@ -72,7 +84,7 @@ export const AuthorDetails = (): React.JSX.Element => {
           {/* Name + Badges */}
           <Flex gap="4" direction="column">
             <Heading size="4xl">{author.name}</Heading>
-            <Flex gap="2">
+            <Wrap gap="2">
               <Badge size="md" colorPalette="yellow">
                 New York Times Bestseller
               </Badge>
@@ -82,7 +94,7 @@ export const AuthorDetails = (): React.JSX.Element => {
               <Badge size="md" colorPalette="blue">
                 75+ Published Books
               </Badge>
-            </Flex>
+            </Wrap>
           </Flex>
 
           {/* Bio */}
@@ -185,12 +197,28 @@ export const AuthorDetails = (): React.JSX.Element => {
       </Flex>
 
       {/* Author books */}
-      <Flex direction="column" gap="2">
-        <Heading size="2xl">Author books</Heading>
-        <Wrap gap="6">
-          {/* FIXME: Temporary solution, the cards are too big */}
+      {/* FIXME: Maybe book cards should show more info */}
+      <Flex direction="column" gap="6">
+        <Heading size="2xl">Books by {author.name}</Heading>
+        <Wrap gap="5">
           {author.books.map((book) => (
-            <BookCard key={book.id} data={book} />
+            <Box
+              key={book.id}
+              rounded="sm"
+              shadow="lg"
+              overflow="hidden"
+              transition="transform 0.125s ease-in-out"
+              _hover={{ transform: "translateY(-0.5rem)", cursor: "pointer" }}
+              onClick={() => handleBookClick(book)}
+            >
+              <AspectRatio minW="200px" ratio={1 / 1.6}>
+                <Image
+                  src={book.cover ? book.cover : ""}
+                  title={`'${book.title}' cover`}
+                  alt={`'${book.title}' cover`}
+                />
+              </AspectRatio>
+            </Box>
           ))}
         </Wrap>
       </Flex>
