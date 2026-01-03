@@ -9,9 +9,30 @@ import { Wrap } from "@chakra-ui/react/wrap";
 import { Heading } from "@chakra-ui/react/heading";
 import { Text } from "@chakra-ui/react/text";
 import { Badge } from "@chakra-ui/react/badge";
+import { Grid } from "@chakra-ui/react/grid";
 
 import { useGetQueryValue } from "@/utils";
 import { useFetchAuthor } from "@/hooks";
+
+// TODO: Move to mock data
+const authorMetadata = [
+  {
+    id: 1,
+    colData: [
+      { key: "Born", value: "YYYY-MM-DD" },
+      { key: "Birthplace", value: "Blabla, blabla, blabla" },
+      { key: "Current residence", value: "Blabla, blabla" },
+    ],
+  },
+  {
+    id: 2,
+    colData: [
+      { key: "Education", value: "Some institute" },
+      { key: "Genres", value: "blabla, blabla, blabla" },
+      { key: "Interests", value: "Blabla, blabla, more bla bla" },
+    ],
+  }
+]
 
 export const AuthorDetails = (): React.JSX.Element => {
   // FIXME: Change query approach (don't use my hook)
@@ -50,12 +71,47 @@ export const AuthorDetails = (): React.JSX.Element => {
             <Flex gap="2">
               <Badge size="md" colorPalette="yellow">New York Times Bestseller</Badge>
               <Badge size="md" colorPalette="blue">Award-Winning Author</Badge>
-              <Badge size="md" colorPalette="blue">75 Published Books</Badge>
+              <Badge size="md" colorPalette="blue">75+ Published Books</Badge>
             </Flex>
           </Flex>
 
           {/* Bio */}
           <Text>{author.bio}</Text>
+
+          {/* Author metadata */}
+          {/* FIXME: This is the same as "product details", make a component */}
+          <Grid
+            templateColumns={{
+              base: "max-content 1fr",
+              md: "repeat(2, max-content 1fr)",
+            }}
+            columnGap="7"
+            rowGap="2"
+          >
+            {authorMetadata.map((col) => (
+              <Grid
+                key={col.id}
+                gridColumn="span 2"
+                templateColumns="subgrid"
+                rowGap="2"
+              >
+                {col.colData.map((dataPair) => (
+                  <React.Fragment key={dataPair.key}>
+                    <Text
+                      fontSize="sm"
+                      fontWeight="bold"
+                      textTransform="uppercase"
+                    >
+                      {dataPair.key}
+                    </Text>
+                    <Text fontSize="sm" color="gray.500">
+                      {dataPair.value}
+                    </Text>
+                  </React.Fragment>
+                ))}
+              </Grid>
+            ))}
+          </Grid>
         </Flex>
       </Flex>
 
