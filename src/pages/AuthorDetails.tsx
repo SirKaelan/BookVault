@@ -8,6 +8,7 @@ import { Image } from "@chakra-ui/react/image";
 import { Wrap } from "@chakra-ui/react/wrap";
 import { Heading } from "@chakra-ui/react/heading";
 import { Text } from "@chakra-ui/react/text";
+import { Badge } from "@chakra-ui/react/badge";
 
 import { useGetQueryValue } from "@/utils";
 import { useFetchAuthor } from "@/hooks";
@@ -41,8 +42,19 @@ export const AuthorDetails = (): React.JSX.Element => {
             title="Author image"
           />
         </Box>
-        <Flex flex="1" direction="column" gap="4">
-          <Heading size="2xl">{author.name}</Heading>
+
+        <Flex flex="1" direction="column" gap="10">
+          {/* Name + Badges */}
+          <Flex gap="4" direction="column">
+            <Heading size="4xl">{author.name}</Heading>
+            <Flex gap="2">
+              <Badge size="md" colorPalette="yellow">New York Times Bestseller</Badge>
+              <Badge size="md" colorPalette="blue">Award-Winning Author</Badge>
+              <Badge size="md" colorPalette="blue">75 Published Books</Badge>
+            </Flex>
+          </Flex>
+
+          {/* Bio */}
           <Text>{author.bio}</Text>
         </Flex>
       </Flex>
