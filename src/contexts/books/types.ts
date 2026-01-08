@@ -56,6 +56,18 @@ export type Author = {
   name: string;
   bio: string;
   books: Book[];
+  image: string;
+  bioData: {
+    birthday: string;
+    birthplace: string;
+    currentResidence: string;
+    education: string;
+    genres: string;
+    interests: string;
+    test: string;
+  };
+  awards: string[];
+  booksPublished: string;
 };
 
 export type Genre = {

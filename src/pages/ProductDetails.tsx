@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+
+import { useNavigate } from "react-router";
 import { useGetQueryValue } from "@/utils";
 import { useFetchBook } from "@/hooks";
 
@@ -17,6 +19,7 @@ import { Grid } from "@chakra-ui/react/grid";
 import { Badge } from "@chakra-ui/react/badge";
 import { NumberInput } from "@chakra-ui/react/number-input";
 import { Field } from "@chakra-ui/react/field";
+import { Link } from "@chakra-ui/react/link";
 
 import {
   LuChevronUp,
@@ -25,6 +28,7 @@ import {
   LuPlus,
   LuShoppingCart,
 } from "react-icons/lu";
+import { useSearchParams } from "react-router";
 
 // TODO: Move to mock data
 const bookMetadata = [
@@ -49,8 +53,9 @@ const bookMetadata = [
 export const ProductDetails = (): React.JSX.Element => {
   // TODO: Add state to expand or hide book synopsis
   const [quantity, setQuantity] = useState(1);
-  // FIXME: Change query approach
-  const bookId = useGetQueryValue("id");
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const bookId = parseInt(searchParams.get("id") || "1", 10);
   const book = useFetchBook(bookId);
 
   if (book.type === "loading") {
@@ -60,6 +65,10 @@ export const ProductDetails = (): React.JSX.Element => {
   if (book.type === "error") {
     return <div>{book.message}</div>;
   }
+
+  const handleAuthorClick = () => {
+    navigate({ pathname: "/author", search: `?id=${book.author_id}` });
+  };
 
   // const extractedGenres: string[] = book.genres.map(
   //   (genreObj) => genreObj.name
@@ -92,9 +101,16 @@ export const ProductDetails = (): React.JSX.Element => {
         {/* Title, Author, Rating */}
         <Flex direction="column" gap="2">
           <Heading size="4xl">{book.title}</Heading>
-          <Text as="span" fontWeight="light" color="gray.500">
-            {book.author_name}
-          </Text>
+          <Link asChild>
+            <Text
+              as="span"
+              fontWeight="light"
+              color="gray.500"
+              onClick={handleAuthorClick}
+            >
+              {book.author_name}
+            </Text>
+          </Link>
           <Flex gap="2">
             <RatingGroup.Root
               readOnly

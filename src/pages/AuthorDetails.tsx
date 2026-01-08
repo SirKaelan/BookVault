@@ -1,7 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router";
-
-import { BookCard } from "@/components";
+import { useNavigate, useSearchParams } from "react-router";
 
 import { Flex } from "@chakra-ui/react/flex";
 import { Box } from "@chakra-ui/react/box";
@@ -21,33 +19,12 @@ import { LuExternalLink } from "react-icons/lu";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 
-import { useGetQueryValue } from "@/utils";
 import { useFetchAuthor } from "@/hooks";
 import type { Book } from "@/contexts/books";
 
-// TODO: Move to mock data
-const authorMetadata = [
-  {
-    id: 1,
-    colData: [
-      { key: "Born", value: "YYYY-MM-DD" },
-      { key: "Birthplace", value: "Blabla, blabla, blabla" },
-      { key: "Current residence", value: "Blabla, blabla" },
-    ],
-  },
-  {
-    id: 2,
-    colData: [
-      { key: "Education", value: "Some institute" },
-      { key: "Genres", value: "blabla, blabla, blabla" },
-      { key: "Interests", value: "Blabla, blabla, more bla bla" },
-    ],
-  },
-];
-
 export const AuthorDetails = (): React.JSX.Element => {
-  // FIXME: Change query approach (don't use my hook)
-  const authorId = useGetQueryValue("id");
+  const [searchParams] = useSearchParams();
+  const authorId = parseInt(searchParams.get("id") || "1", 10);
   const author = useFetchAuthor(authorId);
   const navigate = useNavigate();
 
@@ -63,6 +40,49 @@ export const AuthorDetails = (): React.JSX.Element => {
     navigate({ pathname: "/book", search: `?id=${book.id}` });
   };
 
+  // TODO: Make into a function
+  const bioDataEntries = Object.entries(author.bioData);
+  // FIXME: Swap these so that i change the number of columns
+  const ITEMS_PER_COLUMN = 3;
+  const COLUMNS = Math.ceil(bioDataEntries.length / ITEMS_PER_COLUMN);
+
+  let columnIdxStart = 0;
+  const authorBioData = [];
+  for (let i = 0; i < COLUMNS; i++) {
+    const colData = [];
+
+    for (let j = 0; j < ITEMS_PER_COLUMN; j++) {
+      const bioDataEntry: [string, string] | undefined =
+        bioDataEntries[columnIdxStart + j];
+      if (!bioDataEntry) break;
+
+      // TODO: Take this into a config
+      const synonymsDict: Record<string, string> = {
+        birthday: "born",
+      };
+
+      const [key, value] = bioDataEntry;
+
+      // split camelCase word into separate words
+      const splitKey = key.replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase();
+
+      const colEntry = {
+        key: synonymsDict[splitKey] || splitKey,
+        value,
+      };
+      colData.push(colEntry);
+    }
+    columnIdxStart += ITEMS_PER_COLUMN;
+
+    const colObj = {
+      id: i,
+      colData,
+    };
+    authorBioData.push(colObj);
+  }
+
+  console.log(authorBioData);
+
   return (
     <Flex direction="column" gap="40">
       {/* Author info */}
@@ -72,12 +92,7 @@ export const AuthorDetails = (): React.JSX.Element => {
         direction={{ base: "column", md: "row" }}
       >
         <Box maxWidth="300px" rounded="sm" overflow="hidden">
-          <Image
-            // FIXME: Add images to all author objects
-            src="https://m.media-amazon.com/images/S/amzn-author-media-prod/o1ehbft4gejvtoskr22jt89eit._SY600_.jpg"
-            alt="Author image"
-            title="Author image"
-          />
+          <Image src={author.image} alt="Author image" title="Author image" />
         </Box>
 
         <Flex flex="1" direction="column" gap="8">
@@ -85,7 +100,19 @@ export const AuthorDetails = (): React.JSX.Element => {
           <Flex gap="4" direction="column">
             <Heading size="4xl">{author.name}</Heading>
             <Wrap gap="2">
-              <Badge size="md" colorPalette="yellow">
+              {author.awards.map((award, idx, arr) => (
+                <React.Fragment key={award}>
+                  <Badge size="md" colorPalette={idx === 0 ? "yellow" : "blue"}>
+                    {award}
+                  </Badge>
+                  {idx === arr.length - 1 && (
+                    <Badge size="md" colorPalette="blue">
+                      {`${author.booksPublished} Books Published`}
+                    </Badge>
+                  )}
+                </React.Fragment>
+              ))}
+              {/* <Badge size="md" colorPalette="yellow">
                 New York Times Bestseller
               </Badge>
               <Badge size="md" colorPalette="blue">
@@ -93,7 +120,7 @@ export const AuthorDetails = (): React.JSX.Element => {
               </Badge>
               <Badge size="md" colorPalette="blue">
                 75+ Published Books
-              </Badge>
+              </Badge> */}
             </Wrap>
           </Flex>
 
@@ -113,7 +140,7 @@ export const AuthorDetails = (): React.JSX.Element => {
             columnGap="7"
             rowGap="2"
           >
-            {authorMetadata.map((col) => (
+            {authorBioData.map((col) => (
               <Grid
                 key={col.id}
                 gridColumn="span 2"
