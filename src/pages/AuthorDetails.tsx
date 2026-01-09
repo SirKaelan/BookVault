@@ -47,7 +47,6 @@ export const AuthorDetails = (): React.JSX.Element => {
 
   // TODO: Make into a function
   const bioDataEntries = Object.entries(author.bioData);
-  // FIXME: Swap these so that i change the number of columns
   const ITEMS_PER_COLUMN = 3;
   const COLUMNS = Math.ceil(bioDataEntries.length / ITEMS_PER_COLUMN);
 
@@ -157,6 +156,7 @@ export const AuthorDetails = (): React.JSX.Element => {
 
           {/* Author metadata */}
           {/* FIXME: This is the same as "product details", make a component */}
+          {/* <GridData data={author.bioData} /> */}
           <Grid
             templateColumns={{
               base: "max-content 1fr",
