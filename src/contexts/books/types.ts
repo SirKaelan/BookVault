@@ -64,7 +64,6 @@ export type Author = {
     education: string;
     genres: string;
     interests: string;
-    test: string;
   };
   awards: string[];
   booksPublished: string;

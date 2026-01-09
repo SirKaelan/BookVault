@@ -146,6 +146,7 @@ export const AuthorDetails = (): React.JSX.Element => {
                 gridColumn="span 2"
                 templateColumns="subgrid"
                 rowGap="2"
+                alignSelf="start"
               >
                 {col.colData.map((dataPair) => (
                   <React.Fragment key={dataPair.key}>
