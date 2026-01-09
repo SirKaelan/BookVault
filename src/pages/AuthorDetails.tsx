@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 
 import { Flex } from "@chakra-ui/react/flex";
@@ -15,7 +15,7 @@ import { Icon } from "@chakra-ui/react/icon";
 import { Separator } from "@chakra-ui/react/separator";
 import { AspectRatio } from "@chakra-ui/react/aspect-ratio";
 
-import { LuExternalLink } from "react-icons/lu";
+import { LuExternalLink, LuChevronDown, LuChevronUp } from "react-icons/lu";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 
@@ -23,6 +23,7 @@ import { useFetchAuthor } from "@/hooks";
 import type { Book } from "@/contexts/books";
 
 export const AuthorDetails = (): React.JSX.Element => {
+  const [isTextExpanded, setIsTextExpanded] = useState<boolean>(false);
   const [searchParams] = useSearchParams();
   const authorId = parseInt(searchParams.get("id") || "1", 10);
   const author = useFetchAuthor(authorId);
@@ -38,6 +39,10 @@ export const AuthorDetails = (): React.JSX.Element => {
 
   const handleBookClick = (book: Book) => {
     navigate({ pathname: "/book", search: `?id=${book.id}` });
+  };
+
+  const handleExpandClick = () => {
+    setIsTextExpanded((prev) => !prev);
   };
 
   // TODO: Make into a function
@@ -81,8 +86,6 @@ export const AuthorDetails = (): React.JSX.Element => {
     authorBioData.push(colObj);
   }
 
-  console.log(authorBioData);
-
   return (
     <Flex direction="column" gap="40">
       {/* Author info */}
@@ -125,8 +128,30 @@ export const AuthorDetails = (): React.JSX.Element => {
           </Flex>
 
           {/* Bio */}
-          {/* FIXME: Add the read more button and increase bio text length */}
-          <Text>{author.bio}</Text>
+          {/* TODO: Make into a component */}
+          <Flex direction="column" alignItems="start" gap="3">
+            <Text whiteSpace="pre-wrap" lineClamp={isTextExpanded ? "0" : "9"}>
+              {author.bio}
+            </Text>
+            <Button
+              variant="ghost"
+              color="gray.600"
+              h="auto"
+              gap="1"
+              p="0"
+              rounded="none"
+              _hover={{
+                borderBottom: "1px solid gray",
+                bgColor: "transparent",
+              }}
+              onClick={handleExpandClick}
+            >
+              Show {isTextExpanded ? "less" : "more"}
+              <Icon p="0">
+                {isTextExpanded ? <LuChevronUp /> : <LuChevronDown />}
+              </Icon>
+            </Button>
+          </Flex>
 
           <Separator />
 
