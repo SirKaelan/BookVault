@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 
+import { GridData } from "@/components";
+
 import { Flex } from "@chakra-ui/react/flex";
 import { Box } from "@chakra-ui/react/box";
 import { Image } from "@chakra-ui/react/image";
@@ -8,7 +10,6 @@ import { Wrap } from "@chakra-ui/react/wrap";
 import { Heading } from "@chakra-ui/react/heading";
 import { Text } from "@chakra-ui/react/text";
 import { Badge } from "@chakra-ui/react/badge";
-import { Grid } from "@chakra-ui/react/grid";
 import { Button, IconButton } from "@chakra-ui/react/button";
 import { Link } from "@chakra-ui/react/link";
 import { Icon } from "@chakra-ui/react/icon";
@@ -45,46 +46,6 @@ export const AuthorDetails = (): React.JSX.Element => {
     setIsTextExpanded((prev) => !prev);
   };
 
-  // TODO: Make into a function
-  const bioDataEntries = Object.entries(author.bioData);
-  const ITEMS_PER_COLUMN = 3;
-  const COLUMNS = Math.ceil(bioDataEntries.length / ITEMS_PER_COLUMN);
-
-  let columnIdxStart = 0;
-  const authorBioData = [];
-  for (let i = 0; i < COLUMNS; i++) {
-    const colData = [];
-
-    for (let j = 0; j < ITEMS_PER_COLUMN; j++) {
-      const bioDataEntry: [string, string] | undefined =
-        bioDataEntries[columnIdxStart + j];
-      if (!bioDataEntry) break;
-
-      // TODO: Take this into a config
-      const synonymsDict: Record<string, string> = {
-        birthday: "born",
-      };
-
-      const [key, value] = bioDataEntry;
-
-      // split camelCase word into separate words
-      const splitKey = key.replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase();
-
-      const colEntry = {
-        key: synonymsDict[splitKey] || splitKey,
-        value,
-      };
-      colData.push(colEntry);
-    }
-    columnIdxStart += ITEMS_PER_COLUMN;
-
-    const colObj = {
-      id: i,
-      colData,
-    };
-    authorBioData.push(colObj);
-  }
-
   return (
     <Flex direction="column" gap="40">
       {/* Author info */}
@@ -99,6 +60,7 @@ export const AuthorDetails = (): React.JSX.Element => {
 
         <Flex flex="1" direction="column" gap="8">
           {/* Name + Badges */}
+          {/* FIXME: Try to fix this a bit? */}
           <Flex gap="4" direction="column">
             <Heading size="4xl">{author.name}</Heading>
             <Wrap gap="2">
@@ -114,15 +76,6 @@ export const AuthorDetails = (): React.JSX.Element => {
                   )}
                 </React.Fragment>
               ))}
-              {/* <Badge size="md" colorPalette="yellow">
-                New York Times Bestseller
-              </Badge>
-              <Badge size="md" colorPalette="blue">
-                Award-Winning Author
-              </Badge>
-              <Badge size="md" colorPalette="blue">
-                75+ Published Books
-              </Badge> */}
             </Wrap>
           </Flex>
 
@@ -154,42 +107,8 @@ export const AuthorDetails = (): React.JSX.Element => {
 
           <Separator />
 
-          {/* Author metadata */}
-          {/* FIXME: This is the same as "product details", make a component */}
-          {/* <GridData data={author.bioData} /> */}
-          <Grid
-            templateColumns={{
-              base: "max-content 1fr",
-              md: "repeat(2, max-content 1fr)",
-            }}
-            columnGap="7"
-            rowGap="2"
-          >
-            {authorBioData.map((col) => (
-              <Grid
-                key={col.id}
-                gridColumn="span 2"
-                templateColumns="subgrid"
-                rowGap="2"
-                alignSelf="start"
-              >
-                {col.colData.map((dataPair) => (
-                  <React.Fragment key={dataPair.key}>
-                    <Text
-                      fontSize="sm"
-                      fontWeight="bold"
-                      textTransform="uppercase"
-                    >
-                      {dataPair.key}
-                    </Text>
-                    <Text fontSize="sm" color="gray.500">
-                      {dataPair.value}
-                    </Text>
-                  </React.Fragment>
-                ))}
-              </Grid>
-            ))}
-          </Grid>
+          {/* Author bio data grid */}
+          <GridData data={author.bioData} columns={2} itemsPerColumn={3} />
 
           <Separator />
 

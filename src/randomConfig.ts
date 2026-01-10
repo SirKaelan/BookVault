@@ -3,3 +3,6 @@ export const PAGE_SIZE = 4;
 export const BOOK_FETCHING_URL = ""; // Will be filled later
 export const PAGE_NUMBER_PARAM_NAME = "page";
 export const SEARCH_TERM_PARAM_NAME = "search_query";
+export const DATA_GRID_SYNONYMS_DICT: Record<string, string> = {
+  birthday: "born",
+};
