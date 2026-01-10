@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
+import { ExpandableText } from "@/components";
+
 import { useNavigate } from "react-router";
-import { useGetQueryValue } from "@/utils";
 import { useFetchBook } from "@/hooks";
 
 import { HStack } from "@chakra-ui/react/stack";
@@ -51,7 +52,6 @@ const bookMetadata = [
 ];
 
 export const ProductDetails = (): React.JSX.Element => {
-  // TODO: Add state to expand or hide book synopsis
   const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -139,23 +139,34 @@ export const ProductDetails = (): React.JSX.Element => {
         </HStack>
 
         {/* Synopsis */}
-        <Flex direction="column" alignItems="start" gap="3">
-          <Text lineClamp="3">{book.synopsis}</Text>
-          <Button
-            variant="ghost"
-            color="gray.600"
-            h="auto"
-            gap="1"
-            p="0"
-            rounded="none"
-            _hover={{ borderBottom: "1px solid gray", bgColor: "transparent" }}
-          >
-            Show more
-            <Icon p="0">
-              <LuChevronDown />
-            </Icon>
-          </Button>
-        </Flex>
+        <ExpandableText>
+          <ExpandableText.Content maxLines={4}>
+            {/* FIXME: Add new line characters to synopsis */}
+            <Text whiteSpace="pre-wrap">{book.synopsis}</Text>
+          </ExpandableText.Content>
+          <ExpandableText.Button>
+            {(isTextExpanded, handleButtonClick) => (
+              <Button
+                variant="ghost"
+                color="gray.600"
+                h="auto"
+                gap="1"
+                p="0"
+                rounded="none"
+                _hover={{
+                  borderBottom: "1px solid gray",
+                  bgColor: "transparent",
+                }}
+                onClick={handleButtonClick}
+              >
+                Show {isTextExpanded ? "less" : "more"}
+                <Icon p="0">
+                  {isTextExpanded ? <LuChevronUp /> : <LuChevronDown />}
+                </Icon>
+              </Button>
+            )}
+          </ExpandableText.Button>
+        </ExpandableText>
 
         <Separator />
 

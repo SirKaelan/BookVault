@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 
-import { GridData } from "@/components";
+import { GridData, ExpandableText } from "@/components";
 
 import { Flex } from "@chakra-ui/react/flex";
 import { Box } from "@chakra-ui/react/box";
@@ -24,7 +24,6 @@ import { useFetchAuthor } from "@/hooks";
 import type { Book } from "@/contexts/books";
 
 export const AuthorDetails = (): React.JSX.Element => {
-  const [isTextExpanded, setIsTextExpanded] = useState<boolean>(false);
   const [searchParams] = useSearchParams();
   const authorId = parseInt(searchParams.get("id") || "1", 10);
   const author = useFetchAuthor(authorId);
@@ -40,10 +39,6 @@ export const AuthorDetails = (): React.JSX.Element => {
 
   const handleBookClick = (book: Book) => {
     navigate({ pathname: "/book", search: `?id=${book.id}` });
-  };
-
-  const handleExpandClick = () => {
-    setIsTextExpanded((prev) => !prev);
   };
 
   return (
@@ -80,30 +75,33 @@ export const AuthorDetails = (): React.JSX.Element => {
           </Flex>
 
           {/* Bio */}
-          {/* TODO: Make into a component */}
-          <Flex direction="column" alignItems="start" gap="3">
-            <Text whiteSpace="pre-wrap" lineClamp={isTextExpanded ? "0" : "9"}>
-              {author.bio}
-            </Text>
-            <Button
-              variant="ghost"
-              color="gray.600"
-              h="auto"
-              gap="1"
-              p="0"
-              rounded="none"
-              _hover={{
-                borderBottom: "1px solid gray",
-                bgColor: "transparent",
-              }}
-              onClick={handleExpandClick}
-            >
-              Show {isTextExpanded ? "less" : "more"}
-              <Icon p="0">
-                {isTextExpanded ? <LuChevronUp /> : <LuChevronDown />}
-              </Icon>
-            </Button>
-          </Flex>
+          <ExpandableText>
+            <ExpandableText.Content maxLines={9}>
+              <Text whiteSpace="pre-wrap">{author.bio}</Text>
+            </ExpandableText.Content>
+            <ExpandableText.Button>
+              {(isTextExpanded, handleButtonClick) => (
+                <Button
+                  variant="ghost"
+                  color="gray.600"
+                  h="auto"
+                  gap="1"
+                  p="0"
+                  rounded="none"
+                  _hover={{
+                    borderBottom: "1px solid gray",
+                    bgColor: "transparent",
+                  }}
+                  onClick={handleButtonClick}
+                >
+                  Show {isTextExpanded ? "less" : "more"}
+                  <Icon p="0">
+                    {isTextExpanded ? <LuChevronUp /> : <LuChevronDown />}
+                  </Icon>
+                </Button>
+              )}
+            </ExpandableText.Button>
+          </ExpandableText>
 
           <Separator />
 
