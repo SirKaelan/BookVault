@@ -8,12 +8,16 @@ type GridDataProps = {
   data: Record<string, string>;
   columns?: number;
   itemsPerColumn?: number;
+  renderKeyColumn?: (val: string) => React.ReactNode;
+  renderValueColumn?: (val: string) => React.ReactNode;
 };
 
 export const GridData = ({
   data,
   columns = 2,
   itemsPerColumn = 3,
+  renderKeyColumn,
+  renderValueColumn,
 }: GridDataProps) => {
   // Translating incoming data to an object
   // read by the UI to display the data
@@ -40,14 +44,22 @@ export const GridData = ({
           rowGap="2"
           alignSelf="start"
         >
-          {columnObject.columnPairs.map((dataPair) => (
-            <React.Fragment key={dataPair.key}>
-              <Text fontSize="sm" fontWeight="bold" textTransform="uppercase">
-                {dataPair.key}
-              </Text>
-              <Text fontSize="sm" color="gray.500">
-                {dataPair.value}
-              </Text>
+          {columnObject.columnPairs.map(({ key, value }) => (
+            <React.Fragment key={key}>
+              {renderKeyColumn ? (
+                renderKeyColumn(key)
+              ) : (
+                <Text fontSize="sm" fontWeight="bold" textTransform="uppercase">
+                  {key}
+                </Text>
+              )}
+              {renderValueColumn ? (
+                renderValueColumn(value)
+              ) : (
+                <Text fontSize="sm" color="gray.500">
+                  {value}
+                </Text>
+              )}
             </React.Fragment>
           ))}
         </Grid>
