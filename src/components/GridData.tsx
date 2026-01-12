@@ -4,8 +4,10 @@ import { Grid } from "@chakra-ui/react/grid";
 import { Text } from "@chakra-ui/react/text";
 import { DATA_GRID_SYNONYMS_DICT } from "@/randomConfig";
 
+type DataType = Record<string, string | null>;
+
 type GridDataProps = {
-  data: Record<string, string>;
+  data: DataType;
   columns?: number;
   itemsPerColumn?: number;
   renderKeyColumn?: (val: string) => React.ReactNode;
@@ -80,7 +82,7 @@ type columnObject = {
 };
 
 type translateDataObjectProps = {
-  data: Record<string, string>;
+  data: DataType;
   columns: number;
   itemsPerColumn: number;
 };
@@ -100,9 +102,11 @@ const translateDataObject = ({
     const columnPairs: columnDataPair[] = [];
 
     for (let j = 0; j < ITEMS_PER_COLUMN; j++) {
-      const dataPair: [string, string] | undefined =
+      const dataPair: [string, string | null] | undefined =
         dataEntries[columnIdxStart + j];
       if (!dataPair) break;
+      // Value is null
+      if (!dataPair[1]) break;
 
       const [key, value] = dataPair;
       const splitKey = camelCaseWordSplitter(key);

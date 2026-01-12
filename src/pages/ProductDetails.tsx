@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { ExpandableText, ShowMoreButton } from "@/components";
+import { ExpandableText, ShowMoreButton, GridData } from "@/components";
 
 import { useNavigate } from "react-router";
 import { useFetchBook } from "@/hooks";
@@ -16,40 +16,13 @@ import { RatingGroup } from "@chakra-ui/react/rating-group";
 import { Button, IconButton } from "@chakra-ui/react/button";
 import { Icon } from "@chakra-ui/react/icon";
 import { Separator } from "@chakra-ui/react/separator";
-import { Grid } from "@chakra-ui/react/grid";
 import { Badge } from "@chakra-ui/react/badge";
 import { NumberInput } from "@chakra-ui/react/number-input";
 import { Field } from "@chakra-ui/react/field";
 import { Link } from "@chakra-ui/react/link";
 
-import {
-  LuChevronUp,
-  LuChevronDown,
-  LuMinus,
-  LuPlus,
-  LuShoppingCart,
-} from "react-icons/lu";
+import { LuMinus, LuPlus, LuShoppingCart } from "react-icons/lu";
 import { useSearchParams } from "react-router";
-
-// TODO: Move to mock data
-const bookMetadata = [
-  {
-    id: 1,
-    colData: [
-      { key: "Publisher", value: "Tor Books (US) & Gollancz (UK)" },
-      { key: "First publish", value: "November 17, 2020" },
-      { key: "Isbn", value: "978-1429952040" },
-    ],
-  },
-  {
-    id: 2,
-    colData: [
-      { key: "Language", value: "English" },
-      { key: "Pages", value: "1213" },
-      { key: "Series", value: "The Stormlight Archive (Book 4 of 5)" },
-    ],
-  },
-];
 
 export const ProductDetails = (): React.JSX.Element => {
   const [quantity, setQuantity] = useState(1);
@@ -69,14 +42,6 @@ export const ProductDetails = (): React.JSX.Element => {
   const handleAuthorClick = () => {
     navigate({ pathname: "/author", search: `?id=${book.author_id}` });
   };
-
-  // const extractedGenres: string[] = book.genres.map(
-  //   (genreObj) => genreObj.name
-  // );
-
-  // TODO: Remove this temporary code
-  // book.synopsis =
-  //   "Roshar is a world of stone and storms. Uncanny tempests of incredible power sweep across the rocky terrain so frequently that they have shaped ecology and civilization alike. Animals hide in shells, trees pull in branches, and grass retracts into the soilless ground. Cities are built only where the topography offers shelter.It has been centuries since the fall of the ten consecrated orders known as the Knights Radiant, but their Shardblades and Shardplate remain: mystical swords and suits of armor that transform ordinary men into near-invincible warriors. Men trade kingdoms for Shardblades. Wars were fought for them, and won by them.One such war rages on a ruined landscape called the Shattered Plains. There, Kaladin, who traded his medical apprenticeship for a spear to protect his little brother, has been reduced to slavery. In a war that makes no sense, where ten armies fight separately against a single foe, he struggles to save his men and to fathom the leaders who consider them expendable.Brightlord Dalinar Kholin commands one of those other armies. Like his brother, the late king, he is fascinated by an ancient text called The Way of Kings. Troubled by over-powering visions of ancient times and the Knights Radiant, he has begun to doubt his own sanity.Across the ocean, an untried young woman named Shallan seeks to train under an eminent scholar and notorious heretic, Dalinar's niece, Jasnah. Though she genuinely loves learning, Shallan's motives are less than pure. As she plans a daring theft, her research for Jasnah hints at secrets of the Knights Radiant and the true cause of the war.The result of over ten years of planning, writing, and world-building, The Way of Kings is but the opening movement of the Stormlight Archive, a bold masterpiece in the making.Speak again the ancient oaths:Life before death.Strength before weakness.Journey before Destination.and return to men the Shards they once bore.The Knights Radiant must stand again.";
 
   return (
     <Flex
@@ -157,38 +122,7 @@ export const ProductDetails = (): React.JSX.Element => {
         <Separator />
 
         {/* Book metadata */}
-        <Grid
-          templateColumns={{
-            base: "max-content 1fr",
-            md: "repeat(2, max-content 1fr)",
-          }}
-          columnGap="7"
-          rowGap="2"
-        >
-          {bookMetadata.map((col) => (
-            <Grid
-              key={col.id}
-              gridColumn="span 2"
-              templateColumns="subgrid"
-              rowGap="2"
-            >
-              {col.colData.map((dataPair) => (
-                <React.Fragment key={dataPair.key}>
-                  <Text
-                    fontSize="sm"
-                    fontWeight="bold"
-                    textTransform="uppercase"
-                  >
-                    {dataPair.key}
-                  </Text>
-                  <Text fontSize="sm" color="gray.500">
-                    {dataPair.value}
-                  </Text>
-                </React.Fragment>
-              ))}
-            </Grid>
-          ))}
-        </Grid>
+        <GridData data={book.metadata} columns={2} itemsPerColumn={3} />
 
         <Separator />
 

@@ -19,6 +19,14 @@ export const mockBooks: Book[] = [
     cover:
       "https://m.media-amazon.com/images/I/81pJXhRLdoL._AC_UF1000,1000_QL80_.jpg",
     price: 10.9,
+    metadata: {
+      publisher: "Tor Books (US) & Gollancz (UK)",
+      firstPublish: "August 31, 2010",
+      isbn: "978-0765326355",
+      language: "English",
+      pages: "1007",
+      series: "The Stormlight Archive (Book 1 of 10)",
+    },
   },
   {
     type: "book",
@@ -35,6 +43,14 @@ export const mockBooks: Book[] = [
       "Oathbringer, the third Stormlight Archive book, follows Dalinar Kholin as he unites Roshar's fractious nations against the returning Voidbringers, while confronting his own dark, forgotten past and the destructive Everstorm, alongside Kaladin's struggle with his oaths and Shallan's exploration of the Radiant city Urithiru, as ancient secrets and cosmic threats emerge, pushing everyone to choose who they are.",
     cover: "https://mpd-biblio-covers.imgix.net/9780765326379.jpg?w=900&dpr=1",
     price: 12.99,
+    metadata: {
+      publisher: "Tor Books (US) & Gollancz (UK)",
+      firstPublish: "November 14, 2017",
+      isbn: "978-0765326379",
+      language: "English",
+      pages: "1248",
+      series: "The Stormlight Archive (Book 3 of 10)",
+    },
   },
   {
     type: "book",
@@ -51,6 +67,14 @@ export const mockBooks: Book[] = [
       "Rhythm of War, book four of Brandon Sanderson's Stormlight Archive, details a brutal war where human Radiants fight Singers, focusing on Navani's pursuit of fabrial technology, Kaladin's struggle with depression and leadership, and Shallan and Adolin's quest to win over the Honorspren in Shadesmar; meanwhile, the enemy invades Urithiru, leading to Navani bonding the Tower's spren, and the book culminates with a contest of champions agreed upon by Dalinar and Odium, with Taravangian seizing Odium's power, setting up future conflicts.",
     cover: "https://mpd-biblio-covers.imgix.net/9781250757302.jpg?w=900&dpr=1",
     price: 11.99,
+    metadata: {
+      publisher: "Tor Books (US) & Gollancz (UK)",
+      firstPublish: "November 17, 2020",
+      isbn: "978-0765326386",
+      language: "English",
+      pages: "1232",
+      series: "The Stormlight Archive (Book 4 of 10)",
+    },
   },
   {
     type: "book",
@@ -67,6 +91,14 @@ export const mockBooks: Book[] = [
       "Wind and Truth (Stormlight Archive Book 5) sees Dalinar's desperate challenge to Odium leading to a ten-day countdown, forcing the Knights Radiant and Roshar to prepare for a decisive battle, with characters like Kaladin, Szeth, Shallan, and Navani uncovering ancient secrets about the Unmade (Ba-Ado-Mishram) and Odium's new champion (Taravangian), all while the fate of Roshar and the Cosmere hangs in the balance as they seek power in the Spiritual Realm and battle encroaching darkness.",
     cover: "https://mpd-biblio-covers.imgix.net/9781250319180.jpg?w=900&dpr=1",
     price: 20.99,
+    metadata: {
+      publisher: "Tor Books (US) & Gollancz (UK)",
+      firstPublish: "December 6, 2024",
+      isbn: "978-1250319180",
+      language: "English",
+      pages: "1344",
+      series: "The Stormlight Archive (Book 5 of 10)",
+    },
   },
   {
     type: "book",
@@ -85,6 +117,14 @@ export const mockBooks: Book[] = [
     cover:
       "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1531845177i/36642458.jpg",
     price: 10.99,
+    metadata: {
+      publisher: "Delacorte Press (US) & Gollancz (UK)",
+      firstPublish: "November 6, 2018",
+      isbn: "978-0399555770",
+      language: "English",
+      pages: "528",
+      series: "Skyward (Book 1 of 4)",
+    },
   },
   // Brent Weeks books
   {
@@ -104,6 +144,14 @@ export const mockBooks: Book[] = [
     cover:
       "https://m.media-amazon.com/images/I/91XfWTLEoXL._AC_UF1000,1000_QL80_.jpg",
     price: 12.99,
+    metadata: {
+      publisher: "Orbit Books",
+      firstPublish: "August 25, 2010",
+      isbn: "978-0316075558",
+      language: "English",
+      pages: "640",
+      series: "Lightbringer (Book 1 of 5)",
+    },
   },
   {
     type: "book",
@@ -122,6 +170,14 @@ export const mockBooks: Book[] = [
     cover:
       "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1659765885i/12499290.jpg",
     price: 12.99,
+    metadata: {
+      publisher: "Orbit Books",
+      firstPublish: "September 12, 2012",
+      isbn: "978-0316079914",
+      language: "English",
+      pages: "671",
+      series: "Lightbringer (Book 2 of 5)",
+    },
   },
   {
     type: "book",
@@ -140,6 +196,14 @@ export const mockBooks: Book[] = [
     cover:
       "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1659765822i/12652457.jpg",
     price: 11.99,
+    metadata: {
+      publisher: "Orbit Books",
+      firstPublish: "August 26, 2014",
+      isbn: "978-0316235556",
+      language: "English",
+      pages: "816",
+      series: "Lightbringer (Book 3 of 5)",
+    },
   },
   {
     type: "book",
@@ -153,6 +217,14 @@ export const mockBooks: Book[] = [
     cover:
       "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1672601160i/3227063.jpg",
     price: 15.99,
+    metadata: {
+      publisher: "Orbit Books",
+      firstPublish: "October 2008",
+      isbn: "978-0316033671",
+      language: "English",
+      pages: "688",
+      series: "Night Angel (Book 1 of 3)",
+    },
   },
   {
     type: "book",
@@ -166,6 +238,14 @@ export const mockBooks: Book[] = [
     cover:
       "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1672601132i/3754016.jpg",
     price: 13.99,
+    metadata: {
+      publisher: "Orbit Books",
+      firstPublish: "November 2008",
+      isbn: "978-0316033657",
+      language: "English",
+      pages: "656",
+      series: "Night Angel (Book 2 of 3)",
+    },
   },
   // Joe Abercrombie books
   {
@@ -185,6 +265,14 @@ export const mockBooks: Book[] = [
     cover:
       "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1747782133i/944073.jpg",
     price: 12.99,
+    metadata: {
+      publisher: "Gollancz (UK) & Pyr (US)",
+      firstPublish: "May 4, 2006",
+      isbn: "978-0575077867",
+      language: "English",
+      pages: "432",
+      series: "The First Law (Book 1 of 3)",
+    },
   },
   {
     type: "book",
@@ -203,6 +291,14 @@ export const mockBooks: Book[] = [
     cover:
       "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1737810309i/902715.jpg",
     price: 11.99,
+    metadata: {
+      publisher: "Gollancz (UK) & Pyr (US)",
+      firstPublish: "March 15, 2007",
+      isbn: "978-0316387354",
+      language: "English",
+      pages: "539",
+      series: "The First Law (Book 2 of 3)",
+    },
   },
   {
     type: "book",
@@ -220,6 +316,14 @@ export const mockBooks: Book[] = [
     cover:
       "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1737810948i/944076.jpg",
     price: 13.99,
+    metadata: {
+      publisher: "Gollancz (UK) & Pyr (US)",
+      firstPublish: "March 20, 2008",
+      isbn: "978-0575077898",
+      language: "English",
+      pages: "603",
+      series: "The First Law (Book 3 of 3)",
+    },
   },
   {
     type: "book",
@@ -238,6 +342,14 @@ export const mockBooks: Book[] = [
     cover:
       "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1739462265i/2315892.jpg",
     price: 14.99,
+    metadata: {
+      publisher: "Gollancz (UK) & Orbit (US)",
+      firstPublish: "June 5, 2009",
+      isbn: "978-0575082457",
+      language: "English",
+      pages: "534",
+      series: "World of The First Law (Book 1 of 3)",
+    },
   },
   {
     type: "book",
@@ -256,5 +368,13 @@ export const mockBooks: Book[] = [
     cover:
       "https://i0.wp.com/joeabercrombie.com/wp-content/uploads/2010/11/The-Heroes-HB_cover.jpg?w=453&ssl=1",
     price: 11.99,
+    metadata: {
+      publisher: "Gollancz (UK) & Orbit (US)",
+      firstPublish: "January 27, 2011",
+      isbn: "978-0575083836",
+      language: "English",
+      pages: "506",
+      series: "World of The First Law (Book 2 of 3)",
+    },
   },
 ];

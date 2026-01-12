@@ -28,6 +28,14 @@ export type Book = {
   synopsis: string;
   cover: string | null;
   price: number;
+  metadata: {
+    publisher: string;
+    firstPublish: string;
+    isbn: string;
+    language: string;
+    pages: string;
+    series: string | null;
+  };
 };
 
 export type BookState = {
