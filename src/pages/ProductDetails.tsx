@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { ExpandableText } from "@/components";
+import { ExpandableText, ShowMoreButton } from "@/components";
 
 import { useNavigate } from "react-router";
 import { useFetchBook } from "@/hooks";
@@ -146,24 +146,10 @@ export const ProductDetails = (): React.JSX.Element => {
           </ExpandableText.Content>
           <ExpandableText.Button>
             {(isTextExpanded, handleButtonClick) => (
-              <Button
-                variant="ghost"
-                color="gray.600"
-                h="auto"
-                gap="1"
-                p="0"
-                rounded="none"
-                _hover={{
-                  borderBottom: "1px solid gray",
-                  bgColor: "transparent",
-                }}
+              <ShowMoreButton
                 onClick={handleButtonClick}
-              >
-                Show {isTextExpanded ? "less" : "more"}
-                <Icon p="0">
-                  {isTextExpanded ? <LuChevronUp /> : <LuChevronDown />}
-                </Icon>
-              </Button>
+                toggleState={isTextExpanded}
+              />
             )}
           </ExpandableText.Button>
         </ExpandableText>

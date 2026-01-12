@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate, useSearchParams } from "react-router";
 
-import { GridData, ExpandableText } from "@/components";
+import { GridData, ExpandableText, ShowMoreButton } from "@/components";
 
 import { Flex } from "@chakra-ui/react/flex";
 import { Box } from "@chakra-ui/react/box";
@@ -16,7 +16,7 @@ import { Icon } from "@chakra-ui/react/icon";
 import { Separator } from "@chakra-ui/react/separator";
 import { AspectRatio } from "@chakra-ui/react/aspect-ratio";
 
-import { LuExternalLink, LuChevronDown, LuChevronUp } from "react-icons/lu";
+import { LuExternalLink } from "react-icons/lu";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 
@@ -81,24 +81,10 @@ export const AuthorDetails = (): React.JSX.Element => {
             </ExpandableText.Content>
             <ExpandableText.Button>
               {(isTextExpanded, handleButtonClick) => (
-                <Button
-                  variant="ghost"
-                  color="gray.600"
-                  h="auto"
-                  gap="1"
-                  p="0"
-                  rounded="none"
-                  _hover={{
-                    borderBottom: "1px solid gray",
-                    bgColor: "transparent",
-                  }}
+                <ShowMoreButton
                   onClick={handleButtonClick}
-                >
-                  Show {isTextExpanded ? "less" : "more"}
-                  <Icon p="0">
-                    {isTextExpanded ? <LuChevronUp /> : <LuChevronDown />}
-                  </Icon>
-                </Button>
+                  toggleState={isTextExpanded}
+                />
               )}
             </ExpandableText.Button>
           </ExpandableText>
