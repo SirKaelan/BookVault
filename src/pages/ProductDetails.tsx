@@ -106,7 +106,6 @@ export const ProductDetails = (): React.JSX.Element => {
         {/* Synopsis */}
         <ExpandableText>
           <ExpandableText.Content maxLines={4}>
-            {/* FIXME: Add new line characters to synopsis */}
             <Text whiteSpace="pre-wrap">{book.synopsis}</Text>
           </ExpandableText.Content>
           <ExpandableText.Button>

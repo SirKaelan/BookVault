@@ -55,22 +55,22 @@ export const AuthorDetails = (): React.JSX.Element => {
 
         <Flex flex="1" direction="column" gap="8">
           {/* Name + Badges */}
-          {/* FIXME: Try to fix this a bit? */}
           <Flex gap="4" direction="column">
             <Heading size="4xl">{author.name}</Heading>
+
             <Wrap gap="2">
-              {author.awards.map((award, idx, arr) => (
-                <React.Fragment key={award}>
-                  <Badge size="md" colorPalette={idx === 0 ? "yellow" : "blue"}>
-                    {award}
-                  </Badge>
-                  {idx === arr.length - 1 && (
-                    <Badge size="md" colorPalette="blue">
-                      {`${author.booksPublished} Books Published`}
-                    </Badge>
-                  )}
-                </React.Fragment>
+              {author.awards.map((award, idx) => (
+                <Badge
+                  key={award}
+                  size="md"
+                  colorPalette={idx === 0 ? "yellow" : "blue"}
+                >
+                  {award}
+                </Badge>
               ))}
+              <Badge size="md" colorPalette="blue">
+                {`${author.booksPublished} Books Published`}
+              </Badge>
             </Wrap>
           </Flex>
 
