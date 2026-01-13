@@ -1,7 +1,12 @@
 import React from "react";
 import { useNavigate, useSearchParams } from "react-router";
 
-import { GridData, ExpandableText, ShowMoreButton } from "@/components";
+import {
+  GridData,
+  ExpandableText,
+  ShowMoreButton,
+  SocialLinks,
+} from "@/components";
 
 import { Flex } from "@chakra-ui/react/flex";
 import { Box } from "@chakra-ui/react/box";
@@ -99,40 +104,7 @@ export const AuthorDetails = (): React.JSX.Element => {
           {/* Socials + Website */}
           {/* FIXME: Design needs a bit more work */}
           <Flex justify="space-between" align="center">
-            <Flex gap="4">
-              <IconButton
-                asChild
-                aria-label="Open author X account"
-                variant="outline"
-                rounded="full"
-              >
-                <Link href="#">
-                  <FaXTwitter />
-                </Link>
-              </IconButton>
-
-              <IconButton
-                asChild
-                aria-label="Open author facebook account"
-                variant="outline"
-                rounded="full"
-              >
-                <Link href="#">
-                  <FaFacebook />
-                </Link>
-              </IconButton>
-
-              <IconButton
-                asChild
-                aria-label="Open author instagram account"
-                variant="outline"
-                rounded="full"
-              >
-                <Link href="#">
-                  <FaInstagram />
-                </Link>
-              </IconButton>
-            </Flex>
+            <SocialLinks data={author.links} />
 
             <Button
               asChild

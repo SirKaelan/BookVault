@@ -22,6 +22,24 @@ export const mockAuthors: Author[] = [
     },
     awards: ["New York Times Bestseller", "Award-Winning Author"],
     booksPublished: "70+",
+    links: [
+      {
+        type: "website",
+        url: "https://www.brandonsanderson.com/",
+      },
+      {
+        type: "facebook",
+        url: "https://www.facebook.com/BrandSanderson/",
+      },
+      {
+        type: "twitter",
+        url: "https://x.com/BrandSanderson",
+      },
+      {
+        type: "instagram",
+        url: "https://www.instagram.com/brandsanderson/",
+      },
+    ],
   },
   {
     type: "author",
@@ -40,6 +58,24 @@ export const mockAuthors: Author[] = [
     },
     awards: ["New York Times Bestseller", "Award-Winning Author"],
     booksPublished: "12+",
+    links: [
+      {
+        type: "website",
+        url: "https://www.brentweeks.com/",
+      },
+      {
+        type: "facebook",
+        url: "https://www.facebook.com/BrentWeeksAuthor",
+      },
+      {
+        type: "twitter",
+        url: "https://x.com/brentweeks",
+      },
+      {
+        type: "instagram",
+        url: "https://www.instagram.com/androssguile",
+      },
+    ],
   },
   {
     type: "author",
@@ -58,5 +94,23 @@ export const mockAuthors: Author[] = [
     },
     awards: ["New York Times Bestseller", "Award-Winning Author"],
     booksPublished: "15+",
+    links: [
+      {
+        type: "website",
+        url: "https://joeabercrombie.com/",
+      },
+      {
+        type: "facebook",
+        url: "https://www.facebook.com/joeabercrombieauthor/",
+      },
+      {
+        type: "twitter",
+        url: "https://x.com/LordGrimdark",
+      },
+      {
+        type: "instagram",
+        url: "https://www.instagram.com/literarysewer",
+      },
+    ],
   },
 ];

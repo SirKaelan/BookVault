@@ -58,6 +58,23 @@ type APIDataAction = {
 export type BookAction = UpdateBookAction | APIDataAction;
 
 // Not sure where to put this type
+// TODO: This type is more-so what an API would return
+// maybe... so in the future change this Frontend type
+// into something like:
+// links: {
+//   personalWebsite: string;
+//   socialLinks: [
+//    {
+//     platformName: union type prolly;
+//     url: string;
+//    }, ...
+//   ]
+// }
+export type AuthorLink = {
+  type: "website" | "twitter" | "facebook" | "instagram";
+  url: string;
+};
+
 export type Author = {
   type: "author";
   id: number;
@@ -75,6 +92,7 @@ export type Author = {
   };
   awards: string[];
   booksPublished: string;
+  links: AuthorLink[];
 };
 
 export type Genre = {
