@@ -16,15 +16,8 @@ import { Wrap } from "@chakra-ui/react/wrap";
 import { Heading } from "@chakra-ui/react/heading";
 import { Text } from "@chakra-ui/react/text";
 import { Badge } from "@chakra-ui/react/badge";
-import { Button, IconButton } from "@chakra-ui/react/button";
-import { Link } from "@chakra-ui/react/link";
-import { Icon } from "@chakra-ui/react/icon";
 import { Separator } from "@chakra-ui/react/separator";
 import { AspectRatio } from "@chakra-ui/react/aspect-ratio";
-
-import { LuExternalLink } from "react-icons/lu";
-import { FaXTwitter } from "react-icons/fa6";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
 
 import { useFetchAuthor } from "@/hooks";
 import type { Book } from "@/contexts/books";
