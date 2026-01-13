@@ -6,6 +6,7 @@ import {
   ExpandableText,
   ShowMoreButton,
   SocialLinks,
+  AuthorWebsiteButton,
 } from "@/components";
 
 import { Flex } from "@chakra-ui/react/flex";
@@ -102,24 +103,12 @@ export const AuthorDetails = (): React.JSX.Element => {
           <Separator />
 
           {/* Socials + Website */}
-          {/* FIXME: Design needs a bit more work */}
           <Flex justify="space-between" align="center">
+            {/* FIXME: Design of social links needs a bit more work */}
             <SocialLinks data={author.links} />
-
-            <Button
-              asChild
-              colorPalette="blue"
-              variant="solid"
-              size="xl"
-              letterSpacing="wider"
-            >
-              <Link href="#">
-                Visit Website
-                <Icon>
-                  <LuExternalLink />
-                </Icon>
-              </Link>
-            </Button>
+            <AuthorWebsiteButton data={author.links}>
+              Visit Website
+            </AuthorWebsiteButton>
           </Flex>
         </Flex>
       </Flex>
