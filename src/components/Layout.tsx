@@ -12,7 +12,7 @@ export const Layout = (): React.JSX.Element => {
   return (
     <>
       <Navigation logo={logo} buttons={buttons} />
-      <Container py="10" maxW="6xl">
+      <Container py="10" paddingInline="6" maxW="6xl">
         <Outlet />
       </Container>
     </>

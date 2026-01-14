@@ -1,8 +1,10 @@
 import React from "react";
 
+import { DATA_GRID_SYNONYMS_DICT } from "@/randomConfig";
+
 import { Grid } from "@chakra-ui/react/grid";
 import { Text } from "@chakra-ui/react/text";
-import { DATA_GRID_SYNONYMS_DICT } from "@/randomConfig";
+import { Box } from "@chakra-ui/react/box";
 
 type DataType = Record<string, string | null>;
 
@@ -30,43 +32,53 @@ export const GridData = ({
   });
 
   return (
-    <Grid
-      templateColumns={{
-        base: "max-content 1fr",
-        md: `repeat(${columns}, max-content 1fr)`,
-      }}
-      columnGap="7"
-      rowGap="2"
-    >
-      {translatedObject.map((columnObject) => (
-        <Grid
-          key={columnObject.id}
-          gridColumn="span 2"
-          templateColumns="subgrid"
-          rowGap="2"
-          alignSelf="start"
-        >
-          {columnObject.columnPairs.map(({ key, value }) => (
-            <React.Fragment key={key}>
-              {renderKeyColumn ? (
-                renderKeyColumn(key)
-              ) : (
-                <Text fontSize="sm" fontWeight="bold" textTransform="uppercase">
-                  {key}
-                </Text>
-              )}
-              {renderValueColumn ? (
-                renderValueColumn(value)
-              ) : (
-                <Text fontSize="sm" color="gray.500">
-                  {value}
-                </Text>
-              )}
-            </React.Fragment>
-          ))}
-        </Grid>
-      ))}
-    </Grid>
+    <Box css={{ containerType: "inline-size" }}>
+      <Grid
+        css={{
+          "@container (min-width: 0rem)": {
+            "&": { gridTemplateColumns: "max-content 1fr" },
+          },
+          "@container (min-width: 36rem)": {
+            "&": { gridTemplateColumns: `repeat(${columns}, max-content 1fr)` },
+          },
+        }}
+        columnGap="7"
+        rowGap="2"
+      >
+        {translatedObject.map((columnObject) => (
+          <Grid
+            key={columnObject.id}
+            gridColumn="span 2"
+            templateColumns="subgrid"
+            rowGap="2"
+            alignSelf="start"
+          >
+            {columnObject.columnPairs.map(({ key, value }) => (
+              <React.Fragment key={key}>
+                {renderKeyColumn ? (
+                  renderKeyColumn(key)
+                ) : (
+                  <Text
+                    fontSize="sm"
+                    fontWeight="bold"
+                    textTransform="uppercase"
+                  >
+                    {key}
+                  </Text>
+                )}
+                {renderValueColumn ? (
+                  renderValueColumn(value)
+                ) : (
+                  <Text fontSize="sm" color="gray.500">
+                    {value}
+                  </Text>
+                )}
+              </React.Fragment>
+            ))}
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   );
 };
 

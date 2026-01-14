@@ -1,3 +1,5 @@
+import React from "react";
+
 import type { AuthorLink } from "@/contexts/books";
 
 import { Button } from "@chakra-ui/react/button";
@@ -9,11 +11,12 @@ import { LuExternalLink } from "react-icons/lu";
 type AuthorWebsiteButtonProps = {
   data: AuthorLink[];
   children: string;
-};
+} & React.ComponentPropsWithRef<typeof Button>;
 
 export const AuthorWebsiteButton = ({
   data,
   children,
+  ...props
 }: AuthorWebsiteButtonProps) => {
   const isWebsite = (
     linkObj: AuthorLink
@@ -28,6 +31,7 @@ export const AuthorWebsiteButton = ({
       variant="solid"
       size="xl"
       letterSpacing="wider"
+      {...props}
     >
       <ChakraLink target="_blank" href={website.url}>
         {children}

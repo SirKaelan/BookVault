@@ -17,12 +17,12 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <Provider>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <BookProvider>
-            <App />
-          </BookProvider>
-        </ThemeProvider>
+        {/* <ThemeProvider theme={theme}> */}
+        {/* <CssBaseline /> */}
+        <BookProvider>
+          <App />
+        </BookProvider>
+        {/* </ThemeProvider> */}
       </Provider>
     </BrowserRouter>
   </StrictMode>

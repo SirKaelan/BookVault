@@ -46,13 +46,16 @@ export const ProductDetails = (): React.JSX.Element => {
   return (
     <Flex
       gap="10"
-      // FIXME: Tons more work on making this properly responsive
       align={{ base: "center", md: "start" }}
       direction={{ base: "column", md: "row" }}
     >
       {/* Book cover */}
-      {/* FIXME: Fix how this behaves */}
-      <Box w="32%" shadow="xl" rounded="sm" overflow="hidden">
+      <Box
+        minW={{ base: "300px", md: "350px" }}
+        shadow="xl"
+        rounded="sm"
+        overflow="hidden"
+      >
         <AspectRatio ratio={1 / 1.6}>
           <Image
             src={book.cover ? book.cover : ""}
@@ -62,7 +65,7 @@ export const ProductDetails = (): React.JSX.Element => {
       </Box>
 
       {/* Book info */}
-      <Flex w="68%" direction="column" gap="6">
+      <Flex w="full" direction="column" gap="6">
         {/* Title, Author, Rating */}
         <Flex direction="column" gap="2">
           <Heading size="4xl">{book.title}</Heading>
@@ -97,7 +100,7 @@ export const ProductDetails = (): React.JSX.Element => {
         {/* Genres */}
         <HStack flexWrap="wrap">
           {book.genres.map((g) => (
-            <Badge key={g.id} colorPalette="blue" color="gray.600">
+            <Badge key={g.id} colorPalette="blue">
               {g.name}
             </Badge>
           ))}
@@ -125,63 +128,72 @@ export const ProductDetails = (): React.JSX.Element => {
 
         <Separator />
 
-        <Flex
-          align={{ base: "start", md: "end" }}
-          justify="space-between"
-          gap="4"
-          direction={{ base: "column", md: "row" }}
-        >
-          {/* Book quantity */}
-          <Field.Root>
-            <Field.Label color="gray.500" fontWeight="light">
-              Quantity
-            </Field.Label>
-            <NumberInput.Root
-              unstyled
-              spinOnPress={false}
-              value={quantity.toString()}
-              onValueChange={(details) =>
-                details.valueAsNumber > 0 && setQuantity(details.valueAsNumber)
-              }
-            >
-              <HStack gap="2">
-                <NumberInput.DecrementTrigger asChild>
-                  <IconButton variant="outline" size="sm">
-                    <LuMinus />
-                  </IconButton>
-                </NumberInput.DecrementTrigger>
-                <NumberInput.ValueText
-                  textAlign="center"
-                  fontSize="lg"
-                  minW="3ch"
-                />
-                <NumberInput.IncrementTrigger asChild>
-                  <IconButton variant="outline" size="sm">
-                    <LuPlus />
-                  </IconButton>
-                </NumberInput.IncrementTrigger>
-              </HStack>
-            </NumberInput.Root>
-          </Field.Root>
-          {/* Price and add to cart button */}
-          <HStack gap="8">
-            <Text fontSize="3xl" letterSpacing="wide">
-              ${(book.price * quantity).toFixed(2)}
-            </Text>
-            <Button
-              size="xl"
-              variant="solid"
-              colorPalette="blue"
-              textTransform="uppercase"
-              letterSpacing="widest"
-            >
-              <Icon>
-                <LuShoppingCart />
-              </Icon>
-              Add To Cart
-            </Button>
-          </HStack>
-        </Flex>
+        <Box css={{ containerType: "inline-size" }}>
+          <Flex
+            justify="space-between"
+            gap="4"
+            css={{
+              "@container (min-width: 0rem)": {
+                "&": { flexDirection: "column" },
+              },
+              "@container (min-width: 29rem)": {
+                "&": { flexDirection: "row" },
+              },
+            }}
+          >
+            {/* Book quantity */}
+            <Field.Root>
+              <Field.Label color="gray.500" fontWeight="light">
+                Quantity
+              </Field.Label>
+              <NumberInput.Root
+                unstyled
+                spinOnPress={false}
+                value={quantity.toString()}
+                onValueChange={(details) =>
+                  details.valueAsNumber > 0 &&
+                  setQuantity(details.valueAsNumber)
+                }
+              >
+                <HStack gap="2">
+                  <NumberInput.DecrementTrigger asChild>
+                    <IconButton variant="outline" size="sm">
+                      <LuMinus />
+                    </IconButton>
+                  </NumberInput.DecrementTrigger>
+                  <NumberInput.ValueText
+                    textAlign="center"
+                    fontSize="lg"
+                    minW="3ch"
+                  />
+                  <NumberInput.IncrementTrigger asChild>
+                    <IconButton variant="outline" size="sm">
+                      <LuPlus />
+                    </IconButton>
+                  </NumberInput.IncrementTrigger>
+                </HStack>
+              </NumberInput.Root>
+            </Field.Root>
+            {/* Price and add to cart button */}
+            <HStack gap="8" alignSelf="end">
+              <Text fontSize="3xl" letterSpacing="wide">
+                ${(book.price * quantity).toFixed(2)}
+              </Text>
+              <Button
+                size="xl"
+                variant="solid"
+                colorPalette="blue"
+                textTransform="uppercase"
+                letterSpacing="widest"
+              >
+                <Icon>
+                  <LuShoppingCart />
+                </Icon>
+                Add To Cart
+              </Button>
+            </HStack>
+          </Flex>
+        </Box>
       </Flex>
     </Flex>
   );

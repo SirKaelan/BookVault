@@ -48,8 +48,13 @@ export const AuthorDetails = (): React.JSX.Element => {
         align={{ base: "center", md: "start" }}
         direction={{ base: "column", md: "row" }}
       >
-        <Box maxWidth="300px" rounded="sm" overflow="hidden">
-          <Image src={author.image} alt="Author image" title="Author image" />
+        <Box rounded="sm" overflow="hidden">
+          <Image
+            w={{ base: "300px", md: "350px" }}
+            src={author.image}
+            alt="Author image"
+            title="Author image"
+          />
         </Box>
 
         <Flex flex="1" direction="column" gap="8">
@@ -96,13 +101,27 @@ export const AuthorDetails = (): React.JSX.Element => {
           <Separator />
 
           {/* Socials + Website */}
-          <Flex justify="space-between" align="center">
-            {/* FIXME: Design of social links needs a bit more work */}
-            <SocialLinks data={author.links} />
-            <AuthorWebsiteButton data={author.links}>
-              Visit Website
-            </AuthorWebsiteButton>
-          </Flex>
+          <Box css={{ containerType: "inline-size" }}>
+            <Flex
+              justify="space-between"
+              align="start"
+              gap="4"
+              css={{
+                "@container (min-width: 0rem)": {
+                  "&": { flexDirection: "column" },
+                },
+                "@container (min-width: 22rem)": {
+                  "&": { flexDirection: "row", alignItems: "center" },
+                },
+              }}
+            >
+              {/* FIXME: Design of social links needs a bit more work */}
+              <SocialLinks data={author.links} />
+              <AuthorWebsiteButton alignSelf="end" data={author.links}>
+                Visit Website
+              </AuthorWebsiteButton>
+            </Flex>
+          </Box>
         </Flex>
       </Flex>
 

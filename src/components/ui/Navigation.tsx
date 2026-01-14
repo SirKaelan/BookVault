@@ -106,8 +106,9 @@ export const Navigation = ({
               <IconButton
                 aria-label="Open mobile menu"
                 variant="ghost"
-                size="2xl"
+                size="xl"
                 cursor="pointer"
+                p="0"
               >
                 <RxHamburgerMenu />
               </IconButton>
