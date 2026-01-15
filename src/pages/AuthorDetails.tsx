@@ -48,7 +48,7 @@ export const AuthorDetails = (): React.JSX.Element => {
         align={{ base: "center", md: "start" }}
         direction={{ base: "column", md: "row" }}
       >
-        <Box rounded="sm" overflow="hidden">
+        <Box flexShrink="0" rounded="sm" overflow="hidden">
           <Image
             w={{ base: "300px", md: "350px" }}
             src={author.image}
@@ -56,8 +56,7 @@ export const AuthorDetails = (): React.JSX.Element => {
             title="Author image"
           />
         </Box>
-
-        <Flex flex="1" direction="column" gap="8">
+        <Flex direction="column" gap="8">
           {/* Name + Badges */}
           <Flex gap="4" direction="column">
             <Heading size="4xl">{author.name}</Heading>
@@ -140,7 +139,7 @@ export const AuthorDetails = (): React.JSX.Element => {
               _hover={{ transform: "translateY(-0.5rem)", cursor: "pointer" }}
               onClick={() => handleBookClick(book)}
             >
-              <AspectRatio minW="200px" ratio={1 / 1.6}>
+              <AspectRatio w="200px" ratio={1 / 1.6}>
                 <Image
                   src={book.cover ? book.cover : ""}
                   title={`'${book.title}' cover`}

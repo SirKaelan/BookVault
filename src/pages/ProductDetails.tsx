@@ -50,13 +50,8 @@ export const ProductDetails = (): React.JSX.Element => {
       direction={{ base: "column", md: "row" }}
     >
       {/* Book cover */}
-      <Box
-        minW={{ base: "300px", md: "350px" }}
-        shadow="xl"
-        rounded="sm"
-        overflow="hidden"
-      >
-        <AspectRatio ratio={1 / 1.6}>
+      <Box flexShrink="0" shadow="xl" rounded="sm" overflow="hidden">
+        <AspectRatio w={{ base: "300px", md: "350px" }} ratio={1 / 1.6}>
           <Image
             src={book.cover ? book.cover : ""}
             alt={`${book.title} book cover`}
@@ -65,7 +60,7 @@ export const ProductDetails = (): React.JSX.Element => {
       </Box>
 
       {/* Book info */}
-      <Flex w="full" direction="column" gap="6">
+      <Flex direction="column" gap="6">
         {/* Title, Author, Rating */}
         <Flex direction="column" gap="2">
           <Heading size="4xl">{book.title}</Heading>
