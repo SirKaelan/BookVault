@@ -31,6 +31,8 @@ export const SocialLinks = ({ data }: SocialLinksProps) => {
             aria-label={`Open author ${socialName} account`}
             variant="outline"
             rounded="full"
+            borderColor="black"
+            outlineColor="black"
           >
             <ChakraLink href={linkObj.url}>
               <SocialIcon />
