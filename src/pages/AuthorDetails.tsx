@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useSearchParams } from "react-router";
+import { useSearchParams } from "react-router";
 
 import {
   GridData,
@@ -7,6 +7,7 @@ import {
   ShowMoreButton,
   SocialLinks,
   AuthorWebsiteButton,
+  AuthorBookCard,
 } from "@/components";
 
 import { Flex } from "@chakra-ui/react/flex";
@@ -17,16 +18,13 @@ import { Heading } from "@chakra-ui/react/heading";
 import { Text } from "@chakra-ui/react/text";
 import { Badge } from "@chakra-ui/react/badge";
 import { Separator } from "@chakra-ui/react/separator";
-import { AspectRatio } from "@chakra-ui/react/aspect-ratio";
 
 import { useFetchAuthor } from "@/hooks";
-import type { Book } from "@/contexts/books";
 
 export const AuthorDetails = (): React.JSX.Element => {
   const [searchParams] = useSearchParams();
   const authorId = parseInt(searchParams.get("id") || "1", 10);
   const author = useFetchAuthor(authorId);
-  const navigate = useNavigate();
 
   if (author.type === "loading") {
     return <div>Loading....</div>;
@@ -35,10 +33,6 @@ export const AuthorDetails = (): React.JSX.Element => {
   if (author.type === "error") {
     return <div>{author.message}</div>;
   }
-
-  const handleBookClick = (book: Book) => {
-    navigate({ pathname: "/book", search: `?id=${book.id}` });
-  };
 
   return (
     <Flex direction="column" gap="40">
@@ -114,7 +108,6 @@ export const AuthorDetails = (): React.JSX.Element => {
                 },
               }}
             >
-              {/* FIXME: Design of social links needs a bit more work */}
               <SocialLinks data={author.links} />
               <AuthorWebsiteButton alignSelf="end" data={author.links}>
                 Visit Website
@@ -125,28 +118,11 @@ export const AuthorDetails = (): React.JSX.Element => {
       </Flex>
 
       {/* Author books */}
-      {/* FIXME: Maybe book cards should show more info */}
       <Flex direction="column" gap="6">
         <Heading size="2xl">Books by {author.name}</Heading>
-        <Wrap gap="5">
+        <Wrap gap="8">
           {author.books.map((book) => (
-            <Box
-              key={book.id}
-              rounded="sm"
-              shadow="lg"
-              overflow="hidden"
-              transition="transform 0.125s ease-in-out"
-              _hover={{ transform: "translateY(-0.5rem)", cursor: "pointer" }}
-              onClick={() => handleBookClick(book)}
-            >
-              <AspectRatio w="200px" ratio={1 / 1.6}>
-                <Image
-                  src={book.cover ? book.cover : ""}
-                  title={`'${book.title}' cover`}
-                  alt={`'${book.title}' cover`}
-                />
-              </AspectRatio>
-            </Box>
+            <AuthorBookCard key={book.id} data={book} />
           ))}
         </Wrap>
       </Flex>
