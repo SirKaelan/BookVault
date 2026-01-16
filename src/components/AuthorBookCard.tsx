@@ -23,10 +23,6 @@ export const AuthorBookCard = ({ data }: AuthorBookCardProps) => {
     navigate({ pathname: "/book", search: `?id=${data.id}` });
   };
 
-  const handleAuthorClick = () => {
-    navigate({ pathname: "/author", search: `?id=${data.author_id}` });
-  };
-
   return (
     <Flex gap="3" w="15.75rem">
       {/* Book cover */}
@@ -50,21 +46,11 @@ export const AuthorBookCard = ({ data }: AuthorBookCardProps) => {
       {/* Book information */}
       <Flex direction="column" gap="2">
         {/* Book name + author */}
-        <Box>
-          <Text
-            fontWeight="bold"
-            letterSpacing="wide"
-            cursor="pointer"
-            onClick={handleBookClick}
-          >
+        <Box onClick={handleBookClick}>
+          <Text fontWeight="bold" letterSpacing="wide" cursor="pointer">
             {data.title}
           </Text>
-          <Text
-            color="gray.500"
-            fontSize="sm"
-            cursor="pointer"
-            onClick={handleAuthorClick}
-          >
+          <Text color="gray.500" fontSize="sm" cursor="pointer">
             {data.author_name}
           </Text>
         </Box>

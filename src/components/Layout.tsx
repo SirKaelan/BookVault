@@ -1,6 +1,7 @@
 import { Outlet } from "react-router";
 import { Container } from "@chakra-ui/react/container";
 import { Navigation } from "@/components/ui/Navigation";
+import { ScrollToTop } from "@/components";
 
 export const Layout = (): React.JSX.Element => {
   const logo: LogoData = { text: "Book Vault" };
@@ -13,6 +14,7 @@ export const Layout = (): React.JSX.Element => {
     <>
       <Navigation logo={logo} buttons={buttons} />
       <Container py="10" paddingInline="6" maxW="6xl">
+        <ScrollToTop />
         <Outlet />
       </Container>
     </>

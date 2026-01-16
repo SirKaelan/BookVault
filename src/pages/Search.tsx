@@ -58,9 +58,11 @@ export const Search = (): React.JSX.Element => {
         <SearchBar />
 
         <Stack gap="20">
-          <Text fontSize="xl" fontWeight="light">
-            Searching for: '{searchTerm}'
-          </Text>
+          {searchTerm ? (
+            <Text fontSize="xl" fontWeight="light">
+              Searching for: '{searchTerm}'
+            </Text>
+          ) : null}
 
           {/* Search results book cards */}
           <Wrap justify="center" gap="6">
