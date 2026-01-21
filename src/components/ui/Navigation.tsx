@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { NavLink as RouterNavLink } from "react-router";
 
+import { NavigationSearch } from "@/components";
+
 import { Box } from "@chakra-ui/react/box";
 import { Button, IconButton, CloseButton } from "@chakra-ui/react/button";
 import { Heading } from "@chakra-ui/react/heading";
@@ -74,10 +76,13 @@ export const Navigation = ({
               </Box>
             ))}
           </HStack>
-          {/* Icon + Signin/Signout buttons on right side */}
-          <Icon size="md" cursor="pointer">
-            <FaUser />
-          </Icon>
+          {/* Icons for actions on right side */}
+          <HStack gap="4">
+            <NavigationSearch size="md" />
+            <Icon size="md" cursor="pointer">
+              <FaUser />
+            </Icon>
+          </HStack>
         </Flex>
       </Box>
 

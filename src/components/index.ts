@@ -7,3 +7,4 @@ export { SocialLinks } from "@/components/SocialLinks";
 export { AuthorWebsiteButton } from "@/components/AuthorWebsiteButton";
 export { AuthorBookCard } from "@/components/AuthorBookCard";
 export { ScrollToTop } from "@/components/ScrollToTop";
+export { NavigationSearch } from "@/components/NavigationSearch";
