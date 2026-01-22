@@ -7,7 +7,6 @@ import { Box } from "@chakra-ui/react/box";
 import { Button, IconButton, CloseButton } from "@chakra-ui/react/button";
 import { Heading } from "@chakra-ui/react/heading";
 import { HStack, VStack } from "@chakra-ui/react/stack";
-import { Icon } from "@chakra-ui/react/icon";
 import { Flex } from "@chakra-ui/react/flex";
 import { Drawer } from "@chakra-ui/react/drawer";
 import { Portal } from "@chakra-ui/react/portal";
@@ -30,7 +29,7 @@ export const Navigation = ({
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const isMobile = useBreakpointValue(
     { base: true, md: false },
-    { ssr: false }
+    { ssr: false },
   );
 
   // Closes drawer if it's open and you resize away from mobile nav
@@ -77,11 +76,11 @@ export const Navigation = ({
             ))}
           </HStack>
           {/* Icons for actions on right side */}
-          <HStack gap="4">
+          <HStack gap="1">
             <NavigationSearch size="md" />
-            <Icon size="md" cursor="pointer">
+            <IconButton variant="ghost" size="md" cursor="pointer">
               <FaUser />
-            </Icon>
+            </IconButton>
           </HStack>
         </Flex>
       </Box>
