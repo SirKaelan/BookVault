@@ -1,57 +1,55 @@
-import React, { useRef, useState } from "react";
-import { useSearchParams } from "react-router";
+import React, { useEffect, useRef } from "react";
 
-import { PAGE_NUMBER_PARAM_NAME, SEARCH_TERM_PARAM_NAME } from "@/randomConfig";
+import { useSearchParams } from "react-router";
 
 import { Input } from "@chakra-ui/react/input";
 import { InputGroup } from "@chakra-ui/react/input-group";
-import { VStack } from "@chakra-ui/react/stack";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Group } from "@chakra-ui/react/group";
 import { Button } from "@chakra-ui/react/button";
-import { Field } from "@chakra-ui/react/field";
+
+import { useSearch } from "@/hooks";
 
 export const SearchBar = (): React.JSX.Element => {
-  const [term, setTerm] = useState<string>("");
-  const [_, setSearchParams] = useSearchParams();
+  const {
+    searchTerm,
+    submitted,
+    handleSearchInput,
+    handleSearchClick,
+    handleSearchSubmit,
+  } = useSearch();
+  const [searchParams] = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTerm(e.target.value);
-  };
+  // Always check if there are any search params, if so, focus the input
+  useEffect(() => {
+    if (searchParams.size === 0) inputRef.current?.focus();
+  });
 
-  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSearchParams((prevParams) => {
-      prevParams.set(SEARCH_TERM_PARAM_NAME, term);
-      prevParams.set(PAGE_NUMBER_PARAM_NAME, "1");
-      return prevParams;
-    });
-    setTerm("");
-    inputRef.current?.blur();
-  };
+  useEffect(() => {
+    if (submitted) {
+      inputRef.current?.blur();
+    }
+  }, [submitted]);
 
   return (
     <form onSubmit={handleSearchSubmit}>
-      <VStack gap="10">
-        <Group attached w="full">
-          <Field.Root>
-            <InputGroup startElement={<FaMagnifyingGlass />}>
-              <Input
-                value={term}
-                onChange={handleSearchInput}
-                ref={inputRef}
-                placeholder="Search by Title"
-                variant="outline"
-                size="lg"
-              />
-            </InputGroup>
-          </Field.Root>
-          <Button colorPalette="blue" variant="solid" size="lg" type="submit">
-            Search
-          </Button>
-        </Group>
-      </VStack>
+      <Group attached w="full">
+        <InputGroup startElement={<FaMagnifyingGlass />}>
+          <Input
+            value={searchTerm}
+            onChange={handleSearchInput}
+            onClick={handleSearchClick}
+            ref={inputRef}
+            placeholder="Search by Title"
+            variant="outline"
+            size="lg"
+          />
+        </InputGroup>
+        <Button colorPalette="blue" variant="solid" size="lg" type="submit">
+          Search
+        </Button>
+      </Group>
     </form>
   );
 };

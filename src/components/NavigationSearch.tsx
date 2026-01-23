@@ -1,13 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import { useNavigate, useSearchParams, createSearchParams } from "react-router";
-
-import {
-  PAGE_NUMBER_PARAM_NAME,
-  SEARCH_TERM_PARAM_NAME,
-  SEARCH_PAGE_ENDPOINT,
-} from "@/randomConfig";
-
 import { Box } from "@chakra-ui/react/box";
 import { Input } from "@chakra-ui/react/input";
 import { InputGroup } from "@chakra-ui/react/input-group";
@@ -15,15 +7,21 @@ import { IconButton } from "@chakra-ui/react/button";
 
 import { FaMagnifyingGlass } from "react-icons/fa6";
 
+import { useSearch } from "@/hooks";
+
 type NavigationSearchProps = React.ComponentPropsWithRef<typeof IconButton>;
 
 export const NavigationSearch = ({ ...props }: NavigationSearchProps) => {
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const {
+    searchTerm,
+    submitted,
+    handleSearchInput,
+    handleSearchClick,
+    handleSearchSubmit,
+  } = useSearch();
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const navSearchContainerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
 
   // If we're showing search bar, attach pointer down event to the document to hide the search bar once we click outside of the it
   useEffect(() => {
@@ -52,32 +50,15 @@ export const NavigationSearch = ({ ...props }: NavigationSearchProps) => {
     }
   }, [showSearch]);
 
+  // When the form is submitted and we're showing the search bar, hide it
+  useEffect(() => {
+    if (submitted) {
+      setShowSearch(false);
+    }
+  }, [submitted]);
+
   const handleIconClick = () => {
     setShowSearch((prev) => !prev);
-  };
-
-  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const oldSearchTerm = searchParams.get(SEARCH_TERM_PARAM_NAME);
-    if (oldSearchTerm !== null && oldSearchTerm === searchTerm) return;
-
-    setShowSearch(false);
-    setSearchTerm("");
-
-    const newSearchParams = createSearchParams({
-      [SEARCH_TERM_PARAM_NAME]: searchTerm,
-      [PAGE_NUMBER_PARAM_NAME]: "1",
-    }).toString();
-
-    navigate({
-      pathname: `/${SEARCH_PAGE_ENDPOINT}`,
-      search: `?${newSearchParams}`,
-    });
   };
 
   return (
@@ -108,6 +89,7 @@ export const NavigationSearch = ({ ...props }: NavigationSearchProps) => {
             <Input
               value={searchTerm}
               onChange={handleSearchInput}
+              onClick={handleSearchClick}
               ref={inputRef}
               placeholder="Search by Title"
               variant="outline"
