@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { useNavigate, useSearchParams, createSearchParams } from "react-router";
 
@@ -14,9 +14,7 @@ export const useSearch = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  // FIXME: Current flaw is that submitted state is not properly reset, maybe the only flaw is that i allow "empty input submission" and i only reset the submitted state when i interact with the input and auto focusing or blurring doesn't change anything
-
-  const handleSearchClick = () => setSubmitted(false);
+  const handleSearchFocus = () => setSubmitted(false);
 
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -35,7 +33,6 @@ export const useSearch = () => {
       currentPage === "1"
     ) {
       setSearchTerm("");
-      console.log("Wjhat's submitted?:", submitted);
       setSubmitted(true);
       return;
     }
@@ -58,8 +55,7 @@ export const useSearch = () => {
     searchTerm,
     submitted,
     handleSearchInput,
-    handleSearchClick,
-    setSearchTerm,
     handleSearchSubmit,
+    handleSearchFocus,
   };
 };

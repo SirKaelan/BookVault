@@ -15,8 +15,8 @@ export const SearchBar = (): React.JSX.Element => {
     searchTerm,
     submitted,
     handleSearchInput,
-    handleSearchClick,
     handleSearchSubmit,
+    handleSearchFocus,
   } = useSearch();
   const [searchParams] = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -39,7 +39,7 @@ export const SearchBar = (): React.JSX.Element => {
           <Input
             value={searchTerm}
             onChange={handleSearchInput}
-            onClick={handleSearchClick}
+            onFocus={handleSearchFocus}
             ref={inputRef}
             placeholder="Search by Title"
             variant="outline"

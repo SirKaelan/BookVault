@@ -16,8 +16,8 @@ export const NavigationSearch = ({ ...props }: NavigationSearchProps) => {
     searchTerm,
     submitted,
     handleSearchInput,
-    handleSearchClick,
     handleSearchSubmit,
+    handleSearchFocus,
   } = useSearch();
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const navSearchContainerRef = useRef<HTMLDivElement>(null);
@@ -89,7 +89,7 @@ export const NavigationSearch = ({ ...props }: NavigationSearchProps) => {
             <Input
               value={searchTerm}
               onChange={handleSearchInput}
-              onClick={handleSearchClick}
+              onFocus={handleSearchFocus}
               ref={inputRef}
               placeholder="Search by Title"
               variant="outline"
