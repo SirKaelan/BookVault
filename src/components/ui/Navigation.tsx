@@ -1,100 +1,163 @@
-import React from "react";
-import {
-  AppBar,
-  Button,
-  Stack,
-  Toolbar,
-  Typography,
-  styled,
-} from "@mui/material";
-import { Link } from "react-router";
+import React, { useState, useEffect } from "react";
+import { NavLink as RouterNavLink } from "react-router";
 
-const NavButton = styled(Button)({
-  color: "inherit",
-  fontSize: "1.7rem",
-  textTransform: "none",
-  fontWeight: 400,
-});
+import { NavigationSearch } from "@/components";
 
-const LogoContainer = styled(Typography)({
-  display: "flex",
-  alignItems: "stretch",
-  margin: "0 2rem 0 2rem",
-  textTransform: "uppercase",
-});
+import { Box } from "@chakra-ui/react/box";
+import { Button, IconButton, CloseButton } from "@chakra-ui/react/button";
+import { Heading } from "@chakra-ui/react/heading";
+import { HStack, VStack } from "@chakra-ui/react/stack";
+import { Flex } from "@chakra-ui/react/flex";
+import { Drawer } from "@chakra-ui/react/drawer";
+import { Portal } from "@chakra-ui/react/portal";
+import { useBreakpointValue } from "@chakra-ui/react/hooks";
+
+import { FaUser } from "react-icons/fa";
+import { RxHamburgerMenu } from "react-icons/rx";
+
+import type { LogoData, ButtonCollection } from "@/components/Layout";
+
+type NavigationProps = {
+  logo: LogoData;
+  buttons: ButtonCollection;
+};
 
 export const Navigation = ({
   logo,
   buttons,
 }: NavigationProps): React.JSX.Element => {
-  // Fixing both logo and button information if it has wrong capitalization
-  let editedLogo: LogoData = { ...logo };
-  if (!logo.imagePath) {
-    editedLogo = {
-      text: logo.text
-        .split(" ")
-        .map((word) => {
-          const loweredWord = word.toLowerCase();
-          return loweredWord.charAt(0).toUpperCase() + loweredWord.slice(1);
-        })
-        .join(" "),
-    };
-  }
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const isMobile = useBreakpointValue(
+    { base: true, md: false },
+    { ssr: false },
+  );
 
-  const editedBtnData = buttons.map((btn): ButtonData => {
-    const loweredText = btn.text.toLowerCase();
-    return {
-      text: loweredText.charAt(0).toUpperCase() + loweredText.slice(1),
-      endpoint: btn.endpoint.toLowerCase(),
-    };
-  });
-  const middle = Math.ceil(editedBtnData.length / 2);
-  const firstHalf = editedBtnData.slice(0, middle);
-  const secondHalf = editedBtnData.slice(middle);
+  // Closes drawer if it's open and you resize away from mobile nav
+  useEffect(() => {
+    if (!isMobile && isDrawerOpen) setIsDrawerOpen(false);
+  }, [isDrawerOpen, isMobile]);
 
   return (
-    <AppBar position="static" color="primary">
-      <Toolbar sx={{ justifyContent: "center", alignItems: "stretch" }}>
-        <Stack direction="row" spacing={0.5}>
-          {firstHalf.map((btn) => (
-            <NavButton key={btn.text}>
-              <Link to={`${btn.endpoint}`}>{`${btn.text}`}</Link>
-            </NavButton>
-          ))}
-        </Stack>
-        <LogoContainer variant="h4" component="div">
-          <Link to="/" style={{ display: "flex", alignItems: "center" }}>
-            {
-              // currently logo image is being ignored
-              editedLogo.text
-            }
-          </Link>
-        </LogoContainer>
-        <Stack direction="row" spacing={0.5}>
-          {secondHalf.map((btn) => (
-            <NavButton key={btn.text}>
-              <Link to={`${btn.endpoint}`}>{`${btn.text}`}</Link>
-            </NavButton>
-          ))}
-        </Stack>
-      </Toolbar>
-    </AppBar>
+    <>
+      {/* Desktop nav */}
+      <Box
+        as="nav"
+        hideBelow="md"
+        py="5"
+        px="8"
+        css={{ position: "sticky", top: "0" }}
+        bgColor="white/70"
+        backdropFilter="blur(5px)"
+        zIndex="sticky"
+      >
+        <Flex align="center" gap="14">
+          {/* Logo container on the left side */}
+          <RouterNavLink to="/">
+            <Heading size="2xl">{logo.text}</Heading>
+          </RouterNavLink>
+          {/* Button container in the middle */}
+          <HStack as="ul" flexGrow="1">
+            {buttons.map((btn) => (
+              <Box key={btn.text} as="li">
+                <RouterNavLink to={btn.endpoint}>
+                  {({ isActive }) => (
+                    <Button
+                      as="span"
+                      bgColor={isActive ? "bg.muted" : undefined}
+                      variant="ghost"
+                      size="lg"
+                      fontWeight="light"
+                    >
+                      {btn.text}
+                    </Button>
+                  )}
+                </RouterNavLink>
+              </Box>
+            ))}
+          </HStack>
+          {/* Icons for actions on right side */}
+          <HStack gap="1">
+            <NavigationSearch size="md" />
+            <IconButton variant="ghost" size="md" cursor="pointer">
+              <FaUser />
+            </IconButton>
+          </HStack>
+        </Flex>
+      </Box>
+
+      {/* Mobile nav */}
+      <Box
+        as="nav"
+        hideFrom="md"
+        py="3"
+        px="8"
+        css={{ position: "sticky", top: "0" }}
+        bgColor="white/70"
+        backdropFilter="blur(5px)"
+        zIndex="sticky"
+      >
+        <Flex align="center" justify="space-between">
+          <RouterNavLink to="/">
+            <Heading size="2xl">{logo.text}</Heading>
+          </RouterNavLink>
+
+          {/* Mobile navigation menu */}
+          <Drawer.Root
+            open={isDrawerOpen}
+            onOpenChange={(e) => setIsDrawerOpen(e.open)}
+          >
+            <Drawer.Trigger asChild>
+              <IconButton
+                aria-label="Open mobile menu"
+                variant="ghost"
+                size="xl"
+                cursor="pointer"
+                p="0"
+              >
+                <RxHamburgerMenu />
+              </IconButton>
+            </Drawer.Trigger>
+            <Portal>
+              <Drawer.Backdrop />
+              <Drawer.Positioner>
+                <Drawer.Content py="20" px="8">
+                  {/* Add buttons here */}
+                  <VStack as="ul">
+                    {buttons.map((btn) => (
+                      <Box key={btn.text} as="li" w="full">
+                        <Drawer.Context>
+                          {(store) => (
+                            <RouterNavLink
+                              to={btn.endpoint}
+                              onClick={() => store.setOpen(false)}
+                            >
+                              {({ isActive }) => (
+                                <Button
+                                  as="span"
+                                  w="full"
+                                  bgColor={isActive ? "bg.muted" : undefined}
+                                  variant="ghost"
+                                  size="2xl"
+                                  fontWeight="light"
+                                >
+                                  {btn.text}
+                                </Button>
+                              )}
+                            </RouterNavLink>
+                          )}
+                        </Drawer.Context>
+                      </Box>
+                    ))}
+                  </VStack>
+                  <Drawer.CloseTrigger asChild>
+                    <CloseButton size="xl" />
+                  </Drawer.CloseTrigger>
+                </Drawer.Content>
+              </Drawer.Positioner>
+            </Portal>
+          </Drawer.Root>
+        </Flex>
+      </Box>
+    </>
   );
-};
-
-export type LogoData = {
-  imagePath?: string;
-  text: string;
-};
-
-type ButtonData = {
-  text: string;
-  endpoint: string;
-};
-
-export type ButtonCollection = ButtonData[];
-
-type NavigationProps = {
-  logo: LogoData;
-  buttons: ButtonCollection;
 };

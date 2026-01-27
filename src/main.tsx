@@ -2,22 +2,28 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router";
 import { BookProvider } from "@/contexts/books";
+
+// Mui imports
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "@/theme";
 
-import "./index.css";
+// Chakra imports
+import { Provider } from "@/components/ui/provider";
+
 import App from "@/App";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+      <Provider>
+        {/* <ThemeProvider theme={theme}> */}
+        {/* <CssBaseline /> */}
         <BookProvider>
           <App />
         </BookProvider>
-      </ThemeProvider>
+        {/* </ThemeProvider> */}
+      </Provider>
     </BrowserRouter>
   </StrictMode>
 );

@@ -1,21 +1,34 @@
 import { Outlet } from "react-router";
-import { Container } from "@mui/material";
+import { Container } from "@chakra-ui/react/container";
 import { Navigation } from "@/components/ui/Navigation";
-import type { LogoData, ButtonCollection } from "@/components/ui/Navigation";
+import { ScrollToTop } from "@/components";
 
 export const Layout = (): React.JSX.Element => {
-  const logo: LogoData = { text: "book vault" };
+  const logo: LogoData = { text: "Book Vault" };
   const buttons: ButtonCollection = [
-    { text: "home", endpoint: "/" },
+    { text: "Home", endpoint: "/" },
     { text: "Search", endpoint: "search" },
     { text: "Placeholder", endpoint: "placeholder" },
   ];
   return (
     <>
       <Navigation logo={logo} buttons={buttons} />
-      <Container sx={{ height: "100%", py: 4 }}>
+      <Container py="10" paddingInline="6" maxW="6xl">
+        <ScrollToTop />
         <Outlet />
       </Container>
     </>
   );
 };
+
+export type LogoData = {
+  imagePath?: string;
+  text: string;
+};
+
+type ButtonData = {
+  text: string;
+  endpoint: string;
+};
+
+export type ButtonCollection = ButtonData[];

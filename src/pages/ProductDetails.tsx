@@ -1,14 +1,34 @@
-import React from "react";
-import { useGetQueryValue } from "@/utils";
+import React, { useState } from "react";
+
+import { ExpandableText, ShowMoreButton, GridData } from "@/components";
+
+import { useNavigate } from "react-router";
 import { useFetchBook } from "@/hooks";
-import { Box, Grid, Typography, styled, Button } from "@mui/material";
-import type { Theme } from "@mui/material";
-import { ExpandableContent } from "@/components/ExpandableContent";
-import { QuantityInput } from "@/components/QuantityInput";
-import { AddCartButton } from "@/components/AddCartButton";
+
+import { HStack } from "@chakra-ui/react/stack";
+import { Image } from "@chakra-ui/react/image";
+import { Box } from "@chakra-ui/react/box";
+import { Flex } from "@chakra-ui/react/flex";
+import { AspectRatio } from "@chakra-ui/react/aspect-ratio";
+import { Heading } from "@chakra-ui/react/heading";
+import { Text } from "@chakra-ui/react/text";
+import { RatingGroup } from "@chakra-ui/react/rating-group";
+import { Button, IconButton } from "@chakra-ui/react/button";
+import { Icon } from "@chakra-ui/react/icon";
+import { Separator } from "@chakra-ui/react/separator";
+import { Badge } from "@chakra-ui/react/badge";
+import { NumberInput } from "@chakra-ui/react/number-input";
+import { Field } from "@chakra-ui/react/field";
+import { Link } from "@chakra-ui/react/link";
+
+import { LuMinus, LuPlus, LuShoppingCart } from "react-icons/lu";
+import { useSearchParams } from "react-router";
 
 export const ProductDetails = (): React.JSX.Element => {
-  const bookId = useGetQueryValue("id");
+  const [quantity, setQuantity] = useState(1);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const bookId = parseInt(searchParams.get("id") || "1", 10);
   const book = useFetchBook(bookId);
 
   if (book.type === "loading") {
@@ -19,105 +39,157 @@ export const ProductDetails = (): React.JSX.Element => {
     return <div>{book.message}</div>;
   }
 
-  const extractedGenres: string[] = book.genres.map(
-    (genreObj) => genreObj.name
-  );
-
-  // TODO: Remove this temporary code
-  book.synopsis =
-    "Roshar is a world of stone and storms. Uncanny tempests of incredible power sweep across the rocky terrain so frequently that they have shaped ecology and civilization alike. Animals hide in shells, trees pull in branches, and grass retracts into the soilless ground. Cities are built only where the topography offers shelter.It has been centuries since the fall of the ten consecrated orders known as the Knights Radiant, but their Shardblades and Shardplate remain: mystical swords and suits of armor that transform ordinary men into near-invincible warriors. Men trade kingdoms for Shardblades. Wars were fought for them, and won by them.One such war rages on a ruined landscape called the Shattered Plains. There, Kaladin, who traded his medical apprenticeship for a spear to protect his little brother, has been reduced to slavery. In a war that makes no sense, where ten armies fight separately against a single foe, he struggles to save his men and to fathom the leaders who consider them expendable.Brightlord Dalinar Kholin commands one of those other armies. Like his brother, the late king, he is fascinated by an ancient text called The Way of Kings. Troubled by over-powering visions of ancient times and the Knights Radiant, he has begun to doubt his own sanity.Across the ocean, an untried young woman named Shallan seeks to train under an eminent scholar and notorious heretic, Dalinar's niece, Jasnah. Though she genuinely loves learning, Shallan's motives are less than pure. As she plans a daring theft, her research for Jasnah hints at secrets of the Knights Radiant and the true cause of the war.The result of over ten years of planning, writing, and world-building, The Way of Kings is but the opening movement of the Stormlight Archive, a bold masterpiece in the making.Speak again the ancient oaths:Life before death.Strength before weakness.Journey before Destination.and return to men the Shards they once bore.The Knights Radiant must stand again.";
+  const handleAuthorClick = () => {
+    navigate({ pathname: "/author", search: `?id=${book.author_id}` });
+  };
 
   return (
-    <Box>
-      <Grid container columnSpacing={4}>
-        <Grid item xs={4}>
-          Image column
-        </Grid>
-        <Grid item xs={8}>
-          {/* Book title + Author */}
-          <Box>
-            <Typography
-              variant="h2"
-              component="h2"
-              fontWeight="medium"
-              mb={0.5}
+    <Flex
+      gap="10"
+      align={{ base: "center", md: "start" }}
+      direction={{ base: "column", md: "row" }}
+    >
+      {/* Book cover */}
+      <Box flexShrink="0" shadow="xl" rounded="sm" overflow="hidden">
+        <AspectRatio w={{ base: "300px", md: "350px" }} ratio={1 / 1.6}>
+          <Image
+            src={book.cover ? book.cover : ""}
+            alt={`${book.title} book cover`}
+          />
+        </AspectRatio>
+      </Box>
+
+      {/* Book info */}
+      <Flex direction="column" gap="6">
+        {/* Title, Author, Rating */}
+        <Flex direction="column" gap="2">
+          <Heading size="4xl">{book.title}</Heading>
+          <Link asChild>
+            <Text
+              as="span"
+              fontWeight="light"
+              color="gray.500"
+              onClick={handleAuthorClick}
             >
-              {book.title}
-            </Typography>
-            <Typography variant="h4" component="h4" fontWeight="light">
               {book.author_name}
-            </Typography>
-          </Box>
-          {/* Book price */}
-          <Box my={3.5}>
-            <PriceTag variant="h3" component="span" fontWeight="regular">
-              $16.99
-            </PriceTag>
-          </Box>
-          {/* Synopsis */}
-          <Box mb={2.5}>
-            <Typography variant="h4" component="h4" fontWeight="medium" mb={1}>
-              Synopsis:
-            </Typography>
-            <ExpandableContent
-              content={book.synopsis}
-              wordCount={160}
-              ContentContainer={
-                <Typography variant="h5" component="p" fontWeight="light" />
-              }
-              ButtonComponent={<Button />}
-            />
-          </Box>
-          {/* Genres */}
-          <Box mb={1} sx={{ display: "flex" }}>
-            <Typography variant="h5" component="span" fontWeight="light" mr={1}>
-              Genres:
-            </Typography>
-            <ExpandableContent
-              content={extractedGenres}
-              wordCount={5}
-              ContentContainer={
-                <Typography
-                  variant="h5"
-                  component="span"
-                  fontWeight="regular"
-                />
-              }
-              ButtonComponent={<Button />}
-            />
-          </Box>
-          {/* Pages */}
-          <Box mb={3.5}>
-            <Typography variant="h5" component="span" fontWeight="light" mr={1}>
-              Pages:
-            </Typography>
-            {/* TODO: When i add a field to Books in DB for pages, fix this hardcoded value */}
-            <Typography variant="h5" component="span" fontWeight="light">
-              1000
-            </Typography>
-          </Box>
-          {/* Quanity input + Checkout button */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
+            </Text>
+          </Link>
+          <Flex gap="2">
+            <RatingGroup.Root
+              readOnly
+              allowHalf
+              count={5}
+              defaultValue={4.5}
+              size="sm"
+              colorPalette="orange"
+            >
+              <RatingGroup.HiddenInput />
+              <RatingGroup.Control />
+            </RatingGroup.Root>
+            <Text color="gray.400" fontSize="sm">
+              6,390 reviews
+            </Text>
+          </Flex>
+        </Flex>
+
+        {/* Genres */}
+        <HStack flexWrap="wrap">
+          {book.genres.map((g) => (
+            <Badge key={g.id} colorPalette="blue">
+              {g.name}
+            </Badge>
+          ))}
+        </HStack>
+
+        {/* Synopsis */}
+        <ExpandableText>
+          <ExpandableText.Content maxLines={4}>
+            <Text whiteSpace="pre-wrap">{book.synopsis}</Text>
+          </ExpandableText.Content>
+          <ExpandableText.Button>
+            {(isTextExpanded, handleButtonClick) => (
+              <ShowMoreButton
+                onClick={handleButtonClick}
+                toggleState={isTextExpanded}
+              />
+            )}
+          </ExpandableText.Button>
+        </ExpandableText>
+
+        <Separator />
+
+        {/* Book metadata */}
+        <GridData data={book.metadata} columns={2} itemsPerColumn={3} />
+
+        <Separator />
+
+        <Box css={{ containerType: "inline-size" }}>
+          <Flex
+            justify="space-between"
+            gap="4"
+            css={{
+              "@container (min-width: 0rem)": {
+                "&": { flexDirection: "column" },
+              },
+              "@container (min-width: 29rem)": {
+                "&": { flexDirection: "row" },
+              },
             }}
           >
-            <QuantityInput label="QTY" />
-            <AddCartButton />
-          </Box>
-        </Grid>
-      </Grid>
-    </Box>
+            {/* Book quantity */}
+            <Field.Root>
+              <Field.Label color="gray.500" fontWeight="light">
+                Quantity
+              </Field.Label>
+              <NumberInput.Root
+                unstyled
+                spinOnPress={false}
+                value={quantity.toString()}
+                onValueChange={(details) =>
+                  details.valueAsNumber > 0 &&
+                  setQuantity(details.valueAsNumber)
+                }
+              >
+                <HStack gap="2">
+                  <NumberInput.DecrementTrigger asChild>
+                    <IconButton variant="outline" size="sm">
+                      <LuMinus />
+                    </IconButton>
+                  </NumberInput.DecrementTrigger>
+                  <NumberInput.ValueText
+                    textAlign="center"
+                    fontSize="lg"
+                    minW="3ch"
+                  />
+                  <NumberInput.IncrementTrigger asChild>
+                    <IconButton variant="outline" size="sm">
+                      <LuPlus />
+                    </IconButton>
+                  </NumberInput.IncrementTrigger>
+                </HStack>
+              </NumberInput.Root>
+            </Field.Root>
+            {/* Price and add to cart button */}
+            <HStack gap="8" alignSelf="end">
+              <Text fontSize="3xl" letterSpacing="wide">
+                ${(book.price * quantity).toFixed(2)}
+              </Text>
+              <Button
+                size="xl"
+                variant="solid"
+                colorPalette="blue"
+                textTransform="uppercase"
+                letterSpacing="widest"
+              >
+                <Icon>
+                  <LuShoppingCart />
+                </Icon>
+                Add To Cart
+              </Button>
+            </HStack>
+          </Flex>
+        </Box>
+      </Flex>
+    </Flex>
   );
-};
-
-// --------------- Styling ---------------
-const PriceTag = styled(Typography)(({ theme }: PriceTagProps) => ({
-  borderBottom: `2px solid ${theme.palette.secondary.main}`,
-}));
-
-// --------------- Types ---------------
-type PriceTagProps = {
-  theme: Theme;
 };
