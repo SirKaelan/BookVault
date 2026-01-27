@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 
 import { useSearchParams } from "react-router";
 
@@ -9,21 +9,20 @@ import { Group } from "@chakra-ui/react/group";
 import { Button } from "@chakra-ui/react/button";
 
 import { useSearch } from "@/hooks";
+import { SEARCH_TERM_PARAM_NAME } from "@/randomConfig";
 
 export const SearchBar = (): React.JSX.Element => {
-  const {
-    searchTerm,
-    submitted,
-    handleSearchInput,
-    handleSearchSubmit,
-    handleSearchFocus,
-  } = useSearch();
+  const { submitted, inputRef, inputProps, formProps } = useSearch();
   const [searchParams] = useSearchParams();
-  const inputRef = useRef<HTMLInputElement>(null);
 
   // Always check if there are any search params, if so, focus the input
   useEffect(() => {
-    if (searchParams.size === 0) inputRef.current?.focus();
+    if (
+      (searchParams.size === 0 ||
+        searchParams.get(SEARCH_TERM_PARAM_NAME) === "") &&
+      !submitted
+    )
+      inputRef.current?.focus();
   });
 
   useEffect(() => {
@@ -33,17 +32,14 @@ export const SearchBar = (): React.JSX.Element => {
   }, [submitted]);
 
   return (
-    <form onSubmit={handleSearchSubmit}>
+    <form {...formProps}>
       <Group attached w="full">
         <InputGroup startElement={<FaMagnifyingGlass />}>
           <Input
-            value={searchTerm}
-            onChange={handleSearchInput}
-            onFocus={handleSearchFocus}
-            ref={inputRef}
             placeholder="Search by Title"
             variant="outline"
             size="lg"
+            {...inputProps}
           />
         </InputGroup>
         <Button colorPalette="blue" variant="solid" size="lg" type="submit">

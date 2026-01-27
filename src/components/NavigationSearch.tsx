@@ -12,16 +12,9 @@ import { useSearch } from "@/hooks";
 type NavigationSearchProps = React.ComponentPropsWithRef<typeof IconButton>;
 
 export const NavigationSearch = ({ ...props }: NavigationSearchProps) => {
-  const {
-    searchTerm,
-    submitted,
-    handleSearchInput,
-    handleSearchSubmit,
-    handleSearchFocus,
-  } = useSearch();
+  const { submitted, inputRef, inputProps, formProps } = useSearch();
   const [showSearch, setShowSearch] = useState<boolean>(false);
   const navSearchContainerRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   // If we're showing search bar, attach pointer down event to the document to hide the search bar once we click outside of the it
   useEffect(() => {
@@ -75,7 +68,7 @@ export const NavigationSearch = ({ ...props }: NavigationSearchProps) => {
       )}
 
       {showSearch && (
-        <form onSubmit={handleSearchSubmit}>
+        <form {...formProps}>
           <InputGroup
             // First 2 props are to make the input seem like it surrounds the magnifying glass
             ml="1"
@@ -87,13 +80,10 @@ export const NavigationSearch = ({ ...props }: NavigationSearchProps) => {
             }
           >
             <Input
-              value={searchTerm}
-              onChange={handleSearchInput}
-              onFocus={handleSearchFocus}
-              ref={inputRef}
               placeholder="Search by Title"
               variant="outline"
               size="lg"
+              {...inputProps}
             />
           </InputGroup>
         </form>

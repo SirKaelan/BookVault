@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import { useNavigate, useSearchParams, createSearchParams } from "react-router";
 
@@ -13,6 +13,7 @@ export const useSearch = () => {
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSearchFocus = () => setSubmitted(false);
 
@@ -51,11 +52,21 @@ export const useSearch = () => {
     });
   };
 
+  const inputProps = {
+    value: searchTerm,
+    onChange: handleSearchInput,
+    onFocus: handleSearchFocus,
+    ref: inputRef,
+  };
+
+  const formProps = {
+    onSubmit: handleSearchSubmit,
+  };
+
   return {
-    searchTerm,
     submitted,
-    handleSearchInput,
-    handleSearchSubmit,
-    handleSearchFocus,
+    inputRef,
+    inputProps,
+    formProps,
   };
 };
